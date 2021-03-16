@@ -1,0 +1,138 @@
+SQL> select empno, ename, sal
+  2  from emp
+  3  order by sal desc;
+
+     EMPNO ENAME                       SAL                                      
+---------- -------------------- ----------                                      
+      7839 KING                       5000                                      
+      7902 FORD                       3000                                      
+      7566 JONES                      2975                                      
+      7698 BLAKE                      2850                                      
+      7782 CLARK                      2450                                      
+      7499 ALLEN                      1600                                      
+      7844 TURNER                     1500                                      
+      7934 MILLER                     1300                                      
+      7654 MARTIN                     1250                                      
+      7521 WARD                       1250                                      
+      7900 JAMES                       950                                      
+
+     EMPNO ENAME                       SAL                                      
+---------- -------------------- ----------                                      
+      7369 SMITH                       800                                      
+
+12 rows selected.
+
+SQL> select empno, ename, sal*12
+  2  from emp
+  3  order by sal*12 desc;
+
+     EMPNO ENAME                    SAL*12                                      
+---------- -------------------- ----------                                      
+      7839 KING                      60000                                      
+      7902 FORD                      36000                                      
+      7566 JONES                     35700                                      
+      7698 BLAKE                     34200                                      
+      7782 CLARK                     29400                                      
+      7499 ALLEN                     19200                                      
+      7844 TURNER                    18000                                      
+      7934 MILLER                    15600                                      
+      7654 MARTIN                    15000                                      
+      7521 WARD                      15000                                      
+      7900 JAMES                     11400                                      
+
+     EMPNO ENAME                    SAL*12                                      
+---------- -------------------- ----------                                      
+      7369 SMITH                      9600                                      
+
+12 rows selected.
+
+SQL> select empno, ename, sal*12 fullsal
+  2  from emp
+  3  order byfullsal desc;
+order byfullsal desc
+      *
+ERROR at line 3:
+ORA-00924: missing BY keyword 
+
+
+SQL> select empno, ename, sal*12 fullsal
+  2  from emp
+  3  order by fullsal desc;
+
+     EMPNO ENAME                   FULLSAL                                      
+---------- -------------------- ----------                                      
+      7839 KING                      60000                                      
+      7902 FORD                      36000                                      
+      7566 JONES                     35700                                      
+      7698 BLAKE                     34200                                      
+      7782 CLARK                     29400                                      
+      7499 ALLEN                     19200                                      
+      7844 TURNER                    18000                                      
+      7934 MILLER                    15600                                      
+      7654 MARTIN                    15000                                      
+      7521 WARD                      15000                                      
+      7900 JAMES                     11400                                      
+
+     EMPNO ENAME                   FULLSAL                                      
+---------- -------------------- ----------                                      
+      7369 SMITH                      9600                                      
+
+12 rows selected.
+
+SQL> select empno, ename, sal*12 fullsal
+  2  order by fullsal desc;
+order by fullsal desc
+*
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> select empno, ename, sal*12 fullsal
+  2  from emp
+  3  order by 3 desc;
+
+     EMPNO ENAME                   FULLSAL                                      
+---------- -------------------- ----------                                      
+      7839 KING                      60000                                      
+      7902 FORD                      36000                                      
+      7566 JONES                     35700                                      
+      7698 BLAKE                     34200                                      
+      7782 CLARK                     29400                                      
+      7499 ALLEN                     19200                                      
+      7844 TURNER                    18000                                      
+      7934 MILLER                    15600                                      
+      7654 MARTIN                    15000                                      
+      7521 WARD                      15000                                      
+      7900 JAMES                     11400                                      
+
+     EMPNO ENAME                   FULLSAL                                      
+---------- -------------------- ----------                                      
+      7369 SMITH                      9600                                      
+
+12 rows selected.
+
+SQL> select ename, sal
+  2  from emp
+  3  order by sal desc, ename desc;
+
+ENAME                       SAL                                                 
+-------------------- ----------                                                 
+KING                       5000                                                 
+FORD                       3000                                                 
+JONES                      2975                                                 
+BLAKE                      2850                                                 
+CLARK                      2450                                                 
+ALLEN                      1600                                                 
+TURNER                     1500                                                 
+MILLER                     1300                                                 
+WARD                       1250                                                 
+MARTIN                     1250                                                 
+JAMES                       950                                                 
+
+ENAME                       SAL                                                 
+-------------------- ----------                                                 
+SMITH                       800                                                 
+
+12 rows selected.
+
+SQL> spool off

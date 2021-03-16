@@ -1,0 +1,363 @@
+SQL> conn sys/oracle
+ERROR:
+ORA-28009: connection as SYS should be as SYSDBA or SYSOPER 
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> spool
+currently spooling to C:\Users\goott1\Downloads\20201127_1.txt
+SQL> show user
+USER is ""
+SQL> conn sys/oracle as sysadb
+SP2-0306: Invalid option.
+Usage: CONN[ECT] [{logon|/|proxy} [AS {SYSDBA|SYSOPER|SYSASM}] [edition=value]]
+where <logon> ::= <username>[/<password>][@<connect_identifier>]
+      <proxy> ::= <proxyuser>[<username>][/<password>][@<connect_identifier>]
+SQL> show user
+USER is ""
+SQL> conn sys/oracle as sysdba
+Connected.
+SQL> show user
+USER is "SYS"
+SQL> spool
+currently spooling to C:\Users\goott1\Downloads\20201127_1.txt
+SQL> create user user1
+  2  
+SQL> create user user1
+  2  identified by tiger;
+
+User created.
+
+SQL> conn user1/tiger
+ERROR:
+ORA-01045: user USER1 lacks CREATE SESSION privilege; logon denied 
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> conn user1/tiger
+ERROR:
+ORA-01045: user USER1 lacks CREATE SESSION privilege; logon denied 
+
+
+SQL> show user
+USER is ""
+SQL> conn system/oracle
+Connected.
+SQL> show user
+USER is "SYSTEM"
+SQL> grant connect, resource to user1;
+
+Grant succeeded.
+
+SQL> conn user1/tiger
+Connected.
+SQL> show user1
+USER is "USER1"
+SP2-0158: unknown SHOW option "1"
+SQL> show user
+USER is "USER1"
+SQL> select * from scott.emp;
+select * from scott.emp
+                    *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> conn scott/tiger
+Connected.
+SQL> show user
+USER is "SCOTT"
+SQL> grant select on emp to user1;
+
+Grant succeeded.
+
+SQL> conn user1/tiger
+Connected.
+SQL> show user
+USER is "USER1"
+SQL> select * from scott.emp;
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7369 SMITH                CLERK                    7902 80/12/17          
+       800                    20                                                
+                                                                                
+      7499 ALLEN                SALESMAN                 7698 81/02/20          
+      1600        300         30                                                
+                                                                                
+      7521 WARD                 SALESMAN                 7698 81/02/22          
+      1250        500         30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7566 JONES                MANAGER                  7839 81/04/02          
+      2975                    20                                                
+                                                                                
+      7654 MARTIN               SALESMAN                 7698 81/09/28          
+      1250       1400         30                                                
+                                                                                
+      7698 BLAKE                MANAGER                  7839 81/05/01          
+      2850                    30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7782 CLARK                MANAGER                  7839 81/06/09          
+      2450                    10                                                
+                                                                                
+      7839 KING                 PRESIDENT                     81/11/17          
+      5000                    10                                                
+                                                                                
+      7844 TURNER               SALESMAN                 7698 81/09/08          
+      1500          0         30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7900 JAMES                CLERK                    7698 81/12/03          
+       950                    30                                                
+                                                                                
+      7902 FORD                 ANALYST                  7566 81/12/03          
+      3000                    20                                                
+                                                                                
+      7934 MILLER               CLERK                    7782 82/01/23          
+      1300                    10                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      9090                                                    20/11/26          
+                                                                                
+                                                                                
+
+13 rows selected.
+
+SQL> show user
+USER is "USER1"
+SQL> update scott.emp
+  2  set sal = 100
+  3  where ename = 'JONES';
+update scott.emp
+             *
+ERROR at line 1:
+ORA-01031: insufficient privileges 
+
+
+SQL> conn scott/tiger
+Connected.
+SQL> grant update on emp to user1;
+
+Grant succeeded.
+
+SQL> conn user1/tiger
+Connected.
+SQL> update scott.emp
+  2  set sal = 100
+  3  where ename = 'JONES';
+
+1 row updated.
+
+SQL> select ename, sal from scott.emp;
+
+ENAME                       SAL                                                 
+-------------------- ----------                                                 
+SMITH                       800                                                 
+ALLEN                      1600                                                 
+WARD                       1250                                                 
+JONES                       100                                                 
+MARTIN                     1250                                                 
+BLAKE                      2850                                                 
+CLARK                      2450                                                 
+KING                       5000                                                 
+TURNER                     1500                                                 
+JAMES                       950                                                 
+FORD                       3000                                                 
+
+ENAME                       SAL                                                 
+-------------------- ----------                                                 
+MILLER                     1300                                                 
+                                                                                
+
+13 rows selected.
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select ename, sal from scott.emp;
+
+ENAME                       SAL                                                 
+-------------------- ----------                                                 
+SMITH                       800                                                 
+ALLEN                      1600                                                 
+WARD                       1250                                                 
+JONES                      2975                                                 
+MARTIN                     1250                                                 
+BLAKE                      2850                                                 
+CLARK                      2450                                                 
+KING                       5000                                                 
+TURNER                     1500                                                 
+JAMES                       950                                                 
+FORD                       3000                                                 
+
+ENAME                       SAL                                                 
+-------------------- ----------                                                 
+MILLER                     1300                                                 
+                                                                                
+
+13 rows selected.
+
+SQL> select ename, sal emp from where ename = 'JONES';
+select ename, sal emp from where ename = 'JONES'
+                           *
+ERROR at line 1:
+ORA-00903: invalid table name 
+
+
+SQL> select ename, sal
+  2  from emp
+  3  where ename = 'JONES';
+from emp
+     *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> select ename, sal
+  2  from scott.emp
+  3  where ename = 'JONES';
+
+ENAME                       SAL                                                 
+-------------------- ----------                                                 
+JONES                      2975                                                 
+
+SQL> show user
+USER is "USER1"
+SQL> conn scott/tiger
+Connected.
+SQL> revoke select, update on emp from user1;
+
+Revoke succeeded.
+
+SQL> conn user1/tiger
+Connected.
+SQL> select ename from scott.emp;
+select ename from scott.emp
+                        *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> conn system/oracle
+Connected.
+SQL> show user
+USER is "SYSTEM"
+SQL> CREATE TABLE t1
+  2  (id varchar(20),
+  3  pw varchar(20));
+
+Table created.
+
+SQL> INSERT INTO t1 (id, pw)
+  2  VALUES (aaa, bbb);
+VALUES (aaa, bbb)
+             *
+ERROR at line 2:
+ORA-00984: column not allowed here 
+
+
+SQL> INSERT INTO t1 (id, pw)
+  2  VALUES ('aaa', 'bbb');
+
+1 row created.
+
+SQL> select * from t1;
+
+ID                                                                              
+----------------------------------------                                        
+PW                                                                              
+----------------------------------------                                        
+aaa                                                                             
+bbb                                                                             
+                                                                                
+
+SQL> conn scott/tiger
+Connected.
+SQL> grant connect to t1;
+grant connect to t1
+                 *
+ERROR at line 1:
+ORA-01917: user or role 'T1' does not exist 
+
+
+SQL> grant connect to t1;
+grant connect to t1
+                 *
+ERROR at line 1:
+ORA-01917: user or role 'T1' does not exist 
+
+
+SQL> conn t1/tiger
+ERROR:
+ORA-01017: invalid username/password; logon denied 
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> create user t1
+  2  identified by tiger;
+SP2-0640: Not connected
+SQL> show user
+USER is ""
+SQL> conn system/oracle
+Connected.
+SQL> create user t1
+  2  identified by tiger;
+
+User created.
+
+SQL> conn t1/tiger
+ERROR:
+ORA-01045: user T1 lacks CREATE SESSION privilege; logon denied 
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> 
+SQL> show user
+USER is ""
+SQL> sqlplus system/oracle
+SP2-0734: unknown command beginning "sqlplus sy..." - rest of line ignored.
+SQL> sqlplus system/oracle
+SP2-0734: unknown command beginning "sqlplus sy..." - rest of line ignored.
+SQL> show user
+USER is ""
+SQL> sqlplus system/oracle
+SP2-0734: unknown command beginning "sqlplus sy..." - rest of line ignored.
+SQL> grant connect, resource to t1;
+SP2-0640: Not connected
+SQL> conn scott/oracle
+ERROR:
+ORA-01017: invalid username/password; logon denied 
+
+
+SQL> conn scott/oracle
+ERROR:
+ORA-01017: invalid username/password; logon denied 
+
+
+SQL> 
+SQL> alter user scott
+  2  identified by tiger
+  3  account by unlock;
+SP2-0640: Not connected
+SQL> exit

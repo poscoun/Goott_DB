@@ -1,0 +1,90 @@
+<   SUBQUERY   실습문제  >
+
+1.  SMITH 보다 월급을  많이 받는 사원들의 이름과 월급을 출력하라
+SQL> SELECT ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL > (SELECT SAL
+  4     FROM EMP
+  5     WHERE ENAME = 'SMITH');
+
+
+
+2.  10 번 부서의 사원들과 같은 월급을 받는 사원들의 이름과 월급과 부서
+   번호를 출력하라 
+SQL> SELECT ENAME, SAL, DEPTNO
+  2  FROM EMP
+  3  WHERE SAL IN (SELECT SAL
+  4     FROM EMP
+  5     WHERE DEPTNO = 10);
+
+
+3. BLAKE 와 같은 부서에 있는 사람들의 이름과 입사일을 출력하되  BLAKE는 제외
+SQL> SELECT ENAME, HIREDATE
+  2  FROM EMP
+  3  WHERE DEPTNO IN (SELECT DEPTNO
+  4     FROM EMP
+  5     WHERE ENAME = 'BLAKE')
+  6  AND ENAME != 'BLAKE' ;
+
+4. 평균 급여보다 많은 급여를 받는 사원들의 사번, 이름, 월급을 나타내되 월급이 높은 사람 순으로  출력하라
+
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL > ALL (SELECT AVG(SAL)
+  4     FROM EMP)
+  5  ORDER BY SAL DESC;
+
+5. 이름에  T  를 포함하고 있는 사원들과  동일한 부서에서 근무하고 있는 사원의 사원 번호와 이름을  출력하라
+SQL> SELECT EMPNO, ENAME
+  2  FROM EMP
+  3  WHERE DEPTNO IN (SELECT DEPTNO
+  4  FROM EMP
+  5     WHERE ENAME LIKE '%T%');
+
+6. 30번 부서의 최고 급여를 받는 사원 보다도 더 많은 급여를 받는 전체 사원들을 출력하라
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE SAL > ANY (SELECT MAX(SAL)
+  4     FROM EMP
+  5     WHERE DEPTNO = 30);
+
+7. 부서 위치가 DALLAS 인  모든 사원의 이름, 부서 번호 및 직업을 출력하라
+SQL> SELECT ENAME, DEPTNO, JOB
+  2  FROM EMP
+  3  WHERE DEPTNO = (SELECT DEPTNO
+  4     FROM DEPT
+  5     WHERE LOC = 'DALLAS');
+
+8.  SALES  부서의 모든 사원에 대한 부서번호, 이름 및 직업을 출력하라 
+
+SQL> SELECT DEPTNO, ENAME, JOB
+  2  FROM EMP
+  3  WHERE DEPTNO = (SELECT DEPTNO
+  4     FROM DEPT
+  5     WHERE DNAME = 'SALES');
+
+
+
+9.  KING 에게  보고 하는 모든 사원의 이름과 급여를 출력하라  (즉 직속상사가 KING인 사원)
+
+SQL> SELECT EMPNO, SAL
+  2  FROM EMP
+  3  WHERE EMPNO IN (SELECT EMPNO
+  4     FROM EMP
+  5     WHERE JOB = 'MANAGER');
+
+SELECT ENAME, SAL ,MGR
+FROM EMP
+WHERE MGR =(SELECT EMPNO
+    FROM EMP
+    WHERE ENAME='KING');
+
+10.  자신의  급여가 사원 평균 급여보다 많으면서  이름에 S자 들어가는  사원과
+     동일 부서인  모든  사원의 사원번호, 이름  및 급여를 출력하라
+
+FROM EMP
+WHERE DEPTNO IN (SELECT DEPTNO
+    FROM EMP
+    WHERE ENAME LIKE '%S%' 
+    AND SAL > (SELECT AVG(SAL)
+        FROM EMP));

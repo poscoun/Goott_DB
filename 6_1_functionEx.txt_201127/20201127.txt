@@ -1,0 +1,764 @@
+SQL> show user
+USER is "SYSTEM"
+SQL> --Data Dictionary
+SQL> --구성 : 접두사 + 관심 keyword + 복수형
+SQL> --user_ : 유저가 생성한 것과 관련된 정보
+SQL> desc user
+ERROR:
+ORA-00931: missing identifier 
+
+
+SQL> desc user;
+ERROR:
+ORA-00931: missing identifier 
+
+
+SQL> desc user tables;
+Usage: DESCRIBE [schema.]object[@db_link]
+SQL> select table_name
+  2  from user_tables;
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+LOGMNR_PARAMETER$                                                               
+LOGMNR_SESSION$                                                                 
+MVIEW$_ADV_WORKLOAD                                                             
+MVIEW$_ADV_BASETABLE                                                            
+MVIEW$_ADV_SQLDEPEND                                                            
+MVIEW$_ADV_PRETTY                                                               
+MVIEW$_ADV_TEMP                                                                 
+MVIEW$_ADV_FILTER                                                               
+MVIEW$_ADV_LOG                                                                  
+MVIEW$_ADV_FILTERINSTANCE                                                       
+MVIEW$_ADV_LEVEL                                                                
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+MVIEW$_ADV_ROLLUP                                                               
+MVIEW$_ADV_AJG                                                                  
+MVIEW$_ADV_FJG                                                                  
+MVIEW$_ADV_GC                                                                   
+MVIEW$_ADV_CLIQUE                                                               
+MVIEW$_ADV_ELIGIBLE                                                             
+MVIEW$_ADV_OUTPUT                                                               
+MVIEW$_ADV_EXCEPTIONS                                                           
+MVIEW$_ADV_PARAMETERS                                                           
+MVIEW$_ADV_INFO                                                                 
+MVIEW$_ADV_JOURNAL                                                              
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+MVIEW$_ADV_PLAN                                                                 
+AQ$_QUEUE_TABLES                                                                
+AQ$_QUEUES                                                                      
+AQ$_SCHEDULES                                                                   
+AQ$_INTERNET_AGENTS                                                             
+AQ$_INTERNET_AGENT_PRIVS                                                        
+DEF$_ERROR                                                                      
+DEF$_DESTINATION                                                                
+DEF$_CALLDEST                                                                   
+DEF$_DEFAULTDEST                                                                
+DEF$_LOB                                                                        
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+DEF$_PROPAGATOR                                                                 
+DEF$_ORIGIN                                                                     
+DEF$_PUSHED_TRANSACTIONS                                                        
+REPCAT$_REPCAT                                                                  
+REPCAT$_FLAVORS                                                                 
+REPCAT$_REPSCHEMA                                                               
+REPCAT$_SNAPGROUP                                                               
+REPCAT$_REPOBJECT                                                               
+REPCAT$_REPCOLUMN                                                               
+REPCAT$_KEY_COLUMNS                                                             
+REPCAT$_GENERATED                                                               
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+REPCAT$_REPPROP                                                                 
+REPCAT$_REPCATLOG                                                               
+REPCAT$_DDL                                                                     
+REPCAT$_REPGROUP_PRIVS                                                          
+REPCAT$_PRIORITY_GROUP                                                          
+REPCAT$_PRIORITY                                                                
+REPCAT$_COLUMN_GROUP                                                            
+REPCAT$_GROUPED_COLUMN                                                          
+REPCAT$_CONFLICT                                                                
+REPCAT$_RESOLUTION_METHOD                                                       
+REPCAT$_RESOLUTION                                                              
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+REPCAT$_RESOLUTION_STATISTICS                                                   
+REPCAT$_RESOL_STATS_CONTROL                                                     
+REPCAT$_PARAMETER_COLUMN                                                        
+REPCAT$_AUDIT_ATTRIBUTE                                                         
+REPCAT$_AUDIT_COLUMN                                                            
+REPCAT$_FLAVOR_OBJECTS                                                          
+REPCAT$_TEMPLATE_STATUS                                                         
+REPCAT$_TEMPLATE_TYPES                                                          
+REPCAT$_REFRESH_TEMPLATES                                                       
+REPCAT$_USER_AUTHORIZATIONS                                                     
+REPCAT$_OBJECT_TYPES                                                            
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+REPCAT$_TEMPLATE_REFGROUPS                                                      
+REPCAT$_TEMPLATE_OBJECTS                                                        
+REPCAT$_TEMPLATE_PARMS                                                          
+REPCAT$_OBJECT_PARMS                                                            
+REPCAT$_USER_PARM_VALUES                                                        
+REPCAT$_TEMPLATE_SITES                                                          
+REPCAT$_SITE_OBJECTS                                                            
+REPCAT$_RUNTIME_PARMS                                                           
+REPCAT$_TEMPLATE_TARGETS                                                        
+REPCAT$_EXCEPTIONS                                                              
+REPCAT$_INSTANTIATION_DDL                                                       
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+REPCAT$_EXTENSION                                                               
+REPCAT$_SITES_NEW                                                               
+LOGSTDBY$PARAMETERS                                                             
+LOGSTDBY$EVENTS                                                                 
+LOGSTDBY$APPLY_MILESTONE                                                        
+LOGSTDBY$SCN                                                                    
+LOGSTDBY$FLASHBACK_SCN                                                          
+LOGSTDBY$PLSQL                                                                  
+LOGSTDBY$SKIP_TRANSACTION                                                       
+LOGSTDBY$SKIP                                                                   
+LOGSTDBY$SKIP_SUPPORT                                                           
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+LOGSTDBY$HISTORY                                                                
+LOGSTDBY$EDS_TABLES                                                             
+DEF$_AQCALL                                                                     
+DEF$_AQERROR                                                                    
+SQLPLUS_PRODUCT_PROFILE                                                         
+HELP                                                                            
+LOGMNR_GT_TAB_INCLUDE$                                                          
+LOGMNR_GT_USER_INCLUDE$                                                         
+LOGMNR_GT_XID_INCLUDE$                                                          
+LOGMNRT_MDDL$                                                                   
+OL$                                                                             
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+OL$HINTS                                                                        
+OL$NODES                                                                        
+LOGMNR_DICTSTATE$                                                               
+LOGMNRC_GTLO                                                                    
+LOGMNRC_GTCS                                                                    
+LOGMNRC_GSII                                                                    
+LOGMNRC_GSBA                                                                    
+LOGMNR_SEED$                                                                    
+LOGMNR_DICTIONARY$                                                              
+LOGMNR_OBJ$                                                                     
+LOGMNR_TAB$                                                                     
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+LOGMNR_COL$                                                                     
+LOGMNR_ATTRCOL$                                                                 
+LOGMNR_TS$                                                                      
+LOGMNR_IND$                                                                     
+LOGMNR_USER$                                                                    
+LOGMNR_TABPART$                                                                 
+LOGMNR_TABSUBPART$                                                              
+LOGMNR_TABCOMPART$                                                              
+LOGMNR_TYPE$                                                                    
+LOGMNR_COLTYPE$                                                                 
+LOGMNR_ATTRIBUTE$                                                               
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+LOGMNR_LOB$                                                                     
+LOGMNR_CDEF$                                                                    
+LOGMNR_CCOL$                                                                    
+LOGMNR_ICOL$                                                                    
+LOGMNR_LOBFRAG$                                                                 
+LOGMNR_INDPART$                                                                 
+LOGMNR_INDSUBPART$                                                              
+LOGMNR_INDCOMPART$                                                              
+LOGMNR_LOGMNR_BUILDLOG                                                          
+LOGMNR_NTAB$                                                                    
+LOGMNR_OPQTYPE$                                                                 
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+LOGMNR_SUBCOLTYPE$                                                              
+LOGMNR_KOPM$                                                                    
+LOGMNR_PROPS$                                                                   
+LOGMNR_ENC$                                                                     
+LOGMNR_REFCON$                                                                  
+LOGMNR_PARTOBJ$                                                                 
+LOGMNRP_CTAS_PART_MAP                                                           
+LOGSTDBY$APPLY_PROGRESS                                                         
+LOGMNR_INTEGRATED_SPILL$                                                        
+LOGMNR_PROCESSED_LOG$                                                           
+LOGMNR_UID$                                                                     
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+LOGMNRC_DBNAME_UID_MAP                                                          
+LOGMNR_LOG$                                                                     
+LOGMNR_ERROR$                                                                   
+LOGMNR_RESTART_CKPT$                                                            
+LOGMNR_GLOBAL$                                                                  
+LOGMNR_SESSION_EVOLVE$                                                          
+LOGMNR_FILTER$                                                                  
+LOGMNR_AGE_SPILL$                                                               
+LOGMNR_SPILL$                                                                   
+LOGMNR_RESTART_CKPT_TXINFO$                                                     
+LOGMNR_SESSION_ACTIONS$                                                         
+
+154 rows selected.
+
+SQL> --all_:접근 권한과 관련된 정보
+SQL> desc all_tables
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ OWNER                                     NOT NULL VARCHAR2(30)
+ TABLE_NAME                                NOT NULL VARCHAR2(30)
+ TABLESPACE_NAME                                    VARCHAR2(30)
+ CLUSTER_NAME                                       VARCHAR2(30)
+ IOT_NAME                                           VARCHAR2(30)
+ STATUS                                             VARCHAR2(8)
+ PCT_FREE                                           NUMBER
+ PCT_USED                                           NUMBER
+ INI_TRANS                                          NUMBER
+ MAX_TRANS                                          NUMBER
+ INITIAL_EXTENT                                     NUMBER
+ NEXT_EXTENT                                        NUMBER
+ MIN_EXTENTS                                        NUMBER
+ MAX_EXTENTS                                        NUMBER
+ PCT_INCREASE                                       NUMBER
+ FREELISTS                                          NUMBER
+ FREELIST_GROUPS                                    NUMBER
+ LOGGING                                            VARCHAR2(3)
+ BACKED_UP                                          VARCHAR2(1)
+ NUM_ROWS                                           NUMBER
+ BLOCKS                                             NUMBER
+ EMPTY_BLOCKS                                       NUMBER
+ AVG_SPACE                                          NUMBER
+ CHAIN_CNT                                          NUMBER
+ AVG_ROW_LEN                                        NUMBER
+ AVG_SPACE_FREELIST_BLOCKS                          NUMBER
+ NUM_FREELIST_BLOCKS                                NUMBER
+ DEGREE                                             VARCHAR2(40)
+ INSTANCES                                          VARCHAR2(40)
+ CACHE                                              VARCHAR2(20)
+ TABLE_LOCK                                         VARCHAR2(8)
+ SAMPLE_SIZE                                        NUMBER
+ LAST_ANALYZED                                      DATE
+ PARTITIONED                                        VARCHAR2(3)
+ IOT_TYPE                                           VARCHAR2(12)
+ TEMPORARY                                          VARCHAR2(1)
+ SECONDARY                                          VARCHAR2(1)
+ NESTED                                             VARCHAR2(3)
+ BUFFER_POOL                                        VARCHAR2(7)
+ FLASH_CACHE                                        VARCHAR2(7)
+ CELL_FLASH_CACHE                                   VARCHAR2(7)
+ ROW_MOVEMENT                                       VARCHAR2(8)
+ GLOBAL_STATS                                       VARCHAR2(3)
+ USER_STATS                                         VARCHAR2(3)
+ DURATION                                           VARCHAR2(15)
+ SKIP_CORRUPT                                       VARCHAR2(8)
+ MONITORING                                         VARCHAR2(3)
+ CLUSTER_OWNER                                      VARCHAR2(30)
+ DEPENDENCIES                                       VARCHAR2(8)
+ COMPRESSION                                        VARCHAR2(8)
+ COMPRESS_FOR                                       VARCHAR2(12)
+ DROPPED                                            VARCHAR2(3)
+ READ_ONLY                                          VARCHAR2(3)
+ SEGMENT_CREATED                                    VARCHAR2(3)
+ RESULT_CACHE                                       VARCHAR2(7)
+
+SQL> --dba_ : db 관리자가 보는 정보
+SQL> desc dba_users
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ USERNAME                                  NOT NULL VARCHAR2(30)
+ USER_ID                                   NOT NULL NUMBER
+ PASSWORD                                           VARCHAR2(30)
+ ACCOUNT_STATUS                            NOT NULL VARCHAR2(32)
+ LOCK_DATE                                          DATE
+ EXPIRY_DATE                                        DATE
+ DEFAULT_TABLESPACE                        NOT NULL VARCHAR2(30)
+ TEMPORARY_TABLESPACE                      NOT NULL VARCHAR2(30)
+ CREATED                                   NOT NULL DATE
+ PROFILE                                   NOT NULL VARCHAR2(30)
+ INITIAL_RSRC_CONSUMER_GROUP                        VARCHAR2(30)
+ EXTERNAL_NAME                                      VARCHAR2(4000)
+ PASSWORD_VERSIONS                                  VARCHAR2(8)
+ EDITIONS_ENABLED                                   VARCHAR2(1)
+ AUTHENTICATION_TYPE                                VARCHAR2(8)
+
+SQL> select username, password
+  2  from dba_users;
+
+USERNAME                                                                        
+------------------------------------------------------------                    
+PASSWORD                                                                        
+------------------------------------------------------------                    
+SYS                                                                             
+                                                                                
+                                                                                
+SYSTEM                                                                          
+                                                                                
+                                                                                
+ANONYMOUS                                                                       
+                                                                                
+                                                                                
+
+USERNAME                                                                        
+------------------------------------------------------------                    
+PASSWORD                                                                        
+------------------------------------------------------------                    
+SCOTT                                                                           
+                                                                                
+                                                                                
+APEX_PUBLIC_USER                                                                
+                                                                                
+                                                                                
+FLOWS_FILES                                                                     
+                                                                                
+                                                                                
+
+USERNAME                                                                        
+------------------------------------------------------------                    
+PASSWORD                                                                        
+------------------------------------------------------------                    
+APEX_040000                                                                     
+                                                                                
+                                                                                
+OUTLN                                                                           
+                                                                                
+                                                                                
+DIP                                                                             
+                                                                                
+                                                                                
+
+USERNAME                                                                        
+------------------------------------------------------------                    
+PASSWORD                                                                        
+------------------------------------------------------------                    
+ORACLE_OCM                                                                      
+                                                                                
+                                                                                
+XS$NULL                                                                         
+                                                                                
+                                                                                
+MDSYS                                                                           
+                                                                                
+                                                                                
+
+USERNAME                                                                        
+------------------------------------------------------------                    
+PASSWORD                                                                        
+------------------------------------------------------------                    
+CTXSYS                                                                          
+                                                                                
+                                                                                
+DBSNMP                                                                          
+                                                                                
+                                                                                
+XDB                                                                             
+                                                                                
+                                                                                
+
+USERNAME                                                                        
+------------------------------------------------------------                    
+PASSWORD                                                                        
+------------------------------------------------------------                    
+APPQOSSYS                                                                       
+                                                                                
+                                                                                
+HR                                                                              
+                                                                                
+                                                                                
+
+17 rows selected.
+
+SQL> col username format A15
+SQL> col password format A15
+SQL> select username, password
+  2  from dba_users;
+
+USERNAME        PASSWORD                                                        
+--------------- ---------------                                                 
+SYS                                                                             
+SYSTEM                                                                          
+ANONYMOUS                                                                       
+SCOTT                                                                           
+APEX_PUBLIC_USE                                                                 
+R                                                                               
+                                                                                
+FLOWS_FILES                                                                     
+APEX_040000                                                                     
+OUTLN                                                                           
+DIP                                                                             
+
+USERNAME        PASSWORD                                                        
+--------------- ---------------                                                 
+ORACLE_OCM                                                                      
+XS$NULL                                                                         
+MDSYS                                                                           
+CTXSYS                                                                          
+DBSNMP                                                                          
+XDB                                                                             
+APPQOSSYS                                                                       
+HR                                                                              
+
+17 rows selected.
+
+SQL> --V$_ :동적이면서 성능과 관련된 정보
+SQL> desc V$BGPROCESS
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PADDR                                              RAW(8)
+ PSERIAL#                                           NUMBER
+ NAME                                               VARCHAR2(5)
+ DESCRIPTION                                        VARCHAR2(64)
+ ERROR                                              NUMBER
+
+SQL> --문자를 저장하는 타입
+SQL> --char : 고정형 문자
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select username, password
+  2  from dba_users
+  3  /
+  4  char : 고정형 문자
+  5  varchar : 가변형 문자
+  6  ex) char(8) :   A l B l C l   l   l   l   l    l
+  7    => 장점 : read할 때 효율적
+  8    => 단점 : 공간 사용 비효율적
+  9  varchar(8) :    A l B l C l
+ 10    => 장점 : 공간 사용 효율적
+ 11    => 단점 : read 할 때 비효율적 
+ 12* cf) 현재는 varchar로 선언해도 자동으로 varchar2로 바꿔줌  
+ 13  ssp
+ 14  ss
+ 15  
+SQL> 
+SQL> /
+SP2-0552: Bind variable "공간" not declared.
+SQL> --DCL (Data Control Language)
+SQL> --오라클 서버 DB 사용자
+SQL> --SYS : 소유자
+SQL> --SYSTEM : 관리자
+SQL> --End-User : 최종 사용자(ex. scott ...)
+SQL> 
+SQL> conn sys/oracle
+ERROR:
+ORA-28009: connection as SYS should be as SYSDBA or SYSOPER 
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> show user
+USER is ""
+SQL> conn sys/oracle as sysdba
+Connected.
+SQL> show user
+USER is "SYS"
+SQL> --user1 계정 생성
+SQL> create user user1
+  2  identified by tiger;
+
+User created.
+
+SQL> conn user1/tiger
+ERROR:
+ORA-01045: user USER1 lacks CREATE SESSION privilege; logon denied 
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> show user
+USER is ""
+SQL> --권한
+SQL> --1.system : 시스템에 영향을 미치는 권한 : grant 권한 to 사용자명;
+SQL> --                                         revoke 권한 from 사용자명;
+SQL> --         : SYS or SYSTEM이 권한을 가짐
+SQL> --2.object : 해당 object에만 영향을 미치는 권한 : grant 권한 on object명 to  사용자명;
+SQL>                                                 : revoke 권한 on object명 from 사용자명;
+SP2-0734: unknown command beginning ": revoke ..." - rest of line ignored.
+SQL> --                                              : revoke  권한 on object명 from 사용자명;
+SQL> --         : object 생성자가 권한을 가짐
+SQL> 
+SQL> conn system/oracle
+Connected.
+SQL> show user
+USER is "SYSTEM"
+SQL> -- grant 권한 to 사용자명
+SQL> grant connect, resource to user1;
+
+Grant succeeded.
+
+SQL> conn user1/tiger
+Connected.
+SQL> show user
+USER is "USER1"
+SQL> select * from emp;
+select * from emp
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> select * from scott.emp
+  2  ;
+select * from scott.emp
+                    *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> conn scott/tiger
+Connected.
+SQL> show user
+USER is "SCOTT"
+SQL> grant select on emp to user1;
+
+Grant succeeded.
+
+SQL> conn user1/tiger
+Connected.
+SQL> show user
+USER is "USER1"
+SQL> select * from scott.emp;
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7369 SMITH                CLERK                    7902 80/12/17          
+       800                    20                                                
+                                                                                
+      7499 ALLEN                SALESMAN                 7698 81/02/20          
+      1600        300         30                                                
+                                                                                
+      7521 WARD                 SALESMAN                 7698 81/02/22          
+      1250        500         30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7566 JONES                MANAGER                  7839 81/04/02          
+      2975                    20                                                
+                                                                                
+      7654 MARTIN               SALESMAN                 7698 81/09/28          
+      1250       1400         30                                                
+                                                                                
+      7698 BLAKE                MANAGER                  7839 81/05/01          
+      2850                    30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7782 CLARK                MANAGER                  7839 81/06/09          
+      2450                    10                                                
+                                                                                
+      7839 KING                 PRESIDENT                     81/11/17          
+      5000                    10                                                
+                                                                                
+      7844 TURNER               SALESMAN                 7698 81/09/08          
+      1500          0         30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7900 JAMES                CLERK                    7698 81/12/03          
+       950                    30                                                
+                                                                                
+      7902 FORD                 ANALYST                  7566 81/12/03          
+      3000                    20                                                
+                                                                                
+      7934 MILLER               CLERK                    7782 82/01/23          
+      1300                    10                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      9090                                                    20/11/26          
+                                                                                
+                                                                                
+
+13 rows selected.
+
+SQL> show user
+USER is "USER1"
+SQL> update scott.emp
+  2  set sal = 100
+  3  where emane = 'JONES';
+where emane = 'JONES'
+      *
+ERROR at line 3:
+ORA-00904: "EMANE": invalid identifier 
+
+
+SQL> conn user1/tiger
+Connected.
+SQL> grant update on emp to user1;
+grant update on emp to user1
+                *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> conn scott/tiger
+Connected.
+SQL> show user
+USER is "SCOTT"
+SQL> grant update on emp to user1;
+
+Grant succeeded.
+
+SQL> conn user1/tiger
+Connected.
+SQL> show user
+USER is "USER1"
+SQL> update scott.emp
+  2  set sal = 100
+  3  where ename = 'JONES';
+
+1 row updated.
+
+SQL> select ename, sal from scott.emp where ename = 'JONES';
+
+ENAME                       SAL                                                 
+-------------------- ----------                                                 
+JONES                       100                                                 
+
+SQL> conn scott/tiger
+Connected.
+SQL> select ename, sal from scott.emp where ename = 'JONES';
+
+ENAME                       SAL                                                 
+-------------------- ----------                                                 
+JONES                       100                                                 
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select ename, sal from emp where ename = 'JONES';
+
+ENAME                       SAL                                                 
+-------------------- ----------                                                 
+JONES                       100                                                 
+
+SQL> conn user1/tiger
+Connected.
+SQL> select ename, sal from scott.emp where ename = 'JONES';
+
+ENAME                       SAL                                                 
+-------------------- ----------                                                 
+JONES                       100                                                 
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> conn scott/tiger
+Connected.
+SQL> show user
+USER is "SCOTT"
+SQL> select ename, sal from emp;
+
+ENAME                       SAL                                                 
+-------------------- ----------                                                 
+SMITH                       800                                                 
+ALLEN                      1600                                                 
+WARD                       1250                                                 
+JONES                       100                                                 
+MARTIN                     1250                                                 
+BLAKE                      2850                                                 
+CLARK                      2450                                                 
+KING                       5000                                                 
+TURNER                     1500                                                 
+JAMES                       950                                                 
+FORD                       3000                                                 
+
+ENAME                       SAL                                                 
+-------------------- ----------                                                 
+MILLER                     1300                                                 
+                                                                                
+
+13 rows selected.
+
+SQL> update emp
+  2  set sal = 2975
+  3  where ename = 'JONES';
+
+1 row updated.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> --권한 회수
+SQL> show user
+USER is "SCOTT"
+SQL> revoke select, update on emp from user1;
+
+Revoke succeeded.
+
+SQL> conn user1/tiger
+Connected.
+SQL> show user
+USER is "USER1"
+SQL> select ename from scott.emp
+  2  ;
+select ename from scott.emp
+                        *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> conn system/oracle
+Connected.
+SQL> show user
+USER is "SYSTEM"
+SQL> --문제 : id - 20자, pw - 20자가 필요한 테이블, 이 테이블에는 한 명(aaa, bbb)이 있습니다.
+SQL> --이 테이블을 scott이 접근할 수 있도록 해보세요
+SQL> --테이블명 : t1
+SQL> create table t1
+  2  (id varchar2(20),
+  3  pw varchar2(20));
+
+Table created.
+
+SQL> insert into t1
+  2  values('aaa','bbb');
+
+1 row created.
+
+SQL> grant select on t1 to scott;
+
+Grant succeeded.
+
+SQL> conn scott/tiger
+Connected.
+SQL> select * from system.t1;
+
+ID                                                                              
+----------------------------------------                                        
+PW                                                                              
+----------------------------------------                                        
+aaa                                                                             
+bbb                                                                             
+                                                                                
+
+SQL> spool off;

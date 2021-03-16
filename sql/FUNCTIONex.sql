@@ -1,0 +1,157 @@
+ RETURN MSG;
+END;
+/
+
+VARIABLE HI VARCHAR2(30);
+EXECUTE :HI:=HELLO;
+PRINT HI;
+
+SELECT HELLO FROM DUAL;
+
+--paramter
+CREATE OR REPLACE FUNCTION TAX(P_VALUE IN NUMBER)
+    RETURN NUMBER IS
+        RESULT NUMBER;
+    BEGIN
+        RESULT := (P_VALUE*0.1);
+    RETURN RESULT;
+END;
+/
+
+SELECT TAX(800) FROM DUAL;
+
+-- SAL_DESCRIBE : 사원번호를 입력하면 그 사원의 급여정보를 출력
+CREATE OR REPLACE FUNCTION SAL_DESCRIBE(VEMPNO IN NUMBER)
+    RETURN NUMBER
+    IS
+      VSAL EMP.SAL%TYPE;
+    BEGIN
+        SELECT SAL INTO VSAL
+        FROM EMP
+        WHERE EMPNO = VEMPNO;
+    RETURN VSAL;
+END;
+/
+
+VAR SALARY NUMBER;
+EXECUTE :SALARY := SAL_DESCRIBE(7900);
+PRINT SALARY;
+
+SELECT SAL_DESCRIBE(7900) FROM DUAL;
+
+SELECT SAL_DESCRIBE(EMPNO) FROM EMP;
+
+-- [실습] 전체 사원의 급여를 10% 인상한 결과를 출력해보세요 (FUNCTION - SAL_UP)
+CREATE OR REPLACE FUNCTION SAL_UP(VEMPNO IN NUMBER)
+    RETURN NUMBER
+    IS
+        VSAL EMP.SAL%TYPE;
+    BEGIN
+        SELECT SAL*1.1 INTO VSAL
+        FROM EMP
+        WHERE EMPNO = VEMPNO;
+    RETURN VSAL;
+END;
+/
+
+SELECT SAL, SAL_UP(EMPNO) FROM EMP;
+
+
+--------------------------------------------------------------------------------------------------
+--CREATE TABLE CEMP
+--AS
+--SELECT * FROM EMP;
+ 
+--사원번호를 입력받아 해당 사원의 급여 출력(10% 인상된 결과)
+CREATE OR REPLACE FUNCTION CEMP_UP(VEMPNO IN NUMBER)
+    RETURN NUMBER
+    IS
+        VSAL CEMP.SAL%TYPE;
+    BEGIN
+        UPDATE CEMP
+        SET SAL = SAL*1.1
+        WHERE EMPNO = VEMPNO;
+        
+        COMMIT;
+        
+        SELECT SAL INTO VSAL
+        FROM CEMP
+        WHERE EMPNO = VEMPNO;
+    RETURN VSAL;
+END;
+/
+
+VARIABLE SALARY NUMBER;
+EXECUTE :SALARY := CEMP_UP(10000);
+PRINT SALARY;
+
+-- 사용자가 생성한 함수 찾기
+DESC USER_PROCEDURES
+
+SELECT OBJECT_NAME, OBJECT_TYPE
+FROM USER_PROCEDURES
+WHERE OBJECT_TYPE = 'FUNCTION';
+
+-- 함수 삭제 
+--DROP FUNCTION [함수명]
+
+-- 실습 : 10번 부서에 근무하고 있는 사원의 사번, 이름, 급여를 조회하시오
+--        : 함수명 - EMP_SAL
+-- 
+
+CREATE OR REPLACE FUNCTION EMP_SAL(VEMPNO NUMBER)
+    RETURN NUMBER
+    IS
+        VSAL NUMBER;
+    BEGIN
+        SELECT SAL INTO VSAL
+        FROM EMP
+        WHERE EMPNO = VEMPNO;
+        RETURN VSAL;
+END;
+/
+
+SELECT EMPNO, ENAME, EMP_SAL(EMPNO)
+FROM EMP
+WHERE DEPTNO = 10;
+
+-- 실습 : 전체 사원의 사번, 이름, 부서명을 출력하시오
+--        : 주어진 데이터는 부서번호
+--        : 함수명 - getDname()
+
+CREATE OR REPLACE FUNCTION getDname(VDNO EMP.DEPTNO%TYPE)
+    RETURN VARCHAR2
+    IS
+        VDNAME VARCHAR2(30);
+    BEGIN
+        SELECT DNAME INTO VDNAME
+        FROM DEPT
+        WHERE DEPTNO = VDNO;
+    RETURN VDNAME;
+END;
+/
+
+SELECT EMPNO, ENAME, getDname(deptno) "DNAME"
+FROM EMP;
+
+-- 전체 사원의 사원번호, 사원이름, 급여, 수당, 연봉, 세금(10%)를 조회
+CREATE OR REPLACE FUNCTION FULL_SAL
+    (VSAL EMP.SAL%TYPE, VCOMM EMP.COMM%TYPE)
+    RETURN NUMBER
+    IS
+    BEGIN
+        RETURN (VSAL + NVL(VCOMM, 0));
+    END;
+/
+
+SELECT EMPNO, ENAME, SAL, COMM, SAL+NVM(COMM, 0) "연봉", (SAL+NVM(COMM, 0))*0.1 "세금(10%)"
+FROM EMP;
+
+SELECT EMPNO, ENAME, SAL, COMM, FULL_SAL(SAL, COMM) "연봉", FULL_SAL(SAL, COMM)*0.1 "세금(10%)"
+FROM EMP;
+
+-- 실습 : 전체 사원의 사원번호, 사원이름, 급여, 수당, 연봉, 세금을 조회
+--       (단, 급여 수준에 따라 세율을 달리 적용)
+--        : 급여가 1000미만이면 5% 적용 1000이상 2000미만이면 10% 적용, 2000이상이면 20% 적용
+--        : 세금 적용은 연봉에 적용
+--        : 함수 이름은 : DIF_TAX

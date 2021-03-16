@@ -1,0 +1,152 @@
+--20201123(오전)
+
+-- ⅱ) 조건 함수
+-- DECODE 함수
+-- : 조건에 따라 데이터를 다른 값이나 컬럼값으로 추출할 수 있도록 하는 함수
+-- : DECODE(VALUE, IF1, THEN1, IF2, THEN2, .....) 형태
+-- : => VALUE 값이 IF1이면 THEN1 값을 반환하고, IF2이면 THEN2 값을 반환, .....
+-- : => DECODE 함수 안에 DECODE 함수를 중첩으로 사용할 수 있음
+
+-- 부서번호가 10이면 ACCOUNTING, 20이면 RESERCH, 30이면 SALES, 나머지면 OPERATIONS 를 출력하고 싶음
+SQL> SELECT DEPTNO,DECODE(DEPTNO, 10, 'ACCOUNTING', 20, 'RESERCH', 30, 'SALES', 'OPERRATIONS') "NAME"
+  2  FROM DEPT;
+
+-- CASE 함수
+-- : DECODE 함수와 비슷한 역할을 하는 함수
+-- : DECODE에서 제공하지 못하는 단점(비교 연산)을 해결할 수 있는 함수
+-- => 비교/조건 연산자를 모두 사용할 수 있기 때문
+
+SQL> SELECT DEPTNO, CASE DEPTNO
+  2  WHEN 10 THEN '10번부서'
+  3  WHEN 20 THEN '20번부서'
+  4  WHEN 30 THEN '30번 부서'
+  5  ELSE '나머지부서'
+  6  END "NAME"
+  7  FROM DEPT;
+
+-- CASE 와 비교/논리 연산자
+-- 급여별로 인상율을 다르게 적용(계산)
+-- 1000 이하이면 8%, 2000 이하이면 5%, 3000이하이면 3%, 그 이상이면 1% 인상
+
+SQL> SELECT ENAME, SAL,
+  2     CASE
+  3     WHEN SAL < 1000 THEN SAL+(SAL*0.08)
+  4     WHEN SAL BETWEEN 1000 AND 2000 THEN SAL+(SAL*0.05)
+  5     WHEN SAL BETWEEN 2001 AND 3000 THEN SAL+(SAL*0.03)
+  6     ELSE SAL+(SAL*0.01)
+  7  END "UPSAL"
+  8  FROM EMP;
+
+-- 실습 : 직책이 매니저인 사원은 급여를 10% 인상, 직책이 일반사원인 사원은 급여를 5%인상
+--	나머지는 2% 인상해서 사원이름, 직책, 급여, 인상된급여(UPSAL)를 출력하세요
+
+1.SQL> SELECT ENAME, JOB, SAL,
+  2     DECODE (JOB, 'MANAGER', SAL*1.1, 'CLERK', SAL*1.05, SAL*1.02) "UPSAL"
+  3  FROM EMP;
+
+2.SQL> SELECT ENAME, JOB, SAL,
+  2     CASE
+  3     WHEN JOB = 'MANAGER' THEN SAL+(SAL*0.1)
+  4     WHEN JOB = 'CLERK' THEN SAL+(SAL*0.05)
+  5     ELSE SAL+(SAL*0.02)
+  6  END "UPSAL"
+  7  FROM EMP;
+
+-- 다중 행 함수 [그룹 함수]
+-- : 단일 행 함수와는 달리 행 집합에 대해서 실행되어 그룹당 하나의 결과를 산출
+-- : 이러한 행 집합은 전체 테이블이나 그룹으로 분할된 테이블로 구성될 수 있음
+
+SQL> SELECT AVG(SAL), MAX(SAL), MIN(SAL), SUM(SAL)
+  2  FROM EMP;
+
+-- 가장 최근에 입사한 사원, 가장 오래 근무한 사원의 입사일
+SQL> SELECT MAX(HIREDATE), MIN(HIREDATE)
+  2  FROM EMP;
+
+-- 사전 순으로 정렬된 모든 사원 리스트에서 맨 마지막으로 나오는 사원의 이름,  맨 처음 나오는 사원의 이름
+SQL> SELECT MAX(ENAME), MIN(ENAME)
+  2  FROM EMP;
+
+-- AVG, SUM. VARIANCE, STDDEV 함수는 숫자 데이터 유형만 사용할 수 있음
+-- MAX, MIN은 함수는 LOB형, LONG형 데이터 유형에 사용할 수 없습니다.
+
+-- COUNT : 테이블의 행 수를 반환
+
+-- 전체 사원의 수를 구하세요
+SQL> SELECT COUNT(ENAME)
+  2  FROM EMP;
+
+-- 실습 : 10번 부서 사원의 수를 구해보세요
+SQL> SELECT COUNT(ENAME)
+  2  FROM EMP
+  3  WHERE DEPTNO = 10;
+
+-- 실습 : 전체 사원의 수당의 평균을 구해보세요
+SQL> SELECT AVG(NVL(COMM, 0))
+  2  FROM EMP;
+
+-- 다중 행 함수를 통해서 COUNT 할 때 처음부터 NULL이 아닌 값을 가진 행의 수를 반환하도록 설계되어 있음
+-- => NULL 을 무시
+-- => 이런 경우 모수가 달라지는 경우가 생김
+-- => 그러므로 NULL처리 함수를 통해 모수를 맞춰주는 것을 신경써야 함
+
+-- 실습 : 전체 직원의 평균급여, 급여총합계, 최고급여, 최저급여를 조회
+-- (단, 평균 급여는 소수점 둘째자리까지, 급여 총합계는 천단위로 표기)
+SQL> SELECT ROUND(AVG(SAL), 2), TO_CHAR(SUM(SAL), '$999,999.99'), MAX(SAL), MIN(SAL)
+  2  FROM EMP;
+
+-- 모든 그룹함수가 테이블을 하나의 커다란 정보 그룹으로 취급하는 중,
+-- 그러나 이 정보 테이블을 더 작은 그룹으로 나눠야 하는 경우도 있습니다.
+-- : GROUP BU 절을 사용할 경우, 그룹 함수가 아닌 SELECT 리스트의 모든 열은 GROUP BY절에 포함되어야 한다.
+
+-- 각 부서별로 평균 급여 조회
+SQL> SELECT DEPTNO, AVG(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO;
+
+-- 실습 : 각 업무별로 평균 급여를 조회해보세요
+SQL> SELECT JOB, AVG(SAL)
+  2  FROM EMP
+  3  GROUP BY JOB;
+
+-- GROUP BY절에 두 개의 컬럼을 사용 가능
+SQL> SELECT DEPTNO, JOB, AVG(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO, JOB; -- 모두 일치하는 ROW끼리 그룹 생성
+
+-- 실습 : 업무별로 그룹화 하여 업무, 인원수, 평균급여액, 최고급여액, 최소급여액, 합계 조회
+SQL> SELECT JOB, COUNT(*), AVG(SAL), MAX(SAL), MIN(SAL), SUM(SAL)
+  2  FROM EMP
+  3  GROUP BY JOB;
+
+--HAVING 절 : 작은 그룹들의 결과 제한
+--: WHERE절을 사용하여 선택할 행을 제한하는 것과 동일한 방식으로 HAVING 절을 사용하여 그룹을 제한
+SELECT DEPTNO, AVG(SAL)
+FROM EMP
+GROUP BY DEPTNO;
+HAVING AVG(SAL) >= 2500;
+
+--WHERE CONDITION : 조건을 TRUE로 만족하는 ROW 제한
+--HAVING CONDITION : 조건을 TRUE로 만족하는 GROUP 제한
+--JOB별 평균급여 (단, 평균급여가 1500이상)
+SELECT JOB, AVG(SAL)
+FROM EMP
+GROUP BY JOB
+HAVING AVG(SAL) >= 1500;
+
+--실습 :
+--1. 각 부서별로 몇 명의 인원이 있는지 출력
+SELECT DEPTNO, COUNT(*)
+FROM EMP
+GROUP BY DEPTNO;
+
+--2. 인원이 4명 이상인 부서번호와 인력을 출력해보세요
+SELECT DEPTNO, COUNT(*)
+FROM EMP
+GROUP BY DEPTNO
+HAVING COUNT(EMPNO) >=4 ;
+
+--그룹함수 중첩 가능
+SELECT MAX(AVG(SAL))
+FROM EMP
+GROUP BY DEPTNO;

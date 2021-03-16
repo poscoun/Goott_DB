@@ -1,0 +1,165 @@
+SQL> -- 실습 : 81년도에 입사한 사원의 사번, 이름, 입사일
+SQL> select empno, ename, hiredate
+  2  from emp
+  3  where hiredate = '81';
+where hiredate = '81'
+                 *
+ERROR at line 3:
+ORA-01840: input value not long enough for date format 
+
+
+SQL> select empno, ename, hiredate
+  2  from emp
+  3  where hiredate between '81/01/01' and '81/12/31';
+
+     EMPNO ENAME                HIREDATE                                        
+---------- -------------------- --------                                        
+      7499 ALLEN                81/02/20                                        
+      7521 WARD                 81/02/22                                        
+      7566 JONES                81/04/02                                        
+      7654 MARTIN               81/09/28                                        
+      7698 BLAKE                81/05/01                                        
+      7782 CLARK                81/06/09                                        
+      7839 KING                 81/11/17                                        
+      7844 TURNER               81/09/08                                        
+      7900 JAMES                81/12/03                                        
+      7902 FORD                 81/12/03                                        
+
+10 rows selected.
+
+SQL> select empno, ename, hiredate
+  2  where hiredate = '81';
+where hiredate = '81'
+*
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> select empno, ename, hiredate
+  2  from emp
+  3  where hiredate >= '81/01/01' and hiredate <= '81/12/31
+  4  ';
+
+     EMPNO ENAME                HIREDATE                                        
+---------- -------------------- --------                                        
+      7499 ALLEN                81/02/20                                        
+      7521 WARD                 81/02/22                                        
+      7566 JONES                81/04/02                                        
+      7654 MARTIN               81/09/28                                        
+      7698 BLAKE                81/05/01                                        
+      7782 CLARK                81/06/09                                        
+      7839 KING                 81/11/17                                        
+      7844 TURNER               81/09/08                                        
+      7900 JAMES                81/12/03                                        
+      7902 FORD                 81/12/03                                        
+
+10 rows selected.
+
+SQL> --부서번호가 10인 사원들 중에서 급여가 3000 이상인 사원
+SQL> select empno, ename, sal
+  2  from emp
+  3  where deptno = 10 and sal >= 3000;
+
+     EMPNO ENAME                       SAL                                      
+---------- -------------------- ----------                                      
+      7839 KING                       5000                                      
+
+SQL> -- 부서번호가 10이거나 20번인 사원들 중에서 급여가 3000이상인 사원
+SQL> select empno, ename, sal
+  2  from emp
+  3  where deptno = 10 or deptno = 20 and sal >= 3000;
+
+     EMPNO ENAME                       SAL                                      
+---------- -------------------- ----------                                      
+      7782 CLARK                      2450                                      
+      7839 KING                       5000                                      
+      7902 FORD                       3000                                      
+      7934 MILLER                     1300                                      
+
+SQL> select empno, ename, sal
+  2  from emp
+  3  
+SQL> -- 논리 연산자 우선순위 : NOT - AND - OR 순서
+SQL> -- 최우선 연산자 : ()
+SQL> select empno, ename, sal
+  2  from emp
+  3  where (deptno = 10 or deptno = 20) and sal >= 3000;
+
+     EMPNO ENAME                       SAL                                      
+---------- -------------------- ----------                                      
+      7839 KING                       5000                                      
+      7902 FORD                       3000                                      
+
+SQL> -- 1500에서 3000 사이의 급여를 받는 사원 정보
+SQL> select empno, ename, sal
+  2  from emp
+  3  where sal >= 1500 and <= 3000;
+where sal >= 1500 and <= 3000
+                      *
+ERROR at line 3:
+ORA-00936: missing expression 
+
+
+SQL> select empno, ename, sal
+  2  from emp
+  3  where sal >= 1500 and sal <= 3000;
+
+     EMPNO ENAME                       SAL                                      
+---------- -------------------- ----------                                      
+      7499 ALLEN                      1600                                      
+      7566 JONES                      2975                                      
+      7698 BLAKE                      2850                                      
+      7782 CLARK                      2450                                      
+      7844 TURNER                     1500                                      
+      7902 FORD                       3000                                      
+
+6 rows selected.
+
+SQL> 
+SQL> -- between 小 and 大 : 가독성을 높여줌
+SQL> select empno, ename, sal
+  2  from emp
+  3  where sal between 1500 and 3000;
+
+     EMPNO ENAME                       SAL                                      
+---------- -------------------- ----------                                      
+      7499 ALLEN                      1600                                      
+      7566 JONES                      2975                                      
+      7698 BLAKE                      2850                                      
+      7782 CLARK                      2450                                      
+      7844 TURNER                     1500                                      
+      7902 FORD                       3000                                      
+
+6 rows selected.
+
+SQL> -- 실습) 급여가 3000에서 5000 사이인 사원의 이름, 급여, 업무 조회 (ANSI, ORACLE)
+SQL> select ename, salm, comm
+  2  from emp
+  3  from emp
+  4  ;
+from emp
+*
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> select ename, sal, comm
+  2  from emp
+  3  where sal between 3000 and 5000;
+
+ENAME                       SAL       COMM                                      
+-------------------- ---------- ----------                                      
+KING                       5000                                                 
+FORD                       3000                                                 
+
+SQL> select ename, sal, comm
+  2  from emp
+  3  where sal >= 3000 and sal <= 5000;
+
+ENAME                       SAL       COMM                                      
+-------------------- ---------- ----------                                      
+KING                       5000                                                 
+FORD                       3000                                                 
+
+SQL> -- BETWEEN AND는 이상, 이하 값으로 인식
+SQL> spool off

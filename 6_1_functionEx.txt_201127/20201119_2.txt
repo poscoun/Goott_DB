@@ -1,0 +1,199 @@
+SQL> -- 테이블 일부만 선택해서 보고 싶을 때 : where 절
+SQL> desc emp
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                     NOT NULL NUMBER(4)
+ ENAME                                              VARCHAR2(10)
+ JOB                                                VARCHAR2(9)
+ MGR                                                NUMBER(4)
+ HIREDATE                                           DATE
+ SAL                                                NUMBER(7,2)
+ COMM                                               NUMBER(7,2)
+ DEPTNO                                             NUMBER(2)
+
+SQL> -- 회사에서 급여를 3000 이상 받는 사원 정보
+SQL> select empno, ename, sal
+  2  from emp;
+
+     EMPNO ENAME                       SAL                                      
+---------- -------------------- ----------                                      
+      7369 SMITH                       800                                      
+      7499 ALLEN                      1600                                      
+      7521 WARD                       1250                                      
+      7566 JONES                      2975                                      
+      7654 MARTIN                     1250                                      
+      7698 BLAKE                      2850                                      
+      7782 CLARK                      2450                                      
+      7839 KING                       5000                                      
+      7844 TURNER                     1500                                      
+      7900 JAMES                       950                                      
+      7902 FORD                       3000                                      
+
+     EMPNO ENAME                       SAL                                      
+---------- -------------------- ----------                                      
+      7934 MILLER                     1300                                      
+
+12 rows selected.
+
+SQL> select empno, ename, sal
+  2  from emp
+  3  where sal >= 3000;
+
+     EMPNO ENAME                       SAL                                      
+---------- -------------------- ----------                                      
+      7839 KING                       5000                                      
+      7902 FORD                       3000                                      
+
+SQL> select empno, ename, sal
+  2  from emp
+  3  where sal >= 3000;
+
+     EMPNO ENAME                       SAL                                      
+---------- -------------------- ----------                                      
+      7839 KING                       5000                                      
+      7902 FORD                       3000                                      
+
+SQL> -- 실습 : 10번 부서 사원의 사번, 이름, 급여, 부서번호를 구해보세요
+SQL> select empno, ename, sal, deptno
+  2  from emp
+  3  where deptno = 10;
+
+     EMPNO ENAME                       SAL     DEPTNO                           
+---------- -------------------- ---------- ----------                           
+      7782 CLARK                      2450         10                           
+      7839 KING                       5000         10                           
+      7934 MILLER                     1300         10                           
+
+SQL>  select ename
+  2  from emp
+  3  where ename = king;
+where ename = king
+              *
+ERROR at line 3:
+ORA-00904: "KING": invalid identifier 
+
+
+SQL> --1 ! = '1'
+SQL> --1은 숫자 '1'은 문자
+SQL> --문자열을 인식하기 위해서는 ' '가 필요
+SQL> --키보드를 통해서 입력을 하면 ASCII 코드로 입력하기 때문
+SQL> --ex) A= 65, a= 97 ..
+SQL> select ename
+  2  from emp
+  3  where ename = 'king';
+
+no rows selected
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE ENAME = 'king';
+
+no rows selected
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE ENAME = 'KING';
+
+ENAME                                                                           
+--------------------                                                            
+KING                                                                            
+
+SQL> --sql문은 대소문자 구분X, 데이터는 대소분자 구분
+SQL> SELECT ENAME, EMPNO, SAL
+  2  FROM EMP
+  3  WHERE ENAME = 'KING';
+
+ENAME                     EMPNO        SAL                                      
+-------------------- ---------- ----------                                      
+KING                       7839       5000                                      
+
+SQL> -- 실습 : 직책이 manager인 사원의 사번, 이름, 급여, 부서번호 조회하세요
+SQL> SELECT EMPNO, ENAME, SAL, DEPTNO
+  2  FROM EMP
+  3  WHERE JOB= 'MANAGER';
+
+     EMPNO ENAME                       SAL     DEPTNO                           
+---------- -------------------- ---------- ----------                           
+      7566 JONES                      2975         20                           
+      7698 BLAKE                      2850         30                           
+      7782 CLARK                      2450         10                           
+
+SQL> select hiredate from emp;
+
+HIREDATE                                                                        
+--------                                                                        
+80/12/17                                                                        
+81/02/20                                                                        
+81/02/22                                                                        
+81/04/02                                                                        
+81/09/28                                                                        
+81/05/01                                                                        
+81/06/09                                                                        
+81/11/17                                                                        
+81/09/08                                                                        
+81/12/03                                                                        
+81/12/03                                                                        
+
+HIREDATE                                                                        
+--------                                                                        
+82/01/23                                                                        
+
+12 rows selected.
+
+SQL> --81년도 1월 1일 이후에 입사한 사원 정보
+SQL> --오라클 날짜 범위 : bc4312년 부터 ad9999년 까지 내부적으로 점점 증가하는 숫자 형태로 저장
+SQL> SELECT EMPNO, ENAME, SAL, HIREDATE
+  2  FROM EMP
+  3  WHERE HIREDATE >  '81/01/01';
+
+     EMPNO ENAME                       SAL HIREDATE                             
+---------- -------------------- ---------- --------                             
+      7499 ALLEN                      1600 81/02/20                             
+      7521 WARD                       1250 81/02/22                             
+      7566 JONES                      2975 81/04/02                             
+      7654 MARTIN                     1250 81/09/28                             
+      7698 BLAKE                      2850 81/05/01                             
+      7782 CLARK                      2450 81/06/09                             
+      7839 KING                       5000 81/11/17                             
+      7844 TURNER                     1500 81/09/08                             
+      7900 JAMES                       950 81/12/03                             
+      7902 FORD                       3000 81/12/03                             
+      7934 MILLER                     1300 82/01/23                             
+
+11 rows selected.
+
+SQL> -- 테이블 크기가 너무 클 때 조건을 여러 개 쓸 수 있음
+SQL> -- 논리 연산자 AND나 OR은 이론상으로 무한으로 쓸 수 있음
+SQL> -- EX) 급여가 3000 이상이고 10번 부서에서 일하는 사원의 정보를 조회
+SQL> SELECT EMPNO, ENAME, SAL, DEPTNO
+  2  FROM EMP
+  3  WHERE SAL >= 3000 AND DEPTNO = 10;
+
+     EMPNO ENAME                       SAL     DEPTNO                           
+---------- -------------------- ---------- ----------                           
+      7839 KING                       5000         10                           
+
+SQL> -- 실습 : 급여가 3000이상이거나 10번 부서에서 일하고 있는 사원의 사번, 이름, 급여, 부서번호를 조회하세요
+SQL> SELECT EMPNO, ENAME, SAL, DEPTNO
+  2  FROM EMP
+  3  WHERE SAL >=3000 OR DEPTNO = 10;
+
+     EMPNO ENAME                       SAL     DEPTNO                           
+---------- -------------------- ---------- ----------                           
+      7782 CLARK                      2450         10                           
+      7839 KING                       5000         10                           
+      7902 FORD                       3000         20                           
+      7934 MILLER                     1300         10                           
+
+SQL> -- 문제 : 직책이 MANAGER 이고 급여가 2000 이상인 사원의 사번, 이름, 급여, 직책을 조회하세요
+SQL> SELECT EMPNO, ENAME, SAL, JOB
+  2  FROM EMP
+  3  WHERE JOB= 'MANAGER' AND SAL>=2000;
+
+     EMPNO ENAME                       SAL JOB                                  
+---------- -------------------- ---------- ------------------                   
+      7566 JONES                      2975 MANAGER                              
+      7698 BLAKE                      2850 MANAGER                              
+      7782 CLARK                      2450 MANAGER                              
+
+SQL> spool off

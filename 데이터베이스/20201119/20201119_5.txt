@@ -1,0 +1,472 @@
+SQL> show user
+USER is "SCOTT"
+SQL> select *from tab;
+
+TNAME                                                        TABTYPE            
+------------------------------------------------------------ --------------     
+ CLUSTERID                                                                      
+----------                                                                      
+BIN$+gOk3hvmTx6lKvqvdfqgDw==$0                               TABLE              
+                                                                                
+                                                                                
+BIN$05KW4NJISESaHlAlJAUYdw==$0                               TABLE              
+                                                                                
+                                                                                
+BIN$IX719i8CQoeBCKw+XHeccw==$0                               TABLE              
+                                                                                
+                                                                                
+
+TNAME                                                        TABTYPE            
+------------------------------------------------------------ --------------     
+ CLUSTERID                                                                      
+----------                                                                      
+BIN$NNjQpA4URpSp7bp3WLi2nQ==$0                               TABLE              
+                                                                                
+                                                                                
+BIN$clFvuD5tTpWoWGKTG42WxA==$0                               TABLE              
+                                                                                
+                                                                                
+BIN$iBYvP7HsRVW3JloJcriBQQ==$0                               TABLE              
+                                                                                
+                                                                                
+
+TNAME                                                        TABTYPE            
+------------------------------------------------------------ --------------     
+ CLUSTERID                                                                      
+----------                                                                      
+BIN$pwUdS+fOT7ae9So2IWjCcw==$0                               TABLE              
+                                                                                
+                                                                                
+BIN$s4FYobdWSY2W65cBC+nAAg==$0                               TABLE              
+                                                                                
+                                                                                
+BIN$vX/9hSz1QpGH8AiVMKMm4Q==$0                               TABLE              
+                                                                                
+                                                                                
+
+TNAME                                                        TABTYPE            
+------------------------------------------------------------ --------------     
+ CLUSTERID                                                                      
+----------                                                                      
+BONUS                                                        TABLE              
+                                                                                
+                                                                                
+DEPT                                                         TABLE              
+                                                                                
+                                                                                
+EMP                                                          TABLE              
+                                                                                
+                                                                                
+
+TNAME                                                        TABTYPE            
+------------------------------------------------------------ --------------     
+ CLUSTERID                                                                      
+----------                                                                      
+SALGRADE                                                     TABLE              
+                                                                                
+                                                                                
+
+13 rows selected.
+
+SQL> select * from dept;
+
+    DEPTNO DNAME                        LOC                                     
+---------- ---------------------------- --------------------------              
+        10 ACCOUNTING                   NEW YORK                                
+        20 RESEARCH                     DALLAS                                  
+        30 SALES                        CHICAGO                                 
+        40 OPERATIONS                   BOSTON                                  
+
+SQL> -- SELECT 문에 쓸 수 있는 것
+SQL> -- SELECT 컬럼명, 컬럼명 ALIAS, SAL*12, 함수, *, ' IS A', ||, DISTINCT
+SQL> -- FROM 테이블명
+SQL> -- WHERE 연산자 (비교, 논리, ...)
+SQL> 
+SQL> --SQLPLUS            |              SQL
+SQL> -- ORACLE TOOL                   ANSI 표준
+SQL> -- DESCM, SAVE, SPOOL
+SQL> 
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL >= 3000;
+
+     EMPNO ENAME                       SAL                                      
+---------- -------------------- ----------                                      
+      7839 KING                       5000                                      
+      7902 FORD                       3000                                      
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3* WHERE SAL >= 3000
+SQL> select empno, ename, sal, hiredate from emp;
+
+     EMPNO ENAME                       SAL HIREDATE                             
+---------- -------------------- ---------- --------                             
+      7369 SMITH                       800 80/12/17                             
+      7499 ALLEN                      1600 81/02/20                             
+      7521 WARD                       1250 81/02/22                             
+      7566 JONES                      2975 81/04/02                             
+      7654 MARTIN                     1250 81/09/28                             
+      7698 BLAKE                      2850 81/05/01                             
+      7782 CLARK                      2450 81/06/09                             
+      7839 KING                       5000 81/11/17                             
+      7844 TURNER                     1500 81/09/08                             
+      7900 JAMES                       950 81/12/03                             
+      7902 FORD                       3000 81/12/03                             
+
+     EMPNO ENAME                       SAL HIREDATE                             
+---------- -------------------- ---------- --------                             
+      7934 MILLER                     1300 82/01/23                             
+
+12 rows selected.
+
+SQL> select empno, ename, sal
+  2  from emp
+  3  sal*12
+  4  ;
+sal*12
+   *
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> select empno, ename, sal*12 from emp;
+
+     EMPNO ENAME                    SAL*12                                      
+---------- -------------------- ----------                                      
+      7369 SMITH                      9600                                      
+      7499 ALLEN                     19200                                      
+      7521 WARD                      15000                                      
+      7566 JONES                     35700                                      
+      7654 MARTIN                    15000                                      
+      7698 BLAKE                     34200                                      
+      7782 CLARK                     29400                                      
+      7839 KING                      60000                                      
+      7844 TURNER                    18000                                      
+      7900 JAMES                     11400                                      
+      7902 FORD                      36000                                      
+
+     EMPNO ENAME                    SAL*12                                      
+---------- -------------------- ----------                                      
+      7934 MILLER                    15600                                      
+
+12 rows selected.
+
+SQL> selcet empno, ename, sal, deptno
+SP2-0734: unknown command beginning "selcet emp..." - rest of line ignored.
+SQL> select empno, ename, sal, aeptno
+  2  from emp
+  3  where deptno = 10;
+select empno, ename, sal, aeptno
+                          *
+ERROR at line 1:
+ORA-00904: "AEPTNO": invalid identifier 
+
+
+SQL> selcet empno, ename, sal, deptno
+SP2-0734: unknown command beginning "selcet emp..." - rest of line ignored.
+SQL> select empno, ename, sal, deptno
+  2  from emp;
+
+     EMPNO ENAME                       SAL     DEPTNO                           
+---------- -------------------- ---------- ----------                           
+      7369 SMITH                       800         20                           
+      7499 ALLEN                      1600         30                           
+      7521 WARD                       1250         30                           
+      7566 JONES                      2975         20                           
+      7654 MARTIN                     1250         30                           
+      7698 BLAKE                      2850         30                           
+      7782 CLARK                      2450         10                           
+      7839 KING                       5000         10                           
+      7844 TURNER                     1500         30                           
+      7900 JAMES                       950         30                           
+      7902 FORD                       3000         20                           
+
+     EMPNO ENAME                       SAL     DEPTNO                           
+---------- -------------------- ---------- ----------                           
+      7934 MILLER                     1300         10                           
+
+12 rows selected.
+
+SQL> select empno, ename, sal, deptno
+  2  from emp
+  3  where deptno = 10;
+
+     EMPNO ENAME                       SAL     DEPTNO                           
+---------- -------------------- ---------- ----------                           
+      7782 CLARK                      2450         10                           
+      7839 KING                       5000         10                           
+      7934 MILLER                     1300         10                           
+
+SQL> select empno, ename, sal, comm, deptno
+  2  from emp
+  3  where hiredate = '81/02/20';
+
+     EMPNO ENAME                       SAL       COMM     DEPTNO                
+---------- -------------------- ---------- ---------- ----------                
+      7499 ALLEN                      1600        300         30                
+
+SQL> select empno, ename, job
+  2  from emp
+  3  where ename = 'JONES' AND ename = 'BLAKE';
+
+no rows selected
+
+SQL> ed
+Wrote file afiedt.buf
+
+  1  select empno, ename, job
+  2  from emp
+  3* where ename = 'JONES' AND ename = 'BLAKE'
+SQL> select empno, ename, job
+  2  from emp
+  3  where ename =select empno, ename, job
+  4  from emp
+  5  where ename =
+  6  w
+  7  
+SQL> select empno, ename, job
+  2  from emp
+  3  where ename = 'JONES' AND 'BLAKE';
+where ename = 'JONES' AND 'BLAKE'
+                                *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+SQL> select empno, ename, job
+  2  from emp
+  3  where ename = 'JONES' AND ename = 'BLAKE';
+
+no rows selected
+
+SQL> select empno, ename, job
+  2  from emp
+  3  where ename = JONES AND ENAME = 'BLAKE';
+where ename = JONES AND ENAME = 'BLAKE'
+              *
+ERROR at line 3:
+ORA-00904: "JONES": invalid identifier 
+
+
+SQL> select empno, ename, job
+  2  from emp
+  3  where ename = 'JONES' or ename = 'BLAKE';
+
+     EMPNO ENAME                JOB                                             
+---------- -------------------- ------------------                              
+      7566 JONES                MANAGER                                         
+      7698 BLAKE                MANAGER                                         
+
+SQL> select empno,comm, sal
+  2  from emp
+  3  where job = 'SALESMAN';
+
+     EMPNO       COMM        SAL                                                
+---------- ---------- ----------                                                
+      7499        300       1600                                                
+      7521        500       1250                                                
+      7654       1400       1250                                                
+      7844          0       1500                                                
+
+SQL> select empno, deptno, dname,loc
+  2  from emp
+  3  where loc = 'DALLAS';
+where loc = 'DALLAS'
+      *
+ERROR at line 3:
+ORA-00904: "LOC": invalid identifier 
+
+
+SQL> select empno, deptno, dname,loc
+  2  from emp
+  3  where LOC = 'DALLAS';
+where LOC = 'DALLAS'
+      *
+ERROR at line 3:
+ORA-00904: "LOC": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  select empno, deptno, dname,loc
+  2  from emp
+  3* where LOC IN 'DALLAS'
+SQL> select empno, deptno, dname,loc
+  2  from emp
+  3  where LOC IN 'DALLAS';
+where LOC IN 'DALLAS'
+      *
+ERROR at line 3:
+ORA-00904: "LOC": invalid identifier 
+
+
+SQL> select empno, deptno, dname,loc
+  2  from emp
+  3  where loc in('DALLAS');
+where loc in('DALLAS')
+      *
+ERROR at line 3:
+ORA-00904: "LOC": invalid identifier 
+
+
+SQL> SELCET EMPNO, DEPTNO, DNAME, LOC
+SP2-0734: unknown command beginning "SELCET EMP..." - rest of line ignored.
+SQL> SELECT EMPNO, DEPTNO, DNAME, LOC
+  2  FROM EMP
+  3  WHERE LON = 'DALLAS';
+WHERE LON = 'DALLAS'
+      *
+ERROR at line 3:
+ORA-00904: "LON": invalid identifier 
+
+
+SQL> SELECT EMPNO, DEPTNO, DNAME, LOC
+  2  FROM EMP
+  3  WHERE LOC = 'DALLAS';
+WHERE LOC = 'DALLAS'
+      *
+ERROR at line 3:
+ORA-00904: "LOC": invalid identifier 
+
+
+SQL> SELECT EMPNO, DEPTNO, DNAME, LOC
+  2  FROM EMP
+  3  WHERE LOC \ 'DALLAS';
+WHERE LOC \ 'DALLAS'
+          *
+ERROR at line 3:
+ORA-00911: invalid character 
+
+
+SQL> SELECT EMPNO, DEPTNO, DNAME, LOC
+  2  FROM DEPT
+  3  WHERE LOC = 'DALLAS';
+SELECT EMPNO, DEPTNO, DNAME, LOC
+       *
+ERROR at line 1:
+ORA-00904: "EMPNO": invalid identifier 
+
+
+SQL> SELECT EMPNO, DEPTNO, DNAME, LOC
+  2  FROM DEPT
+  3  WHERE LOC \ 'DALLAS';
+WHERE LOC \ 'DALLAS'
+          *
+ERROR at line 3:
+ORA-00911: invalid character 
+
+
+SQL> SELECT EMPNO, DEPTNO, DNAME, LOC
+  2  FROM DEPT
+  3  WHERE LOC \ LOC = 'DALLAS';
+WHERE LOC \ LOC = 'DALLAS'
+          *
+ERROR at line 3:
+ORA-00911: invalid character 
+
+
+SQL> select empno, ename, sal
+  2  where emp
+  3  
+SQL> select empno, ename, sal
+  2  where emp
+  3  where emp
+  4  
+SQL> select empno, ename, sal
+  2  from emp
+  3  where sal >= 2000 and sal <= 3000;
+
+     EMPNO ENAME                       SAL                                      
+---------- -------------------- ----------                                      
+      7566 JONES                      2975                                      
+      7698 BLAKE                      2850                                      
+      7782 CLARK                      2450                                      
+      7902 FORD                       3000                                      
+
+SQL> SELECT DEPTNO, DNAME, LOC
+  2    2  FROM DEPT
+  3    3  WHERE LOC = 'DALLAS';
+  2  FROM DEPT
+  *
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> select deptno, dname, loc
+  2  from dept
+  3  where loc = 'DALLAS';
+
+    DEPTNO DNAME                        LOC                                     
+---------- ---------------------------- --------------------------              
+        20 RESEARCH                     DALLAS                                  
+
+SQL> select empno, ename, comm
+  2  from emp
+  3  where comm >= 800 and comm <= 1400;
+
+     EMPNO ENAME                      COMM                                      
+---------- -------------------- ----------                                      
+      7654 MARTIN                     1400                                      
+
+SQL> select deptno, job, hiredate
+  2  from emp
+  3  where depno = 10 and job = 'CLERK' and hiredate = '82';
+where depno = 10 and job = 'CLERK' and hiredate = '82'
+      *
+ERROR at line 3:
+ORA-00904: "DEPNO": invalid identifier 
+
+
+SQL> select deptno, job, hiredate
+  2  from emp
+  3  where depno = 10 and job = 'CLERK' and hiredate = 82;
+where depno = 10 and job = 'CLERK' and hiredate = 82
+      *
+ERROR at line 3:
+ORA-00904: "DEPNO": invalid identifier 
+
+
+SQL> select deptno, job, hiredate
+  2  from emp
+  3  where (depno = 10 and job = 'CLERK') and hiredate like '%82%;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> select deptno, job, hiredate
+  2  from emp
+  3  where (deptno = 10 and job = 'CLERK') and hiredate like '%82%;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> from emp
+SP2-0042: unknown command "from emp" - rest of line ignored.
+SQL> select deptno, job, hiredate
+  2  from emp
+  3  where deptno = 10 and job = 'CLERK' and hiredate like '%82%;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> select deptno, job, hiredate
+  2  from emp
+  3  where deptno = 10 and job = 'CLERK' and hiredate like '82%;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> select deptno, job, hiredate
+  2  from emp
+  3  WHERE DEPTNO=10 AND JOB='CLERK' AND HIREDATE LIKE '82%';
+
+    DEPTNO JOB                HIREDATE                                          
+---------- ------------------ --------                                          
+        10 CLERK              82/01/23                                          
+
+SQL> spool off

@@ -1,0 +1,333 @@
+SQL> CREATE TABLE DEPT1
+  2  (DEPTNO NUMBER(2) PRIMARY KEY,
+  3  DNAME VARCHAR2(20) UNIQUE,
+  4  LOC VARCHAR2(20));
+
+Table created.
+
+SQL> DESC DEPT1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DEPTNO                                    NOT NULL NUMBER(2)
+ DNAME                                              VARCHAR2(20)
+ LOC                                                VARCHAR2(20)
+
+SQL> CREATE TABLE EMP1
+  2  (EMPNO NUMBER(4) CONSTRAINT EMP1_EMPNO_PK PRIMARY KEY,
+  3  ENAME VARCHAR2(2) NOT NULL,
+  4  SAL NUMBER(7, 2),
+  5  DEPTNO NUMBER(2),
+  6  CONSTRAINT EMP1_SAL_CK CHECK (SAL BETWEEN 500 AND 5000),
+  7  CONSTRAINT EMP1_DEPTNO_FK FOREIGN KEY (DEPTNO) REFERENCES DEPT1(DEPTNO);
+CONSTRAINT EMP1_DEPTNO_FK FOREIGN KEY (DEPTNO) REFERENCES DEPT1(DEPTNO)
+                                                                      *
+ERROR at line 7:
+ORA-00907: missing right parenthesis 
+
+
+SQL> CREATE TABLE EMP1
+  2  (EMPNO NUMBER(4) CONSTRAINT EMP1_EMPNO_PK PRIMARY KEY,
+  3  ENAME VARCHAR2(2) NOT NULL,
+  4  SAL NUMBER(7, 2),
+  5  DEPTNO NUMBER(2),
+  6  CONSTRAINT EMP1_SAL_CK CHECK (SAL BETWEEN 500 AND 5000),
+  7  CONSTRAINT EMP1_DEPTNO_FK FOREIGN KEY (DEPTNO) REFERENCES DEPT1(DEPTNO));
+
+Table created.
+
+SQL> DESC EMP1
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                     NOT NULL NUMBER(4)
+ ENAME                                     NOT NULL VARCHAR2(2)
+ SAL                                                NUMBER(7,2)
+ DEPTNO                                             NUMBER(2)
+
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> DESC EMP1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                     NOT NULL NUMBER(4)
+ ENAME                                     NOT NULL VARCHAR2(2)
+ SAL                                                NUMBER(7,2)
+ DEPTNO                                             NUMBER(2)
+
+SQL> 
+SQL> CREATE TABLE EMP1
+  2  (EMPNO NUMBER(4) CONSTRAINT EMP1_EMPNO_PK PRIMARY KEY,
+  3  ENAME VARCHAR2(20) NOT NULL,
+  4  SAL NUMBER(7, 2),
+  5  DEPTNO NUMBER(2),
+  6  CONSTRAINT EMP1_SAL_CK CHECK (SAL BETWEEN 500 AND 5000),
+  7  CONSTRAINT EMP1_DEPTNO_FK FOREIGN KEY (DEPTNO) REFERENCES DEPT1(DEPTNO));
+CREATE TABLE EMP1
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> 
+SQL> CREATE TABLE EMP1
+  2  (EMPNO NUMBER(4) CONSTRAINT EMP1_EMPNO_PK PRIMARY KEY,
+  3  ENAME VARCHAR2(20) NOT NULL,
+  4  SAL NUMBER(7, 2),
+  5  DEPTNO NUMBER(2),
+  6  CONSTRAINT EMP1_SAL_CK CHECK (SAL BETWEEN 500 AND 5000),
+  7  
+SQL> 
+SQL> INSERT INTO DEPT1
+  2  VALUES(1, '영업', '서울');
+
+1 row created.
+
+SQL> INSERT INTO DEPT1
+  2  VALUES(1, '회계', '부산');
+INSERT INTO DEPT1
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SCOTT.SYS_C007006) violated 
+
+
+SQL> SELECT * FROM DEPT1;
+
+    DEPTNO DNAME                                                                
+---------- ----------------------------------------                             
+LOC                                                                             
+----------------------------------------                                        
+         1 영업                                                                 
+서울                                                                            
+                                                                                
+
+SQL> INSERT INTO DEPT1
+  2  VALUES(2, '회계', '부산');
+
+1 row created.
+
+SQL> SELECT * FROM DEPT1;
+
+    DEPTNO DNAME                                                                
+---------- ----------------------------------------                             
+LOC                                                                             
+----------------------------------------                                        
+         1 영업                                                                 
+서울                                                                            
+                                                                                
+         2 회계                                                                 
+부산                                                                            
+                                                                                
+
+SQL> INSERT INTO INSERT INTO EMP1
+  2  
+SQL> INSERT INTO EMP1
+  2  VALUESS (1111, '홍' , 3000, 3);
+VALUESS (1111, '홍' , 3000, 3)
+         *
+ERROR at line 2:
+ORA-00928: missing SELECT keyword 
+
+
+SQL> INSERT INTO EMP1
+  2  VALUES (1111, '홍' , 3000, 3);
+VALUES (1111, '홍' , 3000, 3)
+              *
+ERROR at line 2:
+ORA-12899: value too large for column "SCOTT"."EMP1"."ENAME" (actual: 3,
+maximum: 2) 
+
+
+SQL> 
+SQL> INSERT INTO EMP1
+  2  VALUES (1111, '홍' , 3000, 2);
+VALUES (1111, '홍' , 3000, 2)
+              *
+ERROR at line 2:
+ORA-12899: value too large for column "SCOTT"."EMP1"."ENAME" (actual: 3,
+maximum: 2) 
+
+
+SQL> DROP TABLE EMP1
+  2  ;
+
+Table dropped.
+
+SQL> CREATE TABLE EMP1
+  2  (EMPNO NUMBER(4) CONSTRAINT EMP1_EMPNO_PK PRIMARY KEY,
+  3  ENAME VARCHAR2(20) NOT NULL,
+  4  SAL NUMBER(7, 2),
+  5  DEPTNO NUMBER(2),
+  6  CONSTRAINT EMP1_SAL_CK CHECK (SAL BETWEEN 500 AND 5000),
+  7  CONSTRAINT EMP1_DEPTNO_FK FOREIGN KEY (DEPTNO) REFERENCES DEPT1(DEPTNO));
+
+Table created.
+
+SQL> INSERT INTO EMP1
+  2  VALUES (1111, 'HONG' , 3000, 3);
+INSERT INTO EMP1
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (SCOTT.EMP1_DEPTNO_FK) violated - parent key
+not found 
+
+
+SQL> INSERT INTO EMP1
+  2  VALUES (1111, 'HONG' , 3000, 2);
+
+1 row created.
+
+SQL> INSERT INTO EMP1
+  2  VALUES (1111, 'HONG' , 3000, 2);
+INSERT INTO EMP1
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SCOTT.EMP1_EMPNO_PK) violated 
+
+
+SQL> 
+SQL> INSERT INTO EMP1
+  2  VALUES (1111, 'HONG' , 3000, 1);
+INSERT INTO EMP1
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SCOTT.EMP1_EMPNO_PK) violated 
+
+
+SQL> SELECT * FROM EMP1
+  2  ;
+
+     EMPNO ENAME                                           SAL     DEPTNO       
+---------- ---------------------------------------- ---------- ----------       
+      1111 HONG                                           3000          2       
+
+SQL> 
+SQL> INSERT INTO EMP1
+  2  VALUES (2222, 'YU' , 6000, 2);
+INSERT INTO EMP1
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.EMP1_SAL_CK) violated 
+
+
+SQL> INSERT INTO EMP1
+  2  VALUES (2222, 'YU' , 5000, 2);
+
+1 row created.
+
+SQL> ALTER TABLE DEPT1
+  2  ADD CONSTRAINT DEPT1_LOC_UQ UNIQUE(LOC);
+
+Table altered.
+
+SQL> SELECT * FROM DEPT1;
+
+    DEPTNO DNAME                                                                
+---------- ----------------------------------------                             
+LOC                                                                             
+----------------------------------------                                        
+         1 영업                                                                 
+서울                                                                            
+                                                                                
+         2 회계                                                                 
+부산                                                                            
+                                                                                
+
+SQL> INSERT INTO DEPT1
+  2  VALUES (3, '리서치', '부산');
+INSERT INTO DEPT1
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SCOTT.DEPT1_LOC_UQ) violated 
+
+
+SQL> DESC DEPT1
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DEPTNO                                    NOT NULL NUMBER(2)
+ DNAME                                              VARCHAR2(20)
+ LOC                                                VARCHAR2(20)
+
+SQL> DESC USER_CONSTRAINTS;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ OWNER                                              VARCHAR2(120)
+ CONSTRAINT_NAME                           NOT NULL VARCHAR2(30)
+ CONSTRAINT_TYPE                                    VARCHAR2(1)
+ TABLE_NAME                                NOT NULL VARCHAR2(30)
+ SEARCH_CONDITION                                   LONG
+ R_OWNER                                            VARCHAR2(120)
+ R_CONSTRAINT_NAME                                  VARCHAR2(30)
+ DELETE_RULE                                        VARCHAR2(9)
+ STATUS                                             VARCHAR2(8)
+ DEFERRABLE                                         VARCHAR2(14)
+ DEFERRED                                           VARCHAR2(9)
+ VALIDATED                                          VARCHAR2(13)
+ GENERATED                                          VARCHAR2(14)
+ BAD                                                VARCHAR2(3)
+ RELY                                               VARCHAR2(4)
+ LAST_CHANGE                                        DATE
+ INDEX_OWNER                                        VARCHAR2(30)
+ INDEX_NAME                                         VARCHAR2(30)
+ INVALID                                            VARCHAR2(7)
+ VIEW_RELATED                                       VARCHAR2(14)
+
+SQL> SELECT OWNER, CONSTRAIN_NAME, CONSTRAIN_TYPE, TABLE_NAME, SEARCH_CONDITION
+  2  FROM USER_CONSTRIANTS
+  3  WHERE TABLE_NAME IN ('EPM1', 'DEPT1');
+FROM USER_CONSTRIANTS
+     *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> SELECT OWNER, CONSTRAINT_NAME, CONSTRAIN_TYPE, TABLE_NAME, SEARCH_CONDITION
+  2  FROM USER_CONSTRIANTS
+  3  WHERE TABLE_NAME IN ('EPM1', 'DEPT1');
+FROM USER_CONSTRIANTS
+     *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> SELECT OWNER, CONSTRAINT_NAME, CONSTRAIN_TYPE, TABLE_NAME, SEARCH_CONDITION
+  2  
+SQL> SELECT OWNER, CONSTRAINT_NAME, CONSTRAIN_TYPE, TABLE_NAME, SEARCH_CONDITION
+  2  FROM USER_CONSTRANTS
+  3  WHERE TABLE_NAME IN ('EPM1', 'DEPT1');
+FROM USER_CONSTRANTS
+     *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> SELECT OWNER, CONSTRAINT_NAME, CONSTRAIN_TYPE, TABLE_NAME, SEARCH_CONDITION
+  2  FROM USER_CONSTRAINTS
+  3  WHERE TABLE_NAME IN ('EPM1', 'DEPT1');
+SELECT OWNER, CONSTRAINT_NAME, CONSTRAIN_TYPE, TABLE_NAME, SEARCH_CONDITION
+                               *
+ERROR at line 1:
+ORA-00904: "CONSTRAIN_TYPE": invalid identifier 
+
+
+SQL> SELECT OWNER, CONSTRAINT_NAME, CONSTRAIN_TYPE, TABLE_NAME, SEARCH_CONDITION
+  2  FROM USER_CONSTRANTS
+  3  WHERE TABLE_NAME IN ('EPM1', 'DEPT1');
+FROM USER_CONSTRANTS
+     *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> SELECT OWNER, CONSTRAINT_NAME, CONSTRAIN_TYPE, TABLE_NAME, SEARCH_CONDITION
+  2  FROM USER_CONSTRAINTS
+  3  WHERE TABLE_NAME IN ('EPM1', 'DEPT1');
+SELECT OWNER, CONSTRAINT_NAME, CONSTRAIN_TYPE, TABLE_NAME, SEARCH_CONDITION
+                               *
+ERROR at line 1:
+ORA-00904: "CONSTRAIN_TYPE": invalid identifier 
+
+
+SQL> SPOOL
+currently spooling to C:\Users\goott1\Downloads\20201127_2.txt
+SQL> SPOOL OFF

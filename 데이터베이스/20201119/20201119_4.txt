@@ -1,0 +1,334 @@
+SQL> select ename, comm
+  2  form emp
+  3  where comm in (300, 500, 1400);
+form emp
+     *
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> select ename, comm
+  2  from emp
+  3  where comm in (300, 500, 1400);
+
+ENAME                      COMM                                                 
+-------------------- ----------                                                 
+ALLEN                       300                                                 
+WARD                        500                                                 
+MARTIN                     1400                                                 
+
+SQL> select ename, comm
+  2  form emp
+  3  where comm = 300 or comm = 500 comm = 1400;
+form emp
+     *
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> select ename, comm
+  2  from emp
+  3  where comm = 300 or comm = 500 comm = 1400;
+where comm = 300 or comm = 500 comm = 1400
+                               *
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> select ename, comm
+  2  form emp
+  3  where comm = 300 or comm = 500 or comm = 1400;
+form emp
+     *
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> select ename, comm
+  2  fromm emp
+  3  where comm = 300 or comm = 500 or comm = 1400;
+fromm emp
+      *
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> select ename, comm
+  2  from emp
+  3  where comm = 300 or comm = 500 or comm = 1400;
+
+ENAME                      COMM                                                 
+-------------------- ----------                                                 
+ALLEN                       300                                                 
+WARD                        500                                                 
+MARTIN                     1400                                                 
+
+SQL> -- 부서번호가 20, 30번인 사원들 정보를 조회하세요
+SQL> select empno, ename, sal
+  2  from emp
+  3  where deptno = 20 or 30;
+where deptno = 20 or 30
+                      *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+SQL> select empno, ename, sal
+  2  from emp
+  3  where deptno = 20 or deptno = 30;
+
+     EMPNO ENAME                       SAL                                      
+---------- -------------------- ----------                                      
+      7369 SMITH                       800                                      
+      7499 ALLEN                      1600                                      
+      7521 WARD                       1250                                      
+      7566 JONES                      2975                                      
+      7654 MARTIN                     1250                                      
+      7698 BLAKE                      2850                                      
+      7844 TURNER                     1500                                      
+      7900 JAMES                       950                                      
+      7902 FORD                       3000                                      
+
+9 rows selected.
+
+SQL> selcet ename, deptno from emp
+SP2-0734: unknown command beginning "selcet ena..." - rest of line ignored.
+SQL> select ename, deptno from emp
+  2  where deptno = 20 or deptno = 30;
+
+ENAME                    DEPTNO                                                 
+-------------------- ----------                                                 
+SMITH                        20                                                 
+ALLEN                        30                                                 
+WARD                         30                                                 
+JONES                        20                                                 
+MARTIN                       30                                                 
+BLAKE                        30                                                 
+TURNER                       30                                                 
+JAMES                        30                                                 
+FORD                         20                                                 
+
+9 rows selected.
+
+SQL> -- 생각 : 직원들 중 사장님을 어떻게 찾을 까요?
+SQL> select * from emp;
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7369 SMITH                CLERK                    7902 80/12/17          
+       800                    20                                                
+                                                                                
+      7499 ALLEN                SALESMAN                 7698 81/02/20          
+      1600        300         30                                                
+                                                                                
+      7521 WARD                 SALESMAN                 7698 81/02/22          
+      1250        500         30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7566 JONES                MANAGER                  7839 81/04/02          
+      2975                    20                                                
+                                                                                
+      7654 MARTIN               SALESMAN                 7698 81/09/28          
+      1250       1400         30                                                
+                                                                                
+      7698 BLAKE                MANAGER                  7839 81/05/01          
+      2850                    30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7782 CLARK                MANAGER                  7839 81/06/09          
+      2450                    10                                                
+                                                                                
+      7839 KING                 PRESIDENT                     81/11/17          
+      5000                    10                                                
+                                                                                
+      7844 TURNER               SALESMAN                 7698 81/09/08          
+      1500          0         30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7900 JAMES                CLERK                    7698 81/12/03          
+       950                    30                                                
+                                                                                
+      7902 FORD                 ANALYST                  7566 81/12/03          
+      3000                    20                                                
+                                                                                
+      7934 MILLER               CLERK                    7782 82/01/23          
+      1300                    10                                                
+                                                                                
+
+12 rows selected.
+
+SQL> select ename, job
+  2  from emp
+  3  where mgr is null;
+
+ENAME                JOB                                                        
+-------------------- ------------------                                         
+KING                 PRESIDENT                                                  
+
+SQL> -- 실습 : comm이 없는 사원의 이름, 급여, 수당 조회해보세요
+SQL> select ename, sal,comm
+  2  from emp
+  3  where comm is null;
+
+ENAME                       SAL       COMM                                      
+-------------------- ---------- ----------                                      
+SMITH                       800                                                 
+JONES                      2975                                                 
+BLAKE                      2850                                                 
+CLARK                      2450                                                 
+KING                       5000                                                 
+JAMES                       950                                                 
+FORD                       3000                                                 
+MILLER                     1300                                                 
+
+8 rows selected.
+
+SQL> -- 값이 없는 것과 0인 것은 다름에 유의!
+SQL> select comm from emp;
+
+      COMM                                                                      
+----------                                                                      
+                                                                                
+       300                                                                      
+       500                                                                      
+                                                                                
+      1400                                                                      
+                                                                                
+                                                                                
+                                                                                
+         0                                                                      
+                                                                                
+                                                                                
+
+      COMM                                                                      
+----------                                                                      
+                                                                                
+
+12 rows selected.
+
+SQL> -- LIKE
+SQL> -- LIKE : 문자열이 포함된 정보를 찾아줌
+SQL> -- % => | 1 | n
+SQL> select empno, ename, mgr
+  2  from emp
+  3  where ename LIKE '%S%';
+
+     EMPNO ENAME                       MGR                                      
+---------- -------------------- ----------                                      
+      7369 SMITH                      7902                                      
+      7566 JONES                      7839                                      
+      7900 JAMES                      7698                                      
+
+SQL> -- _ : 한칸
+SQL> select empno, ename, mgr
+  2  from emp
+  3  where ename like '_A%';
+
+     EMPNO ENAME                       MGR                                      
+---------- -------------------- ----------                                      
+      7521 WARD                       7698                                      
+      7654 MARTIN                     7698                                      
+      7900 JAMES                      7698                                      
+
+SQL> -- 실습 : 1982년도에 입사한 사원의 이름, 입사일자, 직책 조회
+SQL> select ename, hiredate, job
+  2  from emp
+  3  where hiredate like '_1982%';
+
+no rows selected
+
+SQL> select ename, hiredate, job
+  2  from emp
+  3  where hiredate like '%82%';
+
+ENAME                HIREDATE JOB                                               
+-------------------- -------- ------------------                                
+MILLER               82/01/23 CLERK                                             
+
+SQL> -- NOT
+SQL> -- SALESMAN이 아닌 직원들의 이름, 급여, 업무
+SQL> SELECT ENAME, SAL, JOB
+  2  FROM EMP
+  3  WHERE JOB != 'SALESMAN';
+
+ENAME                       SAL JOB                                             
+-------------------- ---------- ------------------                              
+SMITH                       800 CLERK                                           
+JONES                      2975 MANAGER                                         
+BLAKE                      2850 MANAGER                                         
+CLARK                      2450 MANAGER                                         
+KING                       5000 PRESIDENT                                       
+JAMES                       950 CLERK                                           
+FORD                       3000 ANALYST                                         
+MILLER                     1300 CLERK                                           
+
+8 rows selected.
+
+SQL> SELECT ENAME, SAL, JOB
+  2  FROM EMP
+  3  WHERE JOB IN 'SALESMAN';
+
+ENAME                       SAL JOB                                             
+-------------------- ---------- ------------------                              
+ALLEN                      1600 SALESMAN                                        
+WARD                       1250 SALESMAN                                        
+MARTIN                     1250 SALESMAN                                        
+TURNER                     1500 SALESMAN                                        
+
+SQL> SELECT ENAME, SAL, JOB
+  2  WHERE JOB IN 'SALESMAN';
+WHERE JOB IN 'SALESMAN'
+*
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT ENAME, SAL, JOB
+  2  FROM EMP
+  3  WHERE NOT JOB IN 'SALESMAN';
+
+ENAME                       SAL JOB                                             
+-------------------- ---------- ------------------                              
+SMITH                       800 CLERK                                           
+JONES                      2975 MANAGER                                         
+BLAKE                      2850 MANAGER                                         
+CLARK                      2450 MANAGER                                         
+KING                       5000 PRESIDENT                                       
+JAMES                       950 CLERK                                           
+FORD                       3000 ANALYST                                         
+MILLER                     1300 CLERK                                           
+
+8 rows selected.
+
+SQL> SELECT ENAME, SAL, JOB
+  2  FROM EMP
+  3  WHERE JOB NOT IN 'SALESMAN';
+
+ENAME                       SAL JOB                                             
+-------------------- ---------- ------------------                              
+SMITH                       800 CLERK                                           
+JONES                      2975 MANAGER                                         
+BLAKE                      2850 MANAGER                                         
+CLARK                      2450 MANAGER                                         
+KING                       5000 PRESIDENT                                       
+JAMES                       950 CLERK                                           
+FORD                       3000 ANALYST                                         
+MILLER                     1300 CLERK                                           
+
+8 rows selected.
+
+SQL> spool off

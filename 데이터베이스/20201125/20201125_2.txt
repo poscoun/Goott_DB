@@ -1,0 +1,241 @@
+SQL> SELECT SAL
+  2  FROM EMP
+  3  WHERE ENAME = 'JONES'
+  4  ORDER BY 1;
+
+       SAL                                                                      
+----------                                                                      
+      2975                                                                      
+
+SQL> SELECT DEPTNO FROM EMP
+  2  UNION
+  3  SELECT DEPTNO FROM DEPT;
+
+    DEPTNO                                                                      
+----------                                                                      
+        10                                                                      
+        20                                                                      
+        30                                                                      
+        40                                                                      
+
+SQL> SELECT EMPNO FROM EMP
+  2  UNION
+  3  SELECT DEPTNO FROM DEPT;
+
+     EMPNO                                                                      
+----------                                                                      
+        10                                                                      
+        20                                                                      
+        30                                                                      
+        40                                                                      
+      7369                                                                      
+      7499                                                                      
+      7521                                                                      
+      7566                                                                      
+      7654                                                                      
+      7698                                                                      
+      7782                                                                      
+
+     EMPNO                                                                      
+----------                                                                      
+      7839                                                                      
+      7844                                                                      
+      7900                                                                      
+      7902                                                                      
+      7934                                                                      
+
+16 rows selected.
+
+SQL> 
+SQL> SELECT DEPTNO FROM EMP
+  2  UNION ALL
+  3  SELECT DEPTNO FROM DEPT;
+
+    DEPTNO                                                                      
+----------                                                                      
+        20                                                                      
+        30                                                                      
+        30                                                                      
+        20                                                                      
+        30                                                                      
+        30                                                                      
+        10                                                                      
+        10                                                                      
+        30                                                                      
+        30                                                                      
+        20                                                                      
+
+    DEPTNO                                                                      
+----------                                                                      
+        10                                                                      
+        10                                                                      
+        20                                                                      
+        30                                                                      
+        40                                                                      
+
+16 rows selected.
+
+SQL> 
+SQL> SELECT DEPTNO FROM EMP
+  2  INTERSECT
+  3  SELECT DEPTNO FROM DEPT;
+
+    DEPTNO                                                                      
+----------                                                                      
+        10                                                                      
+        20                                                                      
+        30                                                                      
+
+SQL> SELECT EMPNO FROM DEPM
+  2  INTERSECT
+  3  SELECT DEPTNO FROM DEPT;
+SELECT EMPNO FROM DEPM
+                  *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> SELECT EMPNO FROM DEPT
+  2  INTERSECT
+  3  SELECT DEPTNO FROM DEPT;
+SELECT EMPNO FROM DEPT
+       *
+ERROR at line 1:
+ORA-00904: "EMPNO": invalid identifier 
+
+
+SQL> SELECT ENAME FROM EMP
+  2  MINUS
+  3  SELECT DNAME FROM DEPT;
+
+ENAME                                                                           
+----------------------------                                                    
+ALLEN                                                                           
+BLAKE                                                                           
+CLARK                                                                           
+FORD                                                                            
+JAMES                                                                           
+JONES                                                                           
+KING                                                                            
+MARTIN                                                                          
+MILLER                                                                          
+SMITH                                                                           
+TURNER                                                                          
+
+ENAME                                                                           
+----------------------------                                                    
+WARD                                                                            
+
+12 rows selected.
+
+SQL> SELECT DNAME FROM DEPT
+  2  MINUS
+  3  SELECT ENAME FROM EMP;
+
+DNAME                                                                           
+----------------------------                                                    
+ACCOUNTING                                                                      
+OPERATIONS                                                                      
+RESEARCH                                                                        
+SALES                                                                           
+
+SQL> 
+SQL> 
+SQL> SELECT DEPTNO, HIREDATE FROM EMP
+  2  UNION
+  3  SELECT DEPTNO, LOC FROM DEPT;
+SELECT DEPTNO, HIREDATE FROM EMP
+               *
+ERROR at line 1:
+ORA-01790: expression must have same datatype as corresponding expression 
+
+
+SQL> SELECT DEPTNO, TO_CHAR(NULL), HIREDATE FROM EMP
+  2  UNION
+  3  SELECT DEPTN
+  4  
+SQL> SELECT DEPTNO, TO_CHAR(HIREDATE) FROM EMP
+  2  UNION
+  3  SELECT DEPTNO, LOC FROM DEPT;
+
+    DEPTNO TO_CHAR(HIREDATE)                                                    
+---------- --------------------------                                           
+        10 81/06/09                                                             
+        10 81/11/17                                                             
+        10 82/01/23                                                             
+        10 NEW YORK                                                             
+        20 80/12/17                                                             
+        20 81/04/02                                                             
+        20 81/12/03                                                             
+        20 DALLAS                                                               
+        30 81/02/20                                                             
+        30 81/02/22                                                             
+        30 81/05/01                                                             
+
+    DEPTNO TO_CHAR(HIREDATE)                                                    
+---------- --------------------------                                           
+        30 81/09/08                                                             
+        30 81/09/28                                                             
+        30 81/12/03                                                             
+        30 CHICAGO                                                              
+        40 BOSTON                                                               
+
+16 rows selected.
+
+SQL> SELECT DEPTNO, TO_CHAR(NULL), HIREDATE FROM EMP
+  2  UNION
+  3  SELECT DEPTNO, LOC, TO_DATE(NULL) FROM DEPT;
+
+    DEPTNO TO_CHAR(NULL)              HIREDATE                                  
+---------- -------------------------- --------                                  
+        10 NEW YORK                                                             
+        10                            81/06/09                                  
+        10                            81/11/17                                  
+        10                            82/01/23                                  
+        20 DALLAS                                                               
+        20                            80/12/17                                  
+        20                            81/04/02                                  
+        20                            81/12/03                                  
+        30 CHICAGO                                                              
+        30                            81/02/20                                  
+        30                            81/02/22                                  
+
+    DEPTNO TO_CHAR(NULL)              HIREDATE                                  
+---------- -------------------------- --------                                  
+        30                            81/05/01                                  
+        30                            81/09/08                                  
+        30                            81/09/28                                  
+        30                            81/12/03                                  
+        40 BOSTON                                                               
+
+16 rows selected.
+
+SQL> SELECT DEPTNO, NULL, HIREDATE FROM EMP
+  2  UNION
+  3  SELECT DEPTNO, LOC, NULL FROM DEPT;
+
+    DEPTNO NULL                       HIREDATE                                  
+---------- -------------------------- --------                                  
+        10 NEW YORK                                                             
+        10                            81/06/09                                  
+        10                            81/11/17                                  
+        10                            82/01/23                                  
+        20 DALLAS                                                               
+        20                            80/12/17                                  
+        20                            81/04/02                                  
+        20                            81/12/03                                  
+        30 CHICAGO                                                              
+        30                            81/02/20                                  
+        30                            81/02/22                                  
+
+    DEPTNO NULL                       HIREDATE                                  
+---------- -------------------------- --------                                  
+        30                            81/05/01                                  
+        30                            81/09/08                                  
+        30                            81/09/28                                  
+        30                            81/12/03                                  
+        40 BOSTON                                                               
+
+16 rows selected.
+
+SQL> spool off

@@ -1,0 +1,3 @@
+SQL> spool
+currently spooling to C:\Users\goott1\Downloads\20201118.txt
+SQL> spool off

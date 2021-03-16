@@ -1,0 +1,501 @@
+SQL> --실습 : 81년도에 입사한 사원의 사번, 이름, 입사일
+SQL> SELECT EMPNO, ENAME, HIREDATE
+  2  FROM EMP
+  3  WHERE HIREDATE>=
+  4  
+SQL> 실습 : 81년도에 입사한 사원의 사번, 이름, 입사일
+SP2-0734: unknown command beginning "실습 : 81..." - rest of line ignored.
+SQL> select empno, ename, hiredate
+  2  from emp
+  3  where hiredate>='81/01/01' and hiredate<='81/01/01';
+
+no rows selected
+
+SQL> select empno, ename, hiredate
+  2  from emp
+  3  where hiredate>='81/01/01' and hiredate<'82/01/01';
+
+     EMPNO ENAME                HIREDATE                                        
+---------- -------------------- --------                                        
+      7499 ALLEN                81/02/20                                        
+      7521 WARD                 81/02/22                                        
+      7566 JONES                81/04/02                                        
+      7654 MARTIN               81/09/28                                        
+      7698 BLAKE                81/05/01                                        
+      7782 CLARK                81/06/09                                        
+      7839 KING                 81/11/17                                        
+      7844 TURNER               81/09/08                                        
+      7900 JAMES                81/12/03                                        
+      7902 FORD                 81/12/03                                        
+
+10 rows selected.
+
+SQL> -- 부서번호가 10인 사원들 중에서 급여가 3000 이상인 사원
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE DEPTNO = 10 AND SAL>=3000;
+
+     EMPNO ENAME                       SAL                                      
+---------- -------------------- ----------                                      
+      7839 KING                       5000                                      
+
+SQL> -- 부서번호가 10이거나 20번인 사원들 중에서 급여가 3000 이상인 사원
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE DEPTNO = 10 OR DEPTNO= 20 AND SAL>=3000;
+
+     EMPNO ENAME                       SAL                                      
+---------- -------------------- ----------                                      
+      7782 CLARK                      2450                                      
+      7839 KING                       5000                                      
+      7902 FORD                       3000                                      
+      7934 MILLER                     1300                                      
+
+SQL> -- 논리 연산자 우선순위 : NOT - AND - OR 순서
+SQL> -- 최우선 연산자 : ()
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE (DEPTNO = 10 OR DEPTNO = 20) AND SAL>=3000;
+
+     EMPNO ENAME                       SAL                                      
+---------- -------------------- ----------                                      
+      7839 KING                       5000                                      
+      7902 FORD                       3000                                      
+
+SQL> -- 1500에서 3000 사이의 급여를 받는 사원 정보
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL>=1500 AND SAL<=3000;
+
+     EMPNO ENAME                       SAL                                      
+---------- -------------------- ----------                                      
+      7499 ALLEN                      1600                                      
+      7566 JONES                      2975                                      
+      7698 BLAKE                      2850                                      
+      7782 CLARK                      2450                                      
+      7844 TURNER                     1500                                      
+      7902 FORD                       3000                                      
+
+6 rows selected.
+
+SQL> -- BETWEEN 小 AND 大 : 가독성을 높여줌
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL BETWEEN 1500 AND 3000;
+
+     EMPNO ENAME                       SAL                                      
+---------- -------------------- ----------                                      
+      7499 ALLEN                      1600                                      
+      7566 JONES                      2975                                      
+      7698 BLAKE                      2850                                      
+      7782 CLARK                      2450                                      
+      7844 TURNER                     1500                                      
+      7902 FORD                       3000                                      
+
+6 rows selected.
+
+SQL> -- 급여가 3000에서 5000 사이인 사원의 이름, 급여, 업무 조회(ANSI, ORACLE)
+SQL> SELECT ENAME,SAL,COMM;
+SELECT ENAME,SAL,COMM
+                    *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> --실습 : 급여가 3000에서 5000 사이인 사원의 이름, 급여, 업무 조회(ANSI, ORACLE)
+SQL> select ename, sal,clmm
+  2  from emp
+  3  where sal between 3000 and 5000;
+select ename, sal,clmm
+                  *
+ERROR at line 1:
+ORA-00904: "CLMM": invalid identifier 
+
+
+SQL> select ename, sal, comm
+  2  from emp
+  3  where sal between 3000 and 5000;
+
+ENAME                       SAL       COMM                                      
+-------------------- ---------- ----------                                      
+KING                       5000                                                 
+FORD                       3000                                                 
+
+SQL> --직책, 업무 : JOB
+SQL> --BETWEEN AND 는 이상, 이하 값으로 인식
+SQL> select ename, comm
+  2  from emp
+  3  where comm in (300, 500, 1400);
+
+ENAME                      COMM                                                 
+-------------------- ----------                                                 
+ALLEN                       300                                                 
+WARD                        500                                                 
+MARTIN                     1400                                                 
+
+SQL> select ename, comm
+  2  from emp
+  3  where comm = 300 or comm = 500 or comm = 1400;
+
+ENAME                      COMM                                                 
+-------------------- ----------                                                 
+ALLEN                       300                                                 
+WARD                        500                                                 
+MARTIN                     1400                                                 
+
+SQL> --실습 : 부서번호가 20, 30번인 사원들 정보를 조회하세요
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE DEPTNO IN (20,30);
+
+     EMPNO ENAME                       SAL                                      
+---------- -------------------- ----------                                      
+      7369 SMITH                       800                                      
+      7499 ALLEN                      1600                                      
+      7521 WARD                       1250                                      
+      7566 JONES                      2975                                      
+      7654 MARTIN                     1250                                      
+      7698 BLAKE                      2850                                      
+      7844 TURNER                     1500                                      
+      7900 JAMES                       950                                      
+      7902 FORD                       3000                                      
+
+9 rows selected.
+
+SQL> SELECT EMPNO, ENAME, SAL
+  2  from emp
+  3  WHERE DEPTNO = 20 OR DEPTNO =30;
+
+     EMPNO ENAME                       SAL                                      
+---------- -------------------- ----------                                      
+      7369 SMITH                       800                                      
+      7499 ALLEN                      1600                                      
+      7521 WARD                       1250                                      
+      7566 JONES                      2975                                      
+      7654 MARTIN                     1250                                      
+      7698 BLAKE                      2850                                      
+      7844 TURNER                     1500                                      
+      7900 JAMES                       950                                      
+      7902 FORD                       3000                                      
+
+9 rows selected.
+
+SQL> -- 생각 : 직원들 중 사장님을 어떻게 찾을까요?
+SQL> SELECT * FROM EMP;
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7369 SMITH                CLERK                    7902 80/12/17          
+       800                    20                                                
+                                                                                
+      7499 ALLEN                SALESMAN                 7698 81/02/20          
+      1600        300         30                                                
+                                                                                
+      7521 WARD                 SALESMAN                 7698 81/02/22          
+      1250        500         30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7566 JONES                MANAGER                  7839 81/04/02          
+      2975                    20                                                
+                                                                                
+      7654 MARTIN               SALESMAN                 7698 81/09/28          
+      1250       1400         30                                                
+                                                                                
+      7698 BLAKE                MANAGER                  7839 81/05/01          
+      2850                    30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7782 CLARK                MANAGER                  7839 81/06/09          
+      2450                    10                                                
+                                                                                
+      7839 KING                 PRESIDENT                     81/11/17          
+      5000                    10                                                
+                                                                                
+      7844 TURNER               SALESMAN                 7698 81/09/08          
+      1500          0         30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7900 JAMES                CLERK                    7698 81/12/03          
+       950                    30                                                
+                                                                                
+      7902 FORD                 ANALYST                  7566 81/12/03          
+      3000                    20                                                
+                                                                                
+      7934 MILLER               CLERK                    7782 82/01/23          
+      1300                    10                                                
+                                                                                
+
+12 rows selected.
+
+SQL> --생각 : 직원들 중 사장님을 어떻게 찾을까요?
+SQL> select ename, job
+  2  from emp
+  3  where mgr = null;
+
+no rows selected
+
+SQL> SELECT ENAME, JOB
+  2  FROM EMP
+  3  WHERE MGR = NULL;
+
+no rows selected
+
+SQL> SELECT ENAME,JOB
+  2  FROM EMP
+  3  WHERE MGR IS NULL;
+
+ENAME                JOB                                                        
+-------------------- ------------------                                         
+KING                 PRESIDENT                                                  
+
+SQL> --실습 : COMM이 없는 사원의 이름, 급여, 수당 조회해보세요
+SQL> SELECT * from emp
+  2  ;
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7369 SMITH                CLERK                    7902 80/12/17          
+       800                    20                                                
+                                                                                
+      7499 ALLEN                SALESMAN                 7698 81/02/20          
+      1600        300         30                                                
+                                                                                
+      7521 WARD                 SALESMAN                 7698 81/02/22          
+      1250        500         30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7566 JONES                MANAGER                  7839 81/04/02          
+      2975                    20                                                
+                                                                                
+      7654 MARTIN               SALESMAN                 7698 81/09/28          
+      1250       1400         30                                                
+                                                                                
+      7698 BLAKE                MANAGER                  7839 81/05/01          
+      2850                    30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7782 CLARK                MANAGER                  7839 81/06/09          
+      2450                    10                                                
+                                                                                
+      7839 KING                 PRESIDENT                     81/11/17          
+      5000                    10                                                
+                                                                                
+      7844 TURNER               SALESMAN                 7698 81/09/08          
+      1500          0         30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7900 JAMES                CLERK                    7698 81/12/03          
+       950                    30                                                
+                                                                                
+      7902 FORD                 ANALYST                  7566 81/12/03          
+      3000                    20                                                
+                                                                                
+      7934 MILLER               CLERK                    7782 82/01/23          
+      1300                    10                                                
+                                                                                
+
+12 rows selected.
+
+SQL>  --실습: COMM이 없는 사원 이름, 급여, 수당 조회
+SQL> SELECT ENAME, SAL, MGR
+  2  FROM EMP
+  3  WHERE COMM IS NULL;
+
+ENAME                       SAL        MGR                                      
+-------------------- ---------- ----------                                      
+SMITH                       800       7902                                      
+JONES                      2975       7839                                      
+BLAKE                      2850       7839                                      
+CLARK                      2450       7839                                      
+KING                       5000                                                 
+JAMES                       950       7698                                      
+FORD                       3000       7566                                      
+MILLER                     1300       7782                                      
+
+8 rows selected.
+
+SQL> --값이 없는 것과 0 인 것은 다름에 유의!
+SQL> SELECT ENAME, SAL, COMM
+  2  FROM EMP
+  3  WHERE COMM IS NULL;
+
+ENAME                       SAL       COMM                                      
+-------------------- ---------- ----------                                      
+SMITH                       800                                                 
+JONES                      2975                                                 
+BLAKE                      2850                                                 
+CLARK                      2450                                                 
+KING                       5000                                                 
+JAMES                       950                                                 
+FORD                       3000                                                 
+MILLER                     1300                                                 
+
+8 rows selected.
+
+SQL> SELECT ENAME, SAL, COMM
+  2  FROM EMP
+  3  WHERE COMM IS NOT NULL;
+
+ENAME                       SAL       COMM                                      
+-------------------- ---------- ----------                                      
+ALLEN                      1600        300                                      
+WARD                       1250        500                                      
+MARTIN                     1250       1400                                      
+TURNER                     1500          0                                      
+
+SQL> --LIKE : 문자열이 포함된 정보를 찾아 줌
+SQL> --% => 0 | 1 | n
+SQL> SELECT EMPNO, ENAME, MGR
+  2  FROM EMP
+  3  WHERE ENAME LIKE '%S%';
+
+     EMPNO ENAME                       MGR                                      
+---------- -------------------- ----------                                      
+      7369 SMITH                      7902                                      
+      7566 JONES                      7839                                      
+      7900 JAMES                      7698                                      
+
+SQL> -- _ : 한 칸
+SQL> SELECT EMPNO, ENAME, MGR
+  2  FROM EMP
+  3  WHERE ENAME LIKE '_A%';
+
+     EMPNO ENAME                       MGR                                      
+---------- -------------------- ----------                                      
+      7521 WARD                       7698                                      
+      7654 MARTIN                     7698                                      
+      7900 JAMES                      7698                                      
+
+SQL> -- 실습 : 1982년도에 입사한 사원의 이름, 입사일자, 업무 조회
+SQL> SELECT ENAME, HIREDATE, JOB
+  2  FROM EMP
+  3  WHERE HIREDATE LIKE '82%';
+
+ENAME                HIREDATE JOB                                               
+-------------------- -------- ------------------                                
+MILLER               82/01/23 CLERK                                             
+
+SQL> --ㅜㅒㅆ
+SQL> --NOT
+SQL> --SALESMAN이 아닌 직원들의 이름, 급여, 업무
+SQL> SELECT ENAME, SAL, JOB
+  2  FROM EMP
+  3  WHERE JOB != 'SALESMAN';
+
+ENAME                       SAL JOB                                             
+-------------------- ---------- ------------------                              
+SMITH                       800 CLERK                                           
+JONES                      2975 MANAGER                                         
+BLAKE                      2850 MANAGER                                         
+CLARK                      2450 MANAGER                                         
+KING                       5000 PRESIDENT                                       
+JAMES                       950 CLERK                                           
+FORD                       3000 ANALYST                                         
+MILLER                     1300 CLERK                                           
+
+8 rows selected.
+
+SQL> SHOW USER
+USER is "SCOTT"
+SQL> SELECT * FROM TAB;
+
+TNAME                                                        TABTYPE            
+------------------------------------------------------------ --------------     
+ CLUSTERID                                                                      
+----------                                                                      
+BONUS                                                        TABLE              
+                                                                                
+                                                                                
+DEPT                                                         TABLE              
+                                                                                
+                                                                                
+EMP                                                          TABLE              
+                                                                                
+                                                                                
+
+TNAME                                                        TABTYPE            
+------------------------------------------------------------ --------------     
+ CLUSTERID                                                                      
+----------                                                                      
+SALGRADE                                                     TABLE              
+                                                                                
+                                                                                
+
+SQL> --SELECT 문에 쓸 수 있는 것
+SQL> --SELECT 컬럼명
+SQL> SELECT * FROM DEPT;
+
+    DEPTNO DNAME                        LOC                                     
+---------- ---------------------------- --------------------------              
+        10 ACCOUNTING                   NEW YORK                                
+        20 RESEARCH                     DALLAS                                  
+        30 SALES                        CHICAGO                                 
+        40 OPERATIONS                   BOSTON                                  
+
+SQL> -- SELECT 문에 쓸 수 있는 것
+SQL> -- SELECT 컬럼명, 컬럼명 ALIAS, SAL*12, 함수
+SQL> --, *, 'IS A', ||, DISTINCT
+SQL> -- FROM 테이블명
+SQL> -- WHERE 연산자 (비교, 논리, ....)
+SQL> 
+SQL> SQLPLUS           |          SQL
+SP2-0734: unknown command beginning "SQLPLUS   ..." - rest of line ignored.
+SQL> --SQLPLUS       |           SQL
+SQL> --ORACLE TOOL             ANSI 표준
+SQL> --DESC, SAVE, SET, SPOOL ...
+SQL> -- 축약 가능               축약X
+SQL> --BUFFER X                 BUFFER O
+SQL> --                         변수X
+SQL> --                      비절차적 성격
+SQL> --                      (영어) 언어 구조
+SQL> 
+SQL> --CF) 절차적 성격 : 개발자가 어떤 데이터가 필요하며 어떻게 그것을 얻을 수 있는지 개발자가 일일히 기술
+SQL> --CF) 비절차적 성격 : 어떤 데이터가 필요한지 만을 개발자가 기술
+SQL> 
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL >= 3000;
+
+     EMPNO ENAME                       SAL                                      
+---------- -------------------- ----------                                      
+      7839 KING                       5000                                      
+      7902 FORD                       3000                                      
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3* WHERE SAL >= 3000
+  4  SE
+  5  1
+  6  
+SQL> spool off

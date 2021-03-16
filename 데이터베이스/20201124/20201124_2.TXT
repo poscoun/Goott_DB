@@ -1,0 +1,136 @@
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL > SELECT SAL
+  4  		 FROM EMP
+  5  		 WHERE ENAME = 'JONES';
+WHERE SAL > SELECT SAL
+            *
+ERROR at line 3:
+ORA-00936: missing expression 
+
+
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL > SELECT SAL
+  4  		 FROM EMP
+  5  		 WHERE ENAME = 'JONES'
+  6  GROUP BY ENAME, SAL;
+WHERE SAL > SELECT SAL
+            *
+ERROR at line 3:
+ORA-00936: missing expression 
+
+
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL > SELECT SAL FROM EMP WHERE ENAME = 'JONES';
+WHERE SAL > SELECT SAL FROM EMP WHERE ENAME = 'JONES'
+            *
+ERROR at line 3:
+ORA-00936: missing expression 
+
+
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL > SELECT SAL
+  4  		 FROM EMP
+  5  		 WHERE ENAME = 'JONES'
+  6  
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL > (SELECT SAL
+  4  		 FROM EMP
+  5  		 WHERE ENAME = 'JONES';
+WHERE SAL > (SELECT SAL
+             *
+ERROR at line 3:
+ORA-00921: unexpected end of SQL command 
+
+
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL > (SELECT SAL
+  4  		 FROM EMP
+  5  		 WHERE ENAME = 'JONES');
+
+     EMPNO ENAME                       SAL                                      
+---------- -------------------- ----------                                      
+      7839 KING                       5000                                      
+      7902 FORD                       3000                                      
+
+SQL> SELECT ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL > (SELECT SAL
+  4  		  FROM EMP
+  5  
+SQL> SELECT ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL IN (2450, 5000, 1300);
+
+ENAME                       SAL                                                 
+-------------------- ----------                                                 
+CLARK                      2450                                                 
+KING                       5000                                                 
+MILLER                     1300                                                 
+
+SQL> SELECT ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL IN (SELECT SAL
+  4  		   FROM EMP
+  5  		   WHERE DEPTNO = 10);
+
+ENAME                       SAL                                                 
+-------------------- ----------                                                 
+CLARK                      2450                                                 
+KING                       5000                                                 
+MILLER                     1300                                                 
+
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL IN (SELECT SAL
+  4  	FROM EMP
+  5  	WHERE DEPTNO = 10, DEPTNO = 20, DEPTNO = 30);
+	WHERE DEPTNO = 10, DEPTNO = 20, DEPTNO = 30)
+	                 *
+ERROR at line 5:
+ORA-00907: missing right parenthesis 
+
+
+SQL> SELECT SAL
+  2  FROM EMP
+  3  WHERE DEPTNO IN (10, 20, 30)
+  4  GROUP BY DEPTNO;
+SELECT SAL
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL IN (SELECT SAL
+  4  
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL IN ((10, 20, 30)
+  4  	GROUP BY DEPTNO;
+WHERE SAL IN ((10, 20, 30)
+                 *
+ERROR at line 3:
+ORA-00907: missing right parenthesis 
+
+
+SQL> SELECT EMPNO, ENAME, SAL
+  2  
+SQL> SELECT TRUNC(AVG(SAL))
+  2  
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL IN (SELECT TRUNC(AVG(SAL))
+  4  	FROM EMP
+  5  	WHERE DEPTNO IN (10, 20, 30)
+  6  	GROUP BY DEPTNO);
+
+no rows selected
+
+SQL> spool off

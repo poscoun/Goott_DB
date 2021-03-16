@@ -1,0 +1,241 @@
+SQL> -- 실습 : 전체 사원의 매니저를 구분하려고 함
+SQL> -- 이름, 업무, 매니저(0, 1), 매니저번호출력
+SQL> -- (단, 매니저 번호가 짝수이면 0, 홀수이면 1로 구분)
+SQL> SELECT ENAME, JOB
+  2  FROM EMP
+  3  WHERE JOB = 'MANAGER';
+
+ENAME                JOB                                                        
+-------------------- ------------------                                         
+JONES                MANAGER                                                    
+BLAKE                MANAGER                                                    
+CLARK                MANAGER                                                    
+
+SQL> SELECT ENAME, JOB, MOD(MGR, 2) "매니저번호(0, 1)", MGR
+  2  FROM EMP
+  3  ;
+
+ENAME                JOB                매니저번호(0, 1)        MGR             
+-------------------- ------------------ ---------------- ----------             
+SMITH                CLERK                             0       7902             
+ALLEN                SALESMAN                          0       7698             
+WARD                 SALESMAN                          0       7698             
+JONES                MANAGER                           1       7839             
+MARTIN               SALESMAN                          0       7698             
+BLAKE                MANAGER                           1       7839             
+CLARK                MANAGER                           1       7839             
+KING                 PRESIDENT                                                  
+TURNER               SALESMAN                          0       7698             
+JAMES                CLERK                             0       7698             
+FORD                 ANALYST                           0       7566             
+
+ENAME                JOB                매니저번호(0, 1)        MGR             
+-------------------- ------------------ ---------------- ----------             
+MILLER               CLERK                             0       7782             
+
+12 rows selected.
+
+SQL> SELECT SYSDATE FROM DUAL;
+
+SYSDATE                                                                         
+--------                                                                        
+20/11/20                                                                        
+
+SQL> SELECT HIREDATE,
+  2  MONTHS_BETWEEN(SYSDATE, HIREDATE),
+  3  ADD_MONTHS(HIREDATE, 6),
+  4  NEXT_DAY(HIREDATE, '금'),
+  5  LAST_DAY(HIREDATE)
+  6  FROM EMP;
+
+HIREDATE MONTHS_BETWEEN(SYSDATE,HIREDATE) ADD_MONT NEXT_DAY LAST_DAY            
+-------- -------------------------------- -------- -------- --------            
+80/12/17                       479.116871 81/06/17 80/12/19 80/12/31            
+81/02/20                              477 81/08/20 81/02/27 81/02/28            
+81/02/22                       476.955581 81/08/22 81/02/27 81/02/28            
+81/04/02                       475.600742 81/10/02 81/04/03 81/04/30            
+81/09/28                       469.762033 82/03/28 81/10/02 81/09/30            
+81/05/01                          474.633 81/11/01 81/05/08 81/05/31            
+81/06/09                       473.374936 81/12/09 81/06/12 81/06/30            
+81/11/17                       468.116871 82/05/17 81/11/20 81/11/30            
+81/09/08                       470.407194 82/03/08 81/09/11 81/09/30            
+81/12/03                       467.568484 82/06/03 81/12/04 81/12/31            
+81/12/03                       467.568484 82/06/03 81/12/04 81/12/31            
+
+HIREDATE MONTHS_BETWEEN(SYSDATE,HIREDATE) ADD_MONT NEXT_DAY LAST_DAY            
+-------- -------------------------------- -------- -------- --------            
+82/01/23                       465.923323 82/07/23 82/01/29 82/01/31            
+
+12 rows selected.
+
+SQL> -- 실습 : 이번 달의 마지막 일자를 출력해보세요
+SQL> SELECT LAST_DAY(SYSDATE);
+SELECT LAST_DAY(SYSDATE)
+                       *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT LAST_DAY(SYSDATE) FROM DUAL;
+
+LAST_DAY                                                                        
+--------                                                                        
+20/11/30                                                                        
+
+SQL> -- 실습 : 근무 개월 수가 460개월 이산인 사원의 이름, 입사일자, 근무개월 수를 조회
+SQL> -- (단, 근무 개월 수는 월 단위로 표기)
+SQL> SELECT ENAME, HIREDATE, MONTHS_BETWEEN(SYSDATE, HIREDATE)
+  2  FROM EMP
+  3  WHERE MONTHS_BETWEEN(SYSDATE, HIREDATE) >= 460;
+
+ENAME                HIREDATE MONTHS_BETWEEN(SYSDATE,HIREDATE)                  
+-------------------- -------- --------------------------------                  
+SMITH                80/12/17                       479.117089                  
+ALLEN                81/02/20                              477                  
+WARD                 81/02/22                       476.955799                  
+JONES                81/04/02                        475.60096                  
+MARTIN               81/09/28                        469.76225                  
+BLAKE                81/05/01                       474.633218                  
+CLARK                81/06/09                       473.375153                  
+KING                 81/11/17                       468.117089                  
+TURNER               81/09/08                       470.407412                  
+JAMES                81/12/03                       467.568702                  
+FORD                 81/12/03                       467.568702                  
+
+ENAME                HIREDATE MONTHS_BETWEEN(SYSDATE,HIREDATE)                  
+-------------------- -------- --------------------------------                  
+MILLER               82/01/23                       465.923541                  
+
+12 rows selected.
+
+SQL> SELECT ENAME, HIREDATE, ROUND(MONTHS_BETWEEN(SYSDATE, HIREDATE)) "근무개월수"
+  2  FROM EMP;
+
+ENAME                HIREDATE 근무개월수                                        
+-------------------- -------- ----------                                        
+SMITH                80/12/17        479                                        
+ALLEN                81/02/20        477                                        
+WARD                 81/02/22        477                                        
+JONES                81/04/02        476                                        
+MARTIN               81/09/28        470                                        
+BLAKE                81/05/01        475                                        
+CLARK                81/06/09        473                                        
+KING                 81/11/17        468                                        
+TURNER               81/09/08        470                                        
+JAMES                81/12/03        468                                        
+FORD                 81/12/03        468                                        
+
+ENAME                HIREDATE 근무개월수                                        
+-------------------- -------- ----------                                        
+MILLER               82/01/23        466                                        
+
+12 rows selected.
+
+SQL> -- 실습 : 우리 회사는 입사 후 6개월이 지난 사원에 대해서 그 주 금요일에 승진시험을 볼 겁니다.
+SQL> -- 그 시험일이 궁금하니 사원명, 입사일, 6개월 후 금요일 정보를 조회하세요
+SQL> SELECT ENAME, HIREDATE,NEXT_DAY(MONTES_BETWEEN(HIREDATE, SYSDATE), '금')
+  2  FROM EMP;
+SELECT ENAME, HIREDATE,NEXT_DAY(MONTES_BETWEEN(HIREDATE, SYSDATE), '금')
+                                *
+ERROR at line 1:
+ORA-00904: "MONTES_BETWEEN": invalid identifier 
+
+
+SQL> SELECT ENAME, HIREDATE,NEXT_DAY(MONTHS_BETWEEN(HIREDATE, SYSDATE), '금')
+  2  FROM EMP;
+SELECT ENAME, HIREDATE,NEXT_DAY(MONTHS_BETWEEN(HIREDATE, SYSDATE), '금')
+                                *
+ERROR at line 1:
+ORA-00932: inconsistent datatypes: expected DATE got NUMBER 
+
+
+SQL> SELECT ENAME, HIREDATE, NEXT_DAY(MONTHS_BETWEEN(HIREDATE, SYSDATE), '금')
+  2  FROM EMP;
+SELECT ENAME, HIREDATE, NEXT_DAY(MONTHS_BETWEEN(HIREDATE, SYSDATE), '금')
+                                 *
+ERROR at line 1:
+ORA-00932: inconsistent datatypes: expected DATE got NUMBER 
+
+
+SQL> SELECT ENAME, HIREDATE, ADD_MONTHS(HIREDATE, 6), NEXT_DAY(HIREDATE, '금')
+  2  FROM EMP;
+
+ENAME                HIREDATE ADD_MONT NEXT_DAY                                 
+-------------------- -------- -------- --------                                 
+SMITH                80/12/17 81/06/17 80/12/19                                 
+ALLEN                81/02/20 81/08/20 81/02/27                                 
+WARD                 81/02/22 81/08/22 81/02/27                                 
+JONES                81/04/02 81/10/02 81/04/03                                 
+MARTIN               81/09/28 82/03/28 81/10/02                                 
+BLAKE                81/05/01 81/11/01 81/05/08                                 
+CLARK                81/06/09 81/12/09 81/06/12                                 
+KING                 81/11/17 82/05/17 81/11/20                                 
+TURNER               81/09/08 82/03/08 81/09/11                                 
+JAMES                81/12/03 82/06/03 81/12/04                                 
+FORD                 81/12/03 82/06/03 81/12/04                                 
+
+ENAME                HIREDATE ADD_MONT NEXT_DAY                                 
+-------------------- -------- -------- --------                                 
+MILLER               82/01/23 82/07/23 82/01/29                                 
+
+12 rows selected.
+
+SQL> SELECT ENAME, HIREDATE, ADD_MONTHS(HIREDATE, 6), NEXT_DAY(HIREDATE, '금') "승진시험"
+  2  FROM EMP;
+
+ENAME                HIREDATE ADD_MONT 승진시험                                 
+-------------------- -------- -------- --------                                 
+SMITH                80/12/17 81/06/17 80/12/19                                 
+ALLEN                81/02/20 81/08/20 81/02/27                                 
+WARD                 81/02/22 81/08/22 81/02/27                                 
+JONES                81/04/02 81/10/02 81/04/03                                 
+MARTIN               81/09/28 82/03/28 81/10/02                                 
+BLAKE                81/05/01 81/11/01 81/05/08                                 
+CLARK                81/06/09 81/12/09 81/06/12                                 
+KING                 81/11/17 82/05/17 81/11/20                                 
+TURNER               81/09/08 82/03/08 81/09/11                                 
+JAMES                81/12/03 82/06/03 81/12/04                                 
+FORD                 81/12/03 82/06/03 81/12/04                                 
+
+ENAME                HIREDATE ADD_MONT 승진시험                                 
+-------------------- -------- -------- --------                                 
+MILLER               82/01/23 82/07/23 82/01/29                                 
+
+12 rows selected.
+
+SQL> SELECT ENAME, HIREDATE, NEXT_DAY(ADD_MONTHS(HIREDATE, 6),'금') "승진시험"'금'
+  2  SELECT ENAME, HIREDATE, NEXT_DAY(ADD_MONTHS(HIREDATE, 6),'금') "승진시험"
+  3  FROM EMP;
+SELECT ENAME, HIREDATE, NEXT_DAY(ADD_MONTHS(HIREDATE, 6),'금') "승진시험"
+*
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT ENAME, HIREDATE, ADD_MONTHS(HIREDATE, 6), NEXT_DAY(HIREDATE, '금') "승진시험"
+  2  
+SQL> SELECT ENAME, HIREDATE, ADD_MONTHS(HIREDATE, 6) "6개월후",
+  2  NEXT_DAY(ADD_MONTHS(HIREDATE, 6), '금') "6개월후금요일"
+  3  FROM EMP;
+
+ENAME                HIREDATE 6개월후  6개월후                                  
+-------------------- -------- -------- --------                                 
+SMITH                80/12/17 81/06/17 81/06/19                                 
+ALLEN                81/02/20 81/08/20 81/08/21                                 
+WARD                 81/02/22 81/08/22 81/08/28                                 
+JONES                81/04/02 81/10/02 81/10/09                                 
+MARTIN               81/09/28 82/03/28 82/04/02                                 
+BLAKE                81/05/01 81/11/01 81/11/06                                 
+CLARK                81/06/09 81/12/09 81/12/11                                 
+KING                 81/11/17 82/05/17 82/05/21                                 
+TURNER               81/09/08 82/03/08 82/03/12                                 
+JAMES                81/12/03 82/06/03 82/06/04                                 
+FORD                 81/12/03 82/06/03 82/06/04                                 
+
+ENAME                HIREDATE 6개월후  6개월후                                  
+-------------------- -------- -------- --------                                 
+MILLER               82/01/23 82/07/23 82/07/30                                 
+
+12 rows selected.
+
+SQL> 

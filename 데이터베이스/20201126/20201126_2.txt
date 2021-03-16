@@ -1,0 +1,1247 @@
+SQL> CREATE TABLE COPY_EMP2
+  2  (EMPNO NUMBER(4),
+  3  ENAME VARCHAR(20),
+  4  JOB CHAR(20)
+  5  SAL NUMBER(7, 2)
+  6  HIREDATE DATE)
+  7  ;
+SAL NUMBER(7, 2)
+*
+ERROR at line 5:
+ORA-00907: missing right parenthesis 
+
+
+SQL> CREATE TABLE COPY_EMP2
+  2  (EMPNO NUMBER(4),
+  3  ENAME VARCHAR(20),
+  4  JOB CHAR(20),
+  5  SAL NUMBER(7, 2)
+  6  ,
+  7  HIREDATE DATE)
+  8  ;
+
+Table created.
+
+SQL> DESC COPY_EMP2
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                              NUMBER(4)
+ ENAME                                              VARCHAR2(20)
+ JOB                                                CHAR(20)
+ SAL                                                NUMBER(7,2)
+ HIREDATE                                           DATE
+
+SQL> CREATE TABLE BIGDATA1
+  2  (D1 LONG, D2 LON RAW);
+(D1 LONG, D2 LON RAW)
+                 *
+ERROR at line 2:
+ORA-00907: missing right parenthesis 
+
+
+SQL> CREATE TABLE BIGDATA2
+  2  (D1 CLOB, D2 BLOB, D3 BFILE);
+
+Table created.
+
+SQL> DESC BIGDATA2
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ D1                                                 CLOB
+ D2                                                 BLOB
+ D3                                                 BINARY FILE LOB
+
+SQL> CREATE TABLE EMPS
+  2  AS
+  3  SELECT * FROM EMP;
+
+Table created.
+
+SQL> SELECT * FROM EMPS;
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7369 SMITH                CLERK                    7902 80/12/17          
+       800                    20                                                
+                                                                                
+      7499 ALLEN                SALESMAN                 7698 81/02/20          
+      1600        300         30                                                
+                                                                                
+      7521 WARD                 SALESMAN                 7698 81/02/22          
+      1250        500         30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7566 JONES                MANAGER                  7839 81/04/02          
+      2975                    20                                                
+                                                                                
+      7654 MARTIN               SALESMAN                 7698 81/09/28          
+      1250       1400         30                                                
+                                                                                
+      7698 BLAKE                MANAGER                  7839 81/05/01          
+      2850                    30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7782 CLARK                MANAGER                  7839 81/06/09          
+      2450                    10                                                
+                                                                                
+      7839 KING                 PRESIDENT                     81/11/17          
+      5000                    10                                                
+                                                                                
+      7844 TURNER               SALESMAN                 7698 81/09/08          
+      1500          0         30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7900 JAMES                CLERK                    7698 81/12/03          
+       950                    30                                                
+                                                                                
+      7902 FORD                 ANALYST                  7566 81/12/03          
+      3000                    20                                                
+                                                                                
+      7934 MILLER               CLERK                    7782 82/01/23          
+      1300                    10                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      9090                                                    20/11/26          
+                                                                                
+                                                                                
+
+13 rows selected.
+
+SQL> CREATE TABEL COPY_EMP3
+  2  (EMPNO NUMMER(4),
+  3  ENAME VARCHAR2(10,
+  4  ENAME VARCHAR2(10
+  5  
+SQL> CREATE TABEL COPY_EMP3
+  2  (EMPNO NUMMER(4),
+  3  ENAME VARCHAR2(10),
+  4  JOB VARCHAR2(9),
+  5  MGR NUMBER(4),
+  6  HIREDATE DATE,
+  7  SAL NUMBER(7, 2),
+  8  COMM NUMBER(7, 2),
+  9  DEPTNO NUMBER(2))
+ 10  ;
+CREATE TABEL COPY_EMP3
+       *
+ERROR at line 1:
+ORA-00901: invalid CREATE command 
+
+
+SQL> CREATE TABLE COPY_EMP3
+  2  (EMPNO NUMMER(4),
+  3  ENAME VARCHAR2(10,
+  4  ENAME VARCHAR2(10
+  5  CREATE TABEL COPY_EMP3
+  6  
+SQL> CREATE TABEL COPY_EMP3
+  2  (EMPNO NUMMER(4),
+  3  ENAME VARCHAR2(10,
+  4  JOB VARCHAR2(9),
+  5  MGR NUMBER(4),
+  6  HIREDATE DATE,
+  7  SAL NUMBER(7, 2),
+  8  COMM NUMBER(7, 2),
+  9  DEPTNO NUMBER(2));
+CREATE TABEL COPY_EMP3
+       *
+ERROR at line 1:
+ORA-00901: invalid CREATE command 
+
+
+SQL> CREATE TABLE COPY_EMP3
+  2  AS
+  3  SELECT * FROM EMP
+  4  WHERE EMPNO = 9999;
+
+Table created.
+
+SQL> SELECT * FROM COPY_EMP3;
+
+no rows selected
+
+SQL> DESC COPY_EMP3;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                              NUMBER(4)
+ ENAME                                              VARCHAR2(10)
+ JOB                                                VARCHAR2(9)
+ MGR                                                NUMBER(4)
+ HIREDATE                                           DATE
+ SAL                                                NUMBER(7,2)
+ COMM                                               NUMBER(7,2)
+ DEPTNO                                             NUMBER(2)
+
+SQL> INSERT INTO COPY_EMP3
+  2  SELECT * FROM EMP;
+
+13 rows created.
+
+SQL> SELECT * FROM COPY_EMP3;
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7369 SMITH                CLERK                    7902 80/12/17          
+       800                    20                                                
+                                                                                
+      7499 ALLEN                SALESMAN                 7698 81/02/20          
+      1600        300         30                                                
+                                                                                
+      7521 WARD                 SALESMAN                 7698 81/02/22          
+      1250        500         30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7566 JONES                MANAGER                  7839 81/04/02          
+      2975                    20                                                
+                                                                                
+      7654 MARTIN               SALESMAN                 7698 81/09/28          
+      1250       1400         30                                                
+                                                                                
+      7698 BLAKE                MANAGER                  7839 81/05/01          
+      2850                    30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7782 CLARK                MANAGER                  7839 81/06/09          
+      2450                    10                                                
+                                                                                
+      7839 KING                 PRESIDENT                     81/11/17          
+      5000                    10                                                
+                                                                                
+      7844 TURNER               SALESMAN                 7698 81/09/08          
+      1500          0         30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7900 JAMES                CLERK                    7698 81/12/03          
+       950                    30                                                
+                                                                                
+      7902 FORD                 ANALYST                  7566 81/12/03          
+      3000                    20                                                
+                                                                                
+      7934 MILLER               CLERK                    7782 82/01/23          
+      1300                    10                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      9090                                                    20/11/26          
+                                                                                
+                                                                                
+
+13 rows selected.
+
+SQL> 
+SQL> 
+SQL> ALTER TABLE EMPS
+  2  ADD HP VARCHAR(10);
+
+Table altered.
+
+SQL> SELECT * FROM EMPS;
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO HP                                             
+---------- ---------- ---------- --------------------                           
+      7369 SMITH                CLERK                    7902 80/12/17          
+       800                    20                                                
+                                                                                
+      7499 ALLEN                SALESMAN                 7698 81/02/20          
+      1600        300         30                                                
+                                                                                
+      7521 WARD                 SALESMAN                 7698 81/02/22          
+      1250        500         30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO HP                                             
+---------- ---------- ---------- --------------------                           
+      7566 JONES                MANAGER                  7839 81/04/02          
+      2975                    20                                                
+                                                                                
+      7654 MARTIN               SALESMAN                 7698 81/09/28          
+      1250       1400         30                                                
+                                                                                
+      7698 BLAKE                MANAGER                  7839 81/05/01          
+      2850                    30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO HP                                             
+---------- ---------- ---------- --------------------                           
+      7782 CLARK                MANAGER                  7839 81/06/09          
+      2450                    10                                                
+                                                                                
+      7839 KING                 PRESIDENT                     81/11/17          
+      5000                    10                                                
+                                                                                
+      7844 TURNER               SALESMAN                 7698 81/09/08          
+      1500          0         30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO HP                                             
+---------- ---------- ---------- --------------------                           
+      7900 JAMES                CLERK                    7698 81/12/03          
+       950                    30                                                
+                                                                                
+      7902 FORD                 ANALYST                  7566 81/12/03          
+      3000                    20                                                
+                                                                                
+      7934 MILLER               CLERK                    7782 82/01/23          
+      1300                    10                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO HP                                             
+---------- ---------- ---------- --------------------                           
+      9090                                                    20/11/26          
+                                                                                
+                                                                                
+
+13 rows selected.
+
+SQL> ALTER TABLE EMPS
+  2  RENAME COLUMN HP TO MP;
+
+Table altered.
+
+SQL> SELECT * FROM EMPS;
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO MP                                             
+---------- ---------- ---------- --------------------                           
+      7369 SMITH                CLERK                    7902 80/12/17          
+       800                    20                                                
+                                                                                
+      7499 ALLEN                SALESMAN                 7698 81/02/20          
+      1600        300         30                                                
+                                                                                
+      7521 WARD                 SALESMAN                 7698 81/02/22          
+      1250        500         30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO MP                                             
+---------- ---------- ---------- --------------------                           
+      7566 JONES                MANAGER                  7839 81/04/02          
+      2975                    20                                                
+                                                                                
+      7654 MARTIN               SALESMAN                 7698 81/09/28          
+      1250       1400         30                                                
+                                                                                
+      7698 BLAKE                MANAGER                  7839 81/05/01          
+      2850                    30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO MP                                             
+---------- ---------- ---------- --------------------                           
+      7782 CLARK                MANAGER                  7839 81/06/09          
+      2450                    10                                                
+                                                                                
+      7839 KING                 PRESIDENT                     81/11/17          
+      5000                    10                                                
+                                                                                
+      7844 TURNER               SALESMAN                 7698 81/09/08          
+      1500          0         30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO MP                                             
+---------- ---------- ---------- --------------------                           
+      7900 JAMES                CLERK                    7698 81/12/03          
+       950                    30                                                
+                                                                                
+      7902 FORD                 ANALYST                  7566 81/12/03          
+      3000                    20                                                
+                                                                                
+      7934 MILLER               CLERK                    7782 82/01/23          
+      1300                    10                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO MP                                             
+---------- ---------- ---------- --------------------                           
+      9090                                                    20/11/26          
+                                                                                
+                                                                                
+
+13 rows selected.
+
+SQL> ALTER TABLE EMPSALTER TABLE EMPS
+  2  MODIFY MP VARCHAR2(15);
+ALTER TABLE EMPSALTER TABLE EMPS
+                      *
+ERROR at line 1:
+ORA-01735: invalid ALTER TABLE option 
+
+
+SQL> ALTER TABLE EMPS
+  2  MODIFY MP VARCHAR2(15);
+
+Table altered.
+
+SQL> DESC EMPS;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                              NUMBER(4)
+ ENAME                                              VARCHAR2(10)
+ JOB                                                VARCHAR2(9)
+ MGR                                                NUMBER(4)
+ HIREDATE                                           DATE
+ SAL                                                NUMBER(7,2)
+ COMM                                               NUMBER(7,2)
+ DEPTNO                                             NUMBER(2)
+ MP                                                 VARCHAR2(15)
+
+SQL> ALTER TABLE EMPS
+  2  DROP COLUMN MP;
+
+Table altered.
+
+SQL> DESC EMPS
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                              NUMBER(4)
+ ENAME                                              VARCHAR2(10)
+ JOB                                                VARCHAR2(9)
+ MGR                                                NUMBER(4)
+ HIREDATE                                           DATE
+ SAL                                                NUMBER(7,2)
+ COMM                                               NUMBER(7,2)
+ DEPTNO                                             NUMBER(2)
+
+SQL> ALTER TABLE EMPS READ ONLY;
+
+Table altered.
+
+SQL> SELECT * FROM EMPS;
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7369 SMITH                CLERK                    7902 80/12/17          
+       800                    20                                                
+                                                                                
+      7499 ALLEN                SALESMAN                 7698 81/02/20          
+      1600        300         30                                                
+                                                                                
+      7521 WARD                 SALESMAN                 7698 81/02/22          
+      1250        500         30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7566 JONES                MANAGER                  7839 81/04/02          
+      2975                    20                                                
+                                                                                
+      7654 MARTIN               SALESMAN                 7698 81/09/28          
+      1250       1400         30                                                
+                                                                                
+      7698 BLAKE                MANAGER                  7839 81/05/01          
+      2850                    30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7782 CLARK                MANAGER                  7839 81/06/09          
+      2450                    10                                                
+                                                                                
+      7839 KING                 PRESIDENT                     81/11/17          
+      5000                    10                                                
+                                                                                
+      7844 TURNER               SALESMAN                 7698 81/09/08          
+      1500          0         30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7900 JAMES                CLERK                    7698 81/12/03          
+       950                    30                                                
+                                                                                
+      7902 FORD                 ANALYST                  7566 81/12/03          
+      3000                    20                                                
+                                                                                
+      7934 MILLER               CLERK                    7782 82/01/23          
+      1300                    10                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      9090                                                    20/11/26          
+                                                                                
+                                                                                
+
+13 rows selected.
+
+SQL> INSERT INTO EMPS (EMPNO)
+  2  VALUESE (9999);
+VALUESE (9999)
+*
+ERROR at line 2:
+ORA-00926: missing VALUES keyword 
+
+
+SQL> ALTER TABLE EMPS READ WRITE;
+
+Table altered.
+
+SQL> DROP TABLE EMPS;
+
+Table dropped.
+
+SQL> DESC EMPS
+ERROR:
+ORA-04043: object EMPS does not exist 
+
+
+SQL> SHOW RECYCLEBIN;
+ORIGINAL NAME    RECYCLEBIN NAME                OBJECT TYPE  DROP TIME          
+---------------- ------------------------------ ------------ -------------------
+BONUS            BIN$+gOk3hvmTx6lKvqvdfqgDw==$0 TABLE        2020-11-19:14:24:50
+BONUS            BIN$iBYvP7HsRVW3JloJcriBQQ==$0 TABLE        2020-11-19:10:39:13
+BONUS            BIN$vX/9hSz1QpGH8AiVMKMm4Q==$0 TABLE        2020-11-19:10:33:36
+EMP              BIN$clFvuD5tTpWoWGKTG42WxA==$0 TABLE        2020-11-19:14:24:50
+EMP              BIN$NNjQpA4URpSp7bp3WLi2nQ==$0 TABLE        2020-11-19:10:39:13
+EMP              BIN$s4FYobdWSY2W65cBC+nAAg==$0 TABLE        2020-11-19:10:33:36
+EMPS             BIN$E1pxUfmmRduKSpNr0LIiGA==$0 TABLE        2020-11-26:15:51:58
+SALGRADE         BIN$05KW4NJISESaHlAlJAUYdw==$0 TABLE        2020-11-19:14:24:50
+SALGRADE         BIN$IX719i8CQoeBCKw+XHeccw==$0 TABLE        2020-11-19:10:39:13
+SALGRADE         BIN$pwUdS+fOT7ae9So2IWjCcw==$0 TABLE        2020-11-19:10:33:36
+SQL> FLASHBACK TABLE EMPS
+  2  TO BEFROE DROP;
+FLASHBACK TABLE EMPS
+*
+ERROR at line 1:
+ORA-00439: feature not enabled: Flashback Table 
+
+
+SQL> FLASHBACK TABLE EMPS
+  2  TO BEFORE DROP;
+
+Flashback complete.
+
+SQL> DESC EMPS;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                              NUMBER(4)
+ ENAME                                              VARCHAR2(10)
+ JOB                                                VARCHAR2(9)
+ MGR                                                NUMBER(4)
+ HIREDATE                                           DATE
+ SAL                                                NUMBER(7,2)
+ COMM                                               NUMBER(7,2)
+ DEPTNO                                             NUMBER(2)
+
+SQL> DROP TABLE EMPS;
+
+Table dropped.
+
+SQL> SHOW RECYCLEBIN
+ORIGINAL NAME    RECYCLEBIN NAME                OBJECT TYPE  DROP TIME          
+---------------- ------------------------------ ------------ -------------------
+BONUS            BIN$+gOk3hvmTx6lKvqvdfqgDw==$0 TABLE        2020-11-19:14:24:50
+BONUS            BIN$iBYvP7HsRVW3JloJcriBQQ==$0 TABLE        2020-11-19:10:39:13
+BONUS            BIN$vX/9hSz1QpGH8AiVMKMm4Q==$0 TABLE        2020-11-19:10:33:36
+EMP              BIN$clFvuD5tTpWoWGKTG42WxA==$0 TABLE        2020-11-19:14:24:50
+EMP              BIN$NNjQpA4URpSp7bp3WLi2nQ==$0 TABLE        2020-11-19:10:39:13
+EMP              BIN$s4FYobdWSY2W65cBC+nAAg==$0 TABLE        2020-11-19:10:33:36
+EMPS             BIN$MI+mnGE9RMmHQkfk/guATQ==$0 TABLE        2020-11-26:15:59:28
+SALGRADE         BIN$05KW4NJISESaHlAlJAUYdw==$0 TABLE        2020-11-19:14:24:50
+SALGRADE         BIN$IX719i8CQoeBCKw+XHeccw==$0 TABLE        2020-11-19:10:39:13
+SALGRADE         BIN$pwUdS+fOT7ae9So2IWjCcw==$0 TABLE        2020-11-19:10:33:36
+SQL> PURGE RECYCLEBIN;
+
+Recyclebin purged.
+
+SQL> SHOW RECYCLEBIN;
+SQL> 
+SQL> SHOW RECYCLEBIN;
+SQL> DESC DEMPS
+ERROR:
+ORA-04043: object DEMPS does not exist 
+
+
+SQL> RENAME COPY_EMP2
+  2  TO EMPS;
+
+Table renamed.
+
+SQL> DESC EMPS
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                              NUMBER(4)
+ ENAME                                              VARCHAR2(20)
+ JOB                                                CHAR(20)
+ SAL                                                NUMBER(7,2)
+ HIREDATE                                           DATE
+
+SQL> COMMENT ON TABLE EMPS
+  2  IS 'EMPLOYEE TABLE';
+
+Comment created.
+
+SQL> SELECT * FROM EMP;
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7369 SMITH                CLERK                    7902 80/12/17          
+       800                    20                                                
+                                                                                
+      7499 ALLEN                SALESMAN                 7698 81/02/20          
+      1600        300         30                                                
+                                                                                
+      7521 WARD                 SALESMAN                 7698 81/02/22          
+      1250        500         30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7566 JONES                MANAGER                  7839 81/04/02          
+      2975                    20                                                
+                                                                                
+      7654 MARTIN               SALESMAN                 7698 81/09/28          
+      1250       1400         30                                                
+                                                                                
+      7698 BLAKE                MANAGER                  7839 81/05/01          
+      2850                    30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7782 CLARK                MANAGER                  7839 81/06/09          
+      2450                    10                                                
+                                                                                
+      7839 KING                 PRESIDENT                     81/11/17          
+      5000                    10                                                
+                                                                                
+      7844 TURNER               SALESMAN                 7698 81/09/08          
+      1500          0         30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7900 JAMES                CLERK                    7698 81/12/03          
+       950                    30                                                
+                                                                                
+      7902 FORD                 ANALYST                  7566 81/12/03          
+      3000                    20                                                
+                                                                                
+      7934 MILLER               CLERK                    7782 82/01/23          
+      1300                    10                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      9090                                                    20/11/26          
+                                                                                
+                                                                                
+
+13 rows selected.
+
+SQL> DESC EMPS
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                              NUMBER(4)
+ ENAME                                              VARCHAR2(20)
+ JOB                                                CHAR(20)
+ SAL                                                NUMBER(7,2)
+ HIREDATE                                           DATE
+
+SQL> SHOW DATA DICTIONARY
+SP2-0158: unknown SHOW option "DATA"
+SP2-0158: unknown SHOW option "DICTIONARY"
+SQL> DESC USER_TAB_COMMENTS
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ TABLE_NAME                                NOT NULL VARCHAR2(30)
+ TABLE_TYPE                                         VARCHAR2(11)
+ COMMENTS                                           VARCHAR2(4000)
+
+SQL> SHOW COMMENTS
+SP2-0158: unknown SHOW option "COMMENTS"
+SQL> SELECT COMMENTS FROM USER_TAB_COMMENTS;
+
+COMMENTS                                                                        
+--------------------------------------------------------------------------------
+EMPLOYEE TABLE                                                                  
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+
+8 rows selected.
+
+SQL> SELECT * FROM  USER_TAB_COMMENTS;
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+TABLE_TYPE                                                                      
+----------------------                                                          
+COMMENTS                                                                        
+--------------------------------------------------------------------------------
+COPY_EMP                                                                        
+TABLE                                                                           
+                                                                                
+                                                                                
+BIGDATA2                                                                        
+TABLE                                                                           
+                                                                                
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+TABLE_TYPE                                                                      
+----------------------                                                          
+COMMENTS                                                                        
+--------------------------------------------------------------------------------
+                                                                                
+EMPS                                                                            
+TABLE                                                                           
+EMPLOYEE TABLE                                                                  
+                                                                                
+COPY_EMP3                                                                       
+TABLE                                                                           
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+TABLE_TYPE                                                                      
+----------------------                                                          
+COMMENTS                                                                        
+--------------------------------------------------------------------------------
+                                                                                
+                                                                                
+DEPT                                                                            
+TABLE                                                                           
+                                                                                
+                                                                                
+EMP                                                                             
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+TABLE_TYPE                                                                      
+----------------------                                                          
+COMMENTS                                                                        
+--------------------------------------------------------------------------------
+TABLE                                                                           
+                                                                                
+                                                                                
+BONUS                                                                           
+TABLE                                                                           
+                                                                                
+                                                                                
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+TABLE_TYPE                                                                      
+----------------------                                                          
+COMMENTS                                                                        
+--------------------------------------------------------------------------------
+SALGRADE                                                                        
+TABLE                                                                           
+                                                                                
+                                                                                
+
+8 rows selected.
+
+SQL> CREATE TABLE CUST
+  2  (CUST_ID NUMBER(6),
+  3  CUST_GENDER NUMBER,
+  4  CUST_NAME VARCHAR2(10));
+
+Table created.
+
+SQL> DESC CUST
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CUST_ID                                            NUMBER(6)
+ CUST_GENDER                                        NUMBER
+ CUST_NAME                                          VARCHAR2(10)
+
+SQL> INSERT INTO CUST_ID
+  2  VALUES (1, 2, 3, 4, 5);
+INSERT INTO CUST_ID
+            *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> INSERT INTO CUST
+  2  
+SQL> INSERT INTO CUST_ID
+  2  
+SQL> INSERT INTO CUST_ID (1, 2, 3, 4, 5)
+  2  SELECT CUST_ID FROM CUST;
+INSERT INTO CUST_ID (1, 2, 3, 4, 5)
+                     *
+ERROR at line 1:
+ORA-00928: missing SELECT keyword 
+
+
+SQL> INSERT INTO CUST (CUST_ID, CUST_GENDER, CUST_NAME)
+  2  VALUES (1, 1, '홍길동');
+
+1 row created.
+
+SQL> SELECT * FROM CUST
+  2  ;
+
+   CUST_ID CUST_GENDER CUST_NAME                                                
+---------- ----------- --------------------                                     
+         1           1 홍길동                                                   
+
+SQL> INSERT INTO CUST
+  2  VALUES (2, 0, '유관순');
+
+1 row created.
+
+SQL> INSERT INTO CUST
+  2  VALUES (3, 1);
+INSERT INTO CUST
+            *
+ERROR at line 1:
+ORA-00947: not enough values 
+
+
+SQL> INSERT INTO CUST
+  2  VALUES (3, 1, 'NULL');
+
+1 row created.
+
+SQL> INSERT INTO CUST
+  2  VALUES (4, 0, '신사임당');
+VALUES (4, 0, '신사임당')
+              *
+ERROR at line 2:
+ORA-12899: value too large for column "SCOTT"."CUST"."CUST_NAME" (actual: 12,
+maximum: 10) 
+
+
+SQL> SELECT * FROM CUST
+  2  ;
+
+   CUST_ID CUST_GENDER CUST_NAME                                                
+---------- ----------- --------------------                                     
+         1           1 홍길동                                                   
+         2           0 유관순                                                   
+         3           1 NULL                                                     
+
+SQL> INSERT INTO CUST
+  2  VALUES (4, 0, '신사임당');
+VALUES (4, 0, '신사임당')
+              *
+ERROR at line 2:
+ORA-12899: value too large for column "SCOTT"."CUST"."CUST_NAME" (actual: 12,
+maximum: 10) 
+
+
+SQL> ALTER TABLE CUST
+  2  RENAME COLUMN CUST_NAME VARCHAR2(20);
+RENAME COLUMN CUST_NAME VARCHAR2(20)
+                        *
+ERROR at line 2:
+ORA-00946: missing TO keyword 
+
+
+SQL> RENAME COLUMN CUST_NAME VARCHAR2(20);
+RENAME COLUMN CUST_NAME VARCHAR2(20)
+       *
+ERROR at line 1:
+ORA-00903: invalid table name 
+
+
+SQL> ALTER TABLE CUST
+  2  RENAME COLUMN CUST_NAME VARCHAR2(20);
+RENAME COLUMN CUST_NAME VARCHAR2(20)
+                        *
+ERROR at line 2:
+ORA-00946: missing TO keyword 
+
+
+SQL> ALTER TABLE CUST
+  2  MODIFY COLUMN CUST_NAME VARCHAR2(20);
+MODIFY COLUMN CUST_NAME VARCHAR2(20)
+                        *
+ERROR at line 2:
+ORA-00905: missing keyword 
+
+
+SQL> ALTER TABLE CUST
+  2  MODIFY CUST_NAME VARCHAR2(20);
+
+Table altered.
+
+SQL> INSERT INTO CUST
+  2  VALUES (4, 0, '신사임당');
+
+1 row created.
+
+SQL> INSERT INTO CUST
+  2  VALUES (5, 0, '갑돌이');
+
+1 row created.
+
+SQL> ALTER TABLE CUST
+  2  ADD CUST_GRADE NUMBER(2)
+  3  ;
+
+Table altered.
+
+SQL> ALTER TABLE CUST
+  2  MODIFY CUST_GRADE NUMBER(4);
+
+Table altered.
+
+SQL> DESC CUST
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CUST_ID                                            NUMBER(6)
+ CUST_GENDER                                        NUMBER
+ CUST_NAME                                          VARCHAR2(20)
+ CUST_GRADE                                         NUMBER(4)
+
+SQL> CREATE TABLE CUSTOMER
+  2  AS
+  3  FROM * FROM CUST;
+FROM * FROM CUST
+*
+ERROR at line 3:
+ORA-00928: missing SELECT keyword 
+
+
+SQL> CREATE TABLE CUSTOMER
+  2  AS
+  3  SELECT * FROM CUST;
+
+Table created.
+
+SQL> DESC CUSTOMER
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CUST_ID                                            NUMBER(6)
+ CUST_GENDER                                        NUMBER
+ CUST_NAME                                          VARCHAR2(20)
+ CUST_GRADE                                         NUMBER(4)
+
+SQL> COMMENT ON TABLE CUST
+  2  IS '고객테이블';
+
+Comment created.
+
+SQL> SELECT * FROM USER_TAB_COMMENTS;
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+TABLE_TYPE                                                                      
+----------------------                                                          
+COMMENTS                                                                        
+--------------------------------------------------------------------------------
+COPY_EMP                                                                        
+TABLE                                                                           
+                                                                                
+                                                                                
+CUSTOMER                                                                        
+TABLE                                                                           
+                                                                                
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+TABLE_TYPE                                                                      
+----------------------                                                          
+COMMENTS                                                                        
+--------------------------------------------------------------------------------
+                                                                                
+BIGDATA2                                                                        
+TABLE                                                                           
+                                                                                
+                                                                                
+EMPS                                                                            
+TABLE                                                                           
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+TABLE_TYPE                                                                      
+----------------------                                                          
+COMMENTS                                                                        
+--------------------------------------------------------------------------------
+EMPLOYEE TABLE                                                                  
+                                                                                
+COPY_EMP3                                                                       
+TABLE                                                                           
+                                                                                
+                                                                                
+CUST                                                                            
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+TABLE_TYPE                                                                      
+----------------------                                                          
+COMMENTS                                                                        
+--------------------------------------------------------------------------------
+TABLE                                                                           
+고객테이블                                                                      
+                                                                                
+DEPT                                                                            
+TABLE                                                                           
+                                                                                
+                                                                                
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+TABLE_TYPE                                                                      
+----------------------                                                          
+COMMENTS                                                                        
+--------------------------------------------------------------------------------
+EMP                                                                             
+TABLE                                                                           
+                                                                                
+                                                                                
+BONUS                                                                           
+TABLE                                                                           
+                                                                                
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+TABLE_TYPE                                                                      
+----------------------                                                          
+COMMENTS                                                                        
+--------------------------------------------------------------------------------
+                                                                                
+SALGRADE                                                                        
+TABLE                                                                           
+                                                                                
+                                                                                
+
+10 rows selected.
+
+SQL> 
+SQL> SELECT * FROM  USER_TAB_COMMENTS;
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+TABLE_TYPE                                                                      
+----------------------                                                          
+COMMENTS                                                                        
+--------------------------------------------------------------------------------
+SALGRADE                                                                        
+TABLE                                                                           
+                                                                                
+                                                                                
+BONUS                                                                           
+TABLE                                                                           
+                                                                                
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+TABLE_TYPE                                                                      
+----------------------                                                          
+COMMENTS                                                                        
+--------------------------------------------------------------------------------
+                                                                                
+EMP                                                                             
+TABLE                                                                           
+                                                                                
+                                                                                
+DEPT                                                                            
+TABLE                                                                           
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+TABLE_TYPE                                                                      
+----------------------                                                          
+COMMENTS                                                                        
+--------------------------------------------------------------------------------
+                                                                                
+                                                                                
+CUST                                                                            
+TABLE                                                                           
+고객테이블                                                                      
+                                                                                
+COPY_EMP3                                                                       
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+TABLE_TYPE                                                                      
+----------------------                                                          
+COMMENTS                                                                        
+--------------------------------------------------------------------------------
+TABLE                                                                           
+                                                                                
+                                                                                
+EMPS                                                                            
+TABLE                                                                           
+EMPLOYEE TABLE                                                                  
+                                                                                
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+TABLE_TYPE                                                                      
+----------------------                                                          
+COMMENTS                                                                        
+--------------------------------------------------------------------------------
+BIGDATA2                                                                        
+TABLE                                                                           
+                                                                                
+                                                                                
+CUSTOMER                                                                        
+TABLE                                                                           
+                                                                                
+
+TABLE_NAME                                                                      
+------------------------------------------------------------                    
+TABLE_TYPE                                                                      
+----------------------                                                          
+COMMENTS                                                                        
+--------------------------------------------------------------------------------
+                                                                                
+COPY_EMP                                                                        
+TABLE                                                                           
+                                                                                
+                                                                                
+
+10 rows selected.
+
+SQL> DROP TABLE CUST;
+
+Table dropped.
+
+SQL> DESC CUST
+ERROR:
+ORA-04043: object CUST does not exist 
+
+
+SQL> SHOW RECYCLEBIN;
+ORIGINAL NAME    RECYCLEBIN NAME                OBJECT TYPE  DROP TIME          
+---------------- ------------------------------ ------------ -------------------
+CUST             BIN$xJL04NGDTVeLwSZ2rNDQbA==$0 TABLE        2020-11-26:17:19:22
+SQL> CREATE TABLE CUST
+  2  (CUST_ID NUMBER(6),
+  3  CUST_GENDER NUMBER,
+  4  CUST_NAME VARCHAR2(20));
+
+Table created.
+
+SQL> INSERT ALL
+  2  INTO CUST(CUST_ID, CUST_GENDER, CUST_NAME)
+  3  VALUES (1, 1, '홍길동')
+  4  INTO CUST(CUST_ID, CUST_GENDER, CUST_NAME)
+  5  VALUES (2, 0, '유관순')
+  6  INTO CUST(CUST_ID, CUST_GENDER, CUST_NAME)
+  7  VALUES (3, 1, 'NULL')
+  8  INTO CUST(CUST_ID, CUST_GENDER, CUST_NAME)
+  9  VALUES (4, 0, '신사임당')
+ 10  INTO CUST(CUST_ID, CUST_GENDER, CUST_NAME)
+ 11  VALUES (5, 1, '갑돌이')
+ 12  SELECT * FROM CUST
+ 13  ;
+
+0 rows created.
+
+SQL> DESC CUST
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CUST_ID                                            NUMBER(6)
+ CUST_GENDER                                        NUMBER
+ CUST_NAME                                          VARCHAR2(20)
+
+SQL> SELECT * FROM CUST;
+
+no rows selected
+
+SQL> INSERT ALL
+  2  INTO CUST(CUST_ID, CUST_GENDER, CUST_NAME)
+  3  VALUES (1, 1, '홍길동')
+  4  INTO CUST(CUST_ID, CUST_GENDER, CUST_NAME)
+  5  VALUES (2, 0, '유관순')
+  6  INTO CUST(CUST_ID, CUST_GENDER, CUST_NAME)
+  7  VALUES (3, 1, 'NULL')
+  8  INTO CUST(CUST_ID, CUST_GENDER, CUST_NAME)
+  9  VALUES (4, 0, '신사임당')
+ 10  INTO CUST(CUST_ID, CUST_GENDER, CUST_NAME)
+ 11  VALUES (5, 1, '갑돌이')
+ 12  SELECT CUST_ID, CUST_GENDER, CUST_NAME FROM CUST
+ 13  ;
+
+0 rows created.
+
+SQL> INSERT ALL
+  2  INTO CUST(CUST_ID, CUST_GENDER, CUST_NAME)
+  3  VALUES (1, 1, '홍길동')
+  4  INTO CUST(CUST_ID, CUST_GENDER, CUST_NAME)
+  5  VALUES (2, 0, '유관순')
+  6  INTO CUST(CUST_ID, CUST_GENDER, CUST_NAME)
+  7  VALUES (3, 1, 'NULL')
+  8  INTO CUST(CUST_ID, CUST_GENDER, CUST_NAME)
+  9  VALUES (4, 0, '신사임당')
+ 10  INTO CUST(CUST_ID, CUST_GENDER, CUST_NAME)
+ 11  VALUES (5, 1, '갑돌이')
+ 12  SELECT * FROM CUST
+ 13  ;
+
+0 rows created.
+
+SQL> SPOOL OFF

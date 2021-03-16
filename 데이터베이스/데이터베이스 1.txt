@@ -1,0 +1,550 @@
+﻿%JAVA_HOME%\bin
+
+
+
+oracle
+enter pw : oracle
+confirm pw : oracle
+
++자바 설치
++오라클 DBMS 설치 시 주의 사항
+1.설치 파일 경로 : 한글, 공백 x
+2.OS 사용자 : 한글, 공백 x
+3.컴퓨터 이름 : 한글, 공백 x
+
+spool : cmd 내용 저장
+SQL> spool test
+SQL> select * from dept;
+SQL> spool off -- 내용 저장
+C:\Users\goott1\Downloads\20201127_1.txt   -- 저장 위치 파일 이름
+
+오라클 실행
+C:\Users\goott1>sqlplus system/oracle
+
+SQL> show user
+USER is "SYSTEM"
+SQL> @C:\oraclexe\app\oracle\product\11.2.0\server\rdbms\admin\scott.sql
+SQL> exit
+
+C:\Users\goott1>sqlplus system/oracle
+
+SQL> alter user scott
+  2  identified by tiger
+  3  account unlock;
+
+User altered.
+
+SQL> conn scott/tiger
+SQL> select * from emp;
+
+@ -- 뒤에 scoot 끌어서 넣기
+alter user scott
+identified by tiger
+account unlock;
+select * from tab;
+
+
+-- 주석(comment) : 실행하지 않는 코드
+
+sql에 연산 가능 - select deptno*10 from dept;
+
+emp : 사원정보
+null : 0(x), 공백(x)
+       해당사항없음
+       할당, 연산, 비교 모두 안됨
+       ?, 무한대
+select empno, ename, sal*12+nvl(comm, 0) from emp; : 널 처리
+
+
+alias : 별칭
+        별칭 생성 방법 중요한 요소 : 공백
+        "", as, as"" : 알아보기 위해
+
+select distinct(deptno) from emp; : distinct() 중복 생략
+SQL> -- 문자열도 추가가 가능
+SQL> -- || (컬럼 붙이기) , ' is a '
+SQL> select ename || ' is a ' job from emp;
+
+데이터 제한
+WHERE 절을 사용하여 query에서 반환되는 행을 제한할 수 있습니다. WHERE 절은 충족되어
+야 하는 조건을 포함하며 FROM 절 바로 뒤에 나옵니다. 조건이 참인 경우 해당 조건을 충족하는
+행이 반환됩니다
+
+SQL> -- 실습 : 10번 부서 사원의 사번, 이름, 급여, 부서번호를 구해보세요
+SQL> select empno, ename, sal, deptno
+  2  from emp
+  3  where deptno = 10;
+
+     EMPNO ENAME                       SAL     DEPTNO
+---------- -------------------- ---------- ----------
+      7782 CLARK                      2450         10
+      7839 KING                       5000         10
+      7934 MILLER                     1300         10
+
+문자열을 인식하기 위해서는 ' '가 필요
+키보드를 통해서 입력하면 ASCII 코드로 입력하기 때문 ex) A=65, a=97
+문자의 대소문자는 구분
+
+SQL> -- 81년도 1월 1일 이후에 입사한 사원 정보
+           오라클 날짜 범위 : bc4312년 부터 ad9999년 까지 내부적으로 점점 증가하는 숫자 형태로 저장
+
+SQL> select empno, ename, sal, hiredate
+  2  from emp
+  3  where hiredate > '81/01/01';
+
+     EMPNO ENAME                       SAL HIREDATE
+---------- -------------------- ---------- --------
+      7499 ALLEN                      1600 81/02/20
+      7521 WARD                       1250 81/02/22
+      7566 JONES                      2975 81/04/02
+      7654 MARTIN                     1250 81/09/28
+      7698 BLAKE                      2850 81/05/01
+      7782 CLARK                      2450 81/06/09
+      7839 KING                       5000 81/11/17
+      7844 TURNER                     1500 81/09/08
+      7900 JAMES                       950 81/12/03
+      7902 FORD                       3000 81/12/03
+      7934 MILLER                     1300 82/01/23
+
+-- 테이블 크기가 너무 클 때 조건을 여러개 쓸 수 있음
+-- 논리 연산자 AND나 OR은 이론상으로 무한으로 쓸 수 있음
+
+SQL> -- EX) 급여가 3000이상 이고 10번 부서에서 일하는 사원의 정보를 조회
+SQL> select empno,ename, sal,deptno
+  2  from emp
+  3  where sal >= 3000 and deptno = 10;
+
+     EMPNO ENAME                 SAL     DEPTNO
+---------- -------------------- ---------- ----------
+      7839 KING                       5000         10
+
+SQL> -- 실습 : 급여가 3000이상이거나 10번 부서에서 일하고 있는 사원의 사번, 이름, 급여, 부서번호를 조회하세요
+SQL> select empno, ename, sal, deptno
+  2  from emp
+  3  where sal >= 3000 or deptno = 10;
+
+     EMPNO ENAME                       SAL     DEPTNO
+---------- -------------------- ---------- ----------
+      7782 CLARK                      2450         10
+      7839 KING                       5000         10
+      7902 FORD                       3000         20
+      7934 MILLER                     1300         10
+
+-- 문제 : 직책이 manager 이고 급여가 2000 이상인 사원의 사번, 이름, 급여, 직책을 조사하세요
+SQL> select empno, ename, sal, job
+  2  from emp
+  3  where job = 'MANAGER' and sal >= 2000;
+
+     EMPNO ENAME                       SAL JOB
+---------- -------------------- ---------- ------------------
+      7566 JONES                      2975 MANAGER
+      7698 BLAKE                      2850 MANAGER
+      7782 CLARK                      2450 MANAGER
+
+SQL> -- 실습 : 81년도에 입사한 사원의 사번, 이름, 입사일
+SQL> select empno, ename, hiredate
+  2  from emp
+  3  where hiredate between '81/01/01' and '81/12/31';
+
+     EMPNO ENAME                HIREDATE
+---------- -------------------- --------
+      7499 ALLEN                81/02/20
+      7521 WARD                 81/02/22
+      7566 JONES                81/04/02
+      7654 MARTIN               81/09/28
+      7698 BLAKE                81/05/01
+      7782 CLARK                81/06/09
+      7839 KING                 81/11/17
+      7844 TURNER               81/09/08
+      7900 JAMES                81/12/03
+      7902 FORD                 81/12/03
+
+SQL> -- 부서번호가 10이거나 20번인 사원들 중에서 급여가 3000이상인 사원
+SQL> select empno, ename, sal
+  2  from emp
+  3  where deptno = 10 or deptno = 20 and sal >= 3000;  -- 논리 연산자 우선순위 때문에 답이 잘못나옴
+
+
+     EMPNO ENAME                       SAL
+---------- -------------------- ----------
+      7782 CLARK                      2450
+      7839 KING                       5000
+      7902 FORD                       3000
+      7934 MILLER                     1300
+
+SQL> -- 논리 연산자 우선순위 : NOT - AND - OR 순서
+SQL> -- 최우선 연산자 : ()
+SQL> select empno, ename, sal
+  2  from emp
+  3  where (deptno = 10 or deptno = 20) and sal >= 3000;
+
+     EMPNO ENAME                       SAL
+---------- -------------------- ----------
+      7839 KING                       5000
+      7902 FORD                       3000
+
+SQL> select ename, sal, job
+  2  from emp
+  3  where sal between 3000 and 5000;
+
+ENAME                       SAL       JOB
+-------------------- ---------- ----------
+KING                       5000
+FORD                       3000
+
+SQL> select ename, sal, job
+  2  from emp
+  3  where sal >= 3000 and sal <= 5000;
+
+ENAME                       SAL      JOB
+-------------------- ---------- ----------
+KING                       5000
+FORD                      3000
+
+SQL> -- BETWEEN AND는 이상, 이하 값으로 인식
+SQL> select ename, comm
+  2  from emp
+  3  where comm in (300, 500, 1400);
+
+ENAME                      COMM
+-------------------- ----------
+ALLEN                       300
+WARD                        500
+MARTIN                     1400
+
+SQL> select ename, comm
+  2  from emp
+  3  where comm = 300 or comm = 500 or comm = 1400;
+
+ENAME                      COMM
+-------------------- ----------
+ALLEN                       300
+WARD                        500
+MARTIN                     1400
+
+SQL> -- 부서번호가 20, 30번인 사원들 정보를 조회하세요
+SQL> select ename, deptno from emp
+  2  where deptno = 20 or deptno = 30;
+
+ENAME                    DEPTNO
+-------------------- ----------
+SMITH                        20
+ALLEN                        30
+WARD                         30
+JONES                        20
+MARTIN                       30
+BLAKE                        30
+TURNER                       30
+JAMES                        30
+FORD                         20
+
+SQL> -- 생각 : 직원들 중 사장님을 어떻게 찾을 까요?
+12 rows selected.
+
+SQL> select ename, job
+  2  from emp
+  3  where mgr is null;
+
+ENAME                JOB
+-------------------- ------------------
+KING                 PRESIDENT
+
+SQL> -- 실습 : comm이 없는 사원의 이름, 급여, 수당 조회해보세요
+SQL> -- 값이 없는 것과 0인 것은 다름에 유의!
+SQL> select ename, sal,comm
+  2  from emp
+  3  where comm is null;
+
+ENAME                       SAL       COMM
+-------------------- ---------- ----------
+SMITH                       800
+JONES                      2975
+BLAKE                      2850
+CLARK                      2450
+KING                       5000
+JAMES                       950
+FORD                       3000
+MILLER                     1300
+
+SQL> -- LIKE : 문자열이 포함된 정보를 찾아줌
+SQL> -- % => | 1 | n
+SQL> select empno, ename, mgr
+  2  from emp
+  3  where ename LIKE '%S%';
+
+     EMPNO ENAME                       MGR
+---------- -------------------- ----------
+      7369 SMITH                      7902
+      7566 JONES                      7839
+      7900 JAMES                      7698
+
+SQL> -- _ : 한칸
+SQL> select empno, ename, mgr
+  2  from emp
+  3  where ename like '_A%';
+
+     EMPNO ENAME                       MGR
+---------- -------------------- ----------
+      7521 WARD                       7698
+      7654 MARTIN                     7698
+      7900 JAMES                      7698
+
+SQL> -- 실습 : 1982년도에 입사한 사원의 이름, 입사일자, 직책 조회
+SQL> select ename, hiredate, job
+  2  from emp
+  3  where hiredate like '%82%';
+
+ENAME                HIREDATE JOB
+-------------------- -------- ------------------
+MILLER               82/01/23 CLERK
+
+SQL> -- NOT ( !=, <> )
+SQL> -- SALESMAN이 아닌 직원들의 이름, 급여, 업무
+SQL> SELECT ENAME, SAL, JOB
+  2  FROM EMP
+  3  WHERE JOB != 'SALESMAN';
+
+ENAME                       SAL JOB
+-------------------- ---------- ------------------
+SMITH                       800 CLERK
+JONES                      2975 MANAGER
+BLAKE                      2850 MANAGER
+CLARK                      2450 MANAGER
+KING                       5000 PRESIDENT
+JAMES                       950 CLERK
+FORD                       3000 ANALYST
+MILLER                     1300 CLERK
+
+--         SQLPLUS                      |                        SQL
+--     ORACLE TOOL                                         ANSI 표준
+--    DESC, SAVE, SPOOL ...                                      ;
+--    축약 가능                                                축약 X
+--    BUFFER X                                                BUFFER 0
+--                                                               변수 X 
+--                                                               비절차적 성격
+--                                                               (영어) 언어 구조
+
+-- CF) 절차적 성격 : 개발자가 어떤 데이터가 필요하며 어떻게 그것을 얻을 수 있는지 개발자가 일일히 기술
+-- CF) 비절차적 성격 : 어떤 데이터가 필요한지 만을 개발자가 기술
+
+-- 혹시 ED 창이 안뜨면 CMD를 관리자 모드로 실행
+
++ goott1
+
+tip)에디터 툴 사용시 주석 단축키 ctrl + / , ctrl +shift + /
+
+-- 함수 ( 제공되는 함수가 많으므로 대표적이고 자주 쓰는 것 위주로 진행 )
+-- 1. 단일 행 함수 : 일반, 문자, 숫자, 날짜, 변환
+-- 1) 문자
+-- 문자 변환 
+UPPER() : 대문자 , LOWER() : 소문자 , INITCAP() : 초성만 대문자 나머지 소문자
+SQL> SELECT ENAME, UPPER(ENAME), LOWER(ENAME), INITCAP(ENAME)
+  2  FROM EMP;  
+
+-- 문자 조작
+SUBSTR : 특정 부분 글자를 잘라올때, 하나만 지정시 지정위치부터 끝까지 찾아온다, 
+LENGTH : 글자수
+INSTR : 지정 문자가 몇번째 있는지 찾음
+SQL> SELECT ENAME, SUBSTR(ENAME, 1, 3), SUBSTR(ENAME, 4), LENGTH(ENAME), INSTR(ENAME, 'A')
+  2  FROM EMP;
+
+SQL> SELECT ENAME, LPAD(SAL, 10, '*'), RPAD(SAL, 10, '*')
+  2  FROM EMP;
+
+-- 기타
+TRIM : 특정 문자를 제거, 제거할 문자(인자)를 입력하지 않으면  기본적으로 공백이 제거 됨
+SQL> SELECT TRIM('o' FROM 'oracleDBMS') NAME
+
+DUAL : 행이 1개 있는 빈 테이블 (테스트용) - 결과가 한번만 나옴
+SQL> SELECT TRIM('o' FROM 'oracleDBMS') NAME
+  2  FROM DUAL;
+
+NAME
+------------------
+racleDBMS
+SQL> SELECT TRIM(' ORACLEDATABASE ' ), TRIM('ORACLEDATABASE') FROM DUAL; - 공백 제거
+TRIM('ORACLEDATABASE')       TRIM('ORACLEDATABASE')
+---------------------------- ----------------------------
+ORACLEDATABASE               ORACLEDATABASE
+
+REPLACE : 문자열의 특정 문자를 다른 문자로 변환
+SQL> SELECT REPLACE('ORACLEDATABASE', 'ORACLE', 'DB') NAME FROM DUAL;
+
+데이터는 대소문자를 구분함에 유의!
+SQL> SELECT REPLACE('ORACLEDATABASE', 'oracle', 'MYSQL') NAME FROM DUAL; - 실행되지않음
+
+NAME
+----------------------------
+ORACLEDATABASE
+
+-- 실습 : 12월에 입사한 사원들의 이름, 입사일자, 급여를 조회해보세요
+SQL> SELECT ENAME, HIREDATE, SAL
+  2  FROM EMP
+  3  WHERE SUBSTR(HIREDATE, 4, 2) = '12';
+
+ENAME                HIREDATE        SAL
+-------------------- -------- ----------
+SMITH                80/12/17        800
+JAMES                81/12/03        950
+FORD                 81/12/03       3000
+
+-- 실습 : 12월에 입사한 사원들 정보를 조회하고, 그 직원들의 급여를 6자리로 출력하고 싶음(단, 부족한 자리수는 0으로 표기)
+SQL> SELECT ENAME, HIREDATE, LPAD(SAL, 6, '0')
+  2  FROM EMP
+  3  WHERE SUBSTR(HIREDATE, 4, 2) = '12';
+
+ENAME                HIREDATE LPAD(SAL,6,'0')
+-------------------- -------- ------------------------------------------------
+SMITH                80/12/17 000800
+JAMES                81/12/03 000950
+FORD                 81/12/03 003000
+
+-- 2) 숫자 함수
+SQL> SELECT ROUND(45.139,2), TRUNC(45.130,2) - x번째 소숫점자리수까지 출력
+  2  FROM DUAL;
+
+ROUND(45.139,2) TRUNC(45.130,2)
+--------------- ---------------
+          45.14           45.13
+
+SQL> SELECT MOD(101, 2)  - MOD : 나누기 연산을 한후 나머지 값 출력
+  2  FROM DUAL; 
+
+MOD(101,2)
+----------
+         1
+
+https://docs.oracle.com/cd/B19306_01/server.102/b14200/functions001.htm - 함수 종류
+
+SQL> -- 실습 : 전체 사원의 매니저를 구분하려고 함
+SQL> -- 이름, 업무, 매니저(0, 1), 매니저번호출력
+SQL> -- (단, 매니저 번호가 짝수이면 0, 홀수이면 1로 구분)
+SQL> SELECT ENAME, JOB, MOD(MGR, 2) "매니저번호(0, 1)", MGR
+  2  FROM EMP;
+
+-- 3) 날짜 함수
+-- SYSDATE : 시스템상 날짜 정보
+
+SQL> SELECT HIREDATE,
+  2  MONTHS_BETWEEN(SYSDATE, HIREDATE),  
+  3  ADD_MONTHS(HIREDATE, 6),   
+  4  NEXT_DAY(HIREDATE, '금'),  
+  5  LAST_DAY(HIREDATE) 
+  6  FROM EMP;
+
+-- 실습 : 이번 달의 마지막 일자를 출력해보세요
+SQL> SELECT LAST_DAY(SYSDATE) FROM DUAL;
+
+-- 실습 : 근무 개월 수가 460개월 이산인 사원의 이름, 입사일자, 근무개월 수를 조회
+-- (단, 근무 개월 수는 월 단위로 표기)
+
+-- 단일 행 함수는 함수 중첩이 가능 함
+SQL> SELECT ENAME, HIREDATE, ROUND(MONTHS_BETWEEN(SYSDATE, HIREDATE)) "근무개월수"
+  2  FROM EMP
+  3  WHERE MONTHS_BETWEEN(SYSDATE, HIREDATE) >= 460;
+
+SQL> -- 실습 : 우리 회사는 입사 후 6개월이 지난 사원에 대해서 그 주 금요일에 승진시험을 볼 겁니다.
+SQL> -- 그 시험일이 궁금하니 사원명, 입사일, 6개월 후 금요일 정보를 조회하세요
+SQL> SELECT ENAME, HIREDATE, ADD_MONTHS(HIREDATE, 6) "6개월후",
+  2  NEXT_DAY(ADD_MONTHS(HIREDATE, 6), '금') "6개월후금요일"
+  3  from emp;
+
+SQL>col 컬럼명 format a글자수     // 문자열 길이 변경시
+ex) em01 컬럼의 길이를 20자만큼 보이도록 하기
+-> SQL>col em01 format a20;
+SQL> column 컬럼명 format(양식, 또는 글자 수)    // 숫자의 표현 방법 바꾸기
+ex) sal 컬럼을 3자리마다 ,를 찍게 하기
+-> SQL>col sal format 999,999;    
+ex) sal 컬럼을 10자리 까지 보이게 하기
+-> SQL>col sal format 9999999999;\
+
+-- 날짜 연산 가능
+SQL> select sysdate + 1
+  2  from dual;
+
+SQL> select sysdate - 1
+  2  from dual;
+
+-- 날짜 + 숫자 | 날짜 - 숫자 ===> 모두 가능하고, 결과를 날짜로 되돌려 주고 있음
+
+SQL> select sysdate - hiredate
+  2  from emp;
+
+-- 주의! 날짜와 날짜의 덧셈은 안됩니다.
+
+SQL> select sysdate + hiredate
+  2  from emp;
+
+SQL> -- 실습 : 전체 사원들의 이름, 근무년수 조회해보세요
+SQL> -- (단, 근무년수는 년단위로 표기)
+SQL> SELECT ENAME, ROUND(MONTHS_BETWEEN(SYSDATE, HIREDATE)/12) "근무년수"
+  2  FROM EMP;
+
+-- 4) 변환 함수
+--  ⅰ) 암시적 : 오라클 서버가 자동으로 바꿔줌
+SQL> SELECT ENAME, HIREDATE, LPAD(SAL, 6, 0) SAL, RPAD(SAL, 6, 0) SAL
+  2  FROM EMP
+  3  WHERE SUBSTR(HIREDATE, 4, 2) = '12';
+
+--  ⅱ) 명시적 :  문자 => 숫자 - TO_NUMER(), 문자 => 날짜 - TO_DATE()
+                    숫자 => 문자 - TO _CHAR()   날짜 => 문자 - TO_CHAR()
+SQL> SELECT SYSDATE - TO_DATE('99/01/01')
+  2  FROM DUAL;
+
+-- 날짜 형식 모델 요소
+YEAR : 영어철자로 표기된 연도
+MM : 월의 2자리값
+MONTH : 전체 월의 이름
+MON : 월의 3자 약어
+DY : 3문자로 된 요일의 약어
+DAY : 요일 전체 이름
+DD : 숫자 형식의 월간 일
+SQL> SELECT SYSDATE, TO_CHAR(SYSDATE, 'cc yyyy/mm/dd - hh24 : mi : ss')
+  2  from dual;
+
+-- 숫자 표현 형식 요소
+9 : 숫자를 나타냄
+0 : 0이 표시되도록 강제
+$ : 부동 달러 기호 배치
+L : 부동 로컬 통화 기호 배치
+. : 소수점 출력
+, : 천단위 표시자
+
+SQL> SELECT ENAME, SAL, LPAD(SAL, 6, '*'), TO_CHAR(SAL, '$999,999.99')
+  2  FROM EMP;
+
+SQL> SELECT ENAME, SAL, LPAD(SAL, 6, '*'), TO_CHAR(SAL, 'L999,999.99')
+  2  FROM EMP;
+
+-- 0 강제
+SQL> SELECT 123, TO_CHAR(123, '0999')
+  2  FROM EMP;
+
+-- 16진수
+SQL> SELECT TO_CHAR(123, 'XXXX') FROM DUAL;
+
+-- 문자를 숫자로 변환
+SQL> SELECT TO_NUMBER('0123456789') FROMT DUAL;
+
+-- 5) 일반 함수
+-- ⅰ) NULL 처리 함수
+-- NVL
+SQL> SELECT ENAME, SAL*12+NVL(COMM, 0) FULLSAL
+  2  FROM EMP;
+
+-- NVL2 (COL, VAL1, VAL2)
+-- COL값이 NULL이 아니면 VAL1을 선택, NULL이면 VAL2
+-- 사원들이 매니저가 있으면 1, 없으면 0으로 정보 출력
+SQL> SELECT ENAME, MGR, NVL2(MGR, 1, 0) MGR
+  2  FROM EMP;
+
+-- COALESCE (COL, VAL1, VAL2) 
+-- : COL이 NULL이면 VAL1, VAL1이 NULL이라면 VAL2
+
+-- NULLIF : 두 표현식을 비교하여 동일한 경우에는 NULL을 반환, 동일하지 않으면 첫번째 표현식을 반환
+SQL> SELECT NULLIF('A', 'a'), NULLIF('A', 'A')
+  2  FROM DUAL;
+-- ⅱ) 조건 함수
+
+
+

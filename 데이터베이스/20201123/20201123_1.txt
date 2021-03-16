@@ -1,0 +1,1041 @@
+SQL> select RPAD(SUBSTR(ENAME,1,2),LENGTH(ENAME),'*') RESULT
+  2  from emp;
+
+RESULT                                                                          
+--------------------------------------------------------------------------------
+SM***                                                                           
+AL***                                                                           
+WA**                                                                            
+JO***                                                                           
+MA****                                                                          
+BL***                                                                           
+CL***                                                                           
+KI**                                                                            
+TU****                                                                          
+JA***                                                                           
+FO**                                                                            
+
+RESULT                                                                          
+--------------------------------------------------------------------------------
+MI****                                                                          
+
+12 rows selected.
+
+SQL> select ename, rpad
+  2  
+SQL> select ename, rpad(ename, length(ename), '*') RESULT
+  2  from emp;
+
+ENAME                                                                           
+--------------------                                                            
+RESULT                                                                          
+--------------------------------------------------------------------------------
+SMITH                                                                           
+SMITH                                                                           
+                                                                                
+ALLEN                                                                           
+ALLEN                                                                           
+                                                                                
+WARD                                                                            
+WARD                                                                            
+                                                                                
+
+ENAME                                                                           
+--------------------                                                            
+RESULT                                                                          
+--------------------------------------------------------------------------------
+JONES                                                                           
+JONES                                                                           
+                                                                                
+MARTIN                                                                          
+MARTIN                                                                          
+                                                                                
+BLAKE                                                                           
+BLAKE                                                                           
+                                                                                
+
+ENAME                                                                           
+--------------------                                                            
+RESULT                                                                          
+--------------------------------------------------------------------------------
+CLARK                                                                           
+CLARK                                                                           
+                                                                                
+KING                                                                            
+KING                                                                            
+                                                                                
+TURNER                                                                          
+TURNER                                                                          
+                                                                                
+
+ENAME                                                                           
+--------------------                                                            
+RESULT                                                                          
+--------------------------------------------------------------------------------
+JAMES                                                                           
+JAMES                                                                           
+                                                                                
+FORD                                                                            
+FORD                                                                            
+                                                                                
+MILLER                                                                          
+MILLER                                                                          
+                                                                                
+
+12 rows selected.
+
+SQL> select ename, rpad(ename(1,2), length(ename), '*') RESULT
+  2  from emp;
+select ename, rpad(ename(1,2), length(ename), '*') RESULT
+                   *
+ERROR at line 1:
+ORA-00904: "ENAME": invalid identifier 
+
+
+SQL> select ename, rpad(ename(1,2),length(ename),'*') RESULTLT
+  2  form emp;
+form emp
+*
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> select ename, rpad(ename,length(ename),'*') RESULT
+  2  from emp;
+
+ENAME                                                                           
+--------------------                                                            
+RESULT                                                                          
+--------------------------------------------------------------------------------
+SMITH                                                                           
+SMITH                                                                           
+                                                                                
+ALLEN                                                                           
+ALLEN                                                                           
+                                                                                
+WARD                                                                            
+WARD                                                                            
+                                                                                
+
+ENAME                                                                           
+--------------------                                                            
+RESULT                                                                          
+--------------------------------------------------------------------------------
+JONES                                                                           
+JONES                                                                           
+                                                                                
+MARTIN                                                                          
+MARTIN                                                                          
+                                                                                
+BLAKE                                                                           
+BLAKE                                                                           
+                                                                                
+
+ENAME                                                                           
+--------------------                                                            
+RESULT                                                                          
+--------------------------------------------------------------------------------
+CLARK                                                                           
+CLARK                                                                           
+                                                                                
+KING                                                                            
+KING                                                                            
+                                                                                
+TURNER                                                                          
+TURNER                                                                          
+                                                                                
+
+ENAME                                                                           
+--------------------                                                            
+RESULT                                                                          
+--------------------------------------------------------------------------------
+JAMES                                                                           
+JAMES                                                                           
+                                                                                
+FORD                                                                            
+FORD                                                                            
+                                                                                
+MILLER                                                                          
+MILLER                                                                          
+                                                                                
+
+12 rows selected.
+
+SQL> select ename, rpad(ename(1,2),length(ename),'*') RESULTLT
+  2  from emp;
+select ename, rpad(ename(1,2),length(ename),'*') RESULTLT
+                   *
+ERROR at line 1:
+ORA-00904: "ENAME": invalid identifier 
+
+
+SQL> select ename, rpad(substr(ename,1,2),length(ename),'*') RESULTLT
+  2  from emp;
+
+ENAME                                                                           
+--------------------                                                            
+RESULTLT                                                                        
+--------------------------------------------------------------------------------
+SMITH                                                                           
+SM***                                                                           
+                                                                                
+ALLEN                                                                           
+AL***                                                                           
+                                                                                
+WARD                                                                            
+WA**                                                                            
+                                                                                
+
+ENAME                                                                           
+--------------------                                                            
+RESULTLT                                                                        
+--------------------------------------------------------------------------------
+JONES                                                                           
+JO***                                                                           
+                                                                                
+MARTIN                                                                          
+MA****                                                                          
+                                                                                
+BLAKE                                                                           
+BL***                                                                           
+                                                                                
+
+ENAME                                                                           
+--------------------                                                            
+RESULTLT                                                                        
+--------------------------------------------------------------------------------
+CLARK                                                                           
+CL***                                                                           
+                                                                                
+KING                                                                            
+KI**                                                                            
+                                                                                
+TURNER                                                                          
+TU****                                                                          
+                                                                                
+
+ENAME                                                                           
+--------------------                                                            
+RESULTLT                                                                        
+--------------------------------------------------------------------------------
+JAMES                                                                           
+JA***                                                                           
+                                                                                
+FORD                                                                            
+FO**                                                                            
+                                                                                
+MILLER                                                                          
+MI****                                                                          
+                                                                                
+
+12 rows selected.
+
+SQL> select ename, rpad(substr(ename,1,2),length(ename),'*') "RESULTLT"
+  2  from emp;
+
+ENAME                                                                           
+--------------------                                                            
+RESULTLT                                                                        
+--------------------------------------------------------------------------------
+SMITH                                                                           
+SM***                                                                           
+                                                                                
+ALLEN                                                                           
+AL***                                                                           
+                                                                                
+WARD                                                                            
+WA**                                                                            
+                                                                                
+
+ENAME                                                                           
+--------------------                                                            
+RESULTLT                                                                        
+--------------------------------------------------------------------------------
+JONES                                                                           
+JO***                                                                           
+                                                                                
+MARTIN                                                                          
+MA****                                                                          
+                                                                                
+BLAKE                                                                           
+BL***                                                                           
+                                                                                
+
+ENAME                                                                           
+--------------------                                                            
+RESULTLT                                                                        
+--------------------------------------------------------------------------------
+CLARK                                                                           
+CL***                                                                           
+                                                                                
+KING                                                                            
+KI**                                                                            
+                                                                                
+TURNER                                                                          
+TU****                                                                          
+                                                                                
+
+ENAME                                                                           
+--------------------                                                            
+RESULTLT                                                                        
+--------------------------------------------------------------------------------
+JAMES                                                                           
+JA***                                                                           
+                                                                                
+FORD                                                                            
+FO**                                                                            
+                                                                                
+MILLER                                                                          
+MI****                                                                          
+                                                                                
+
+12 rows selected.
+
+SQL> select round(hiredate, 'month') relsult
+  2  from emp;
+
+RELSULT                                                                         
+--------                                                                        
+81/01/01                                                                        
+81/03/01                                                                        
+81/03/01                                                                        
+81/04/01                                                                        
+81/10/01                                                                        
+81/05/01                                                                        
+81/06/01                                                                        
+81/12/01                                                                        
+81/09/01                                                                        
+81/12/01                                                                        
+81/12/01                                                                        
+
+RELSULT                                                                         
+--------                                                                        
+82/02/01                                                                        
+
+12 rows selected.
+
+SQL> -- 부서번호가 10이면 ACCOUNTING, 20이면 RESERCH, 30이면 SALES, 나머지면 OPERATIONS 를 출력하고 싶음
+SQL> SELECET * FROM DEPT;
+SP2-0734: unknown command beginning "SELECET * ..." - rest of line ignored.
+SQL> SELECT * FROM DEPT;
+
+    DEPTNO DNAME                        LOC                                     
+---------- ---------------------------- --------------------------              
+        10 ACCOUNTING                   NEW YORK                                
+        20 RESEARCH                     DALLAS                                  
+        30 SALES                        CHICAGO                                 
+        40 OPERATIONS                   BOSTON                                  
+
+SQL> SELECT DEPTNO,
+  2  DECODE(DEPTNO, 10, 'ACCOUNTING',
+  3                 20, 'RESERCH',
+  4                 30, 'SALES'
+  5                 'OPERRATIONS') "NAME"
+  6  FROM DEPT;
+               'OPERRATIONS') "NAME"
+               *
+ERROR at line 5:
+ORA-00907: missing right parenthesis 
+
+
+SQL> DECODE(DEPTNO, 10, 'ACCOUNTING',
+SP2-0734: unknown command beginning "DECODE(DEP..." - rest of line ignored.
+SQL> DECODE(DEPTNO, 10, 'ACCOUNTING',
+SP2-0734: unknown command beginning "DECODE(DEP..." - rest of line ignored.
+SQL> 
+SQL> DECODE(DEPTNO, 10, 'ACCOUNTING',
+SP2-0734: unknown command beginning "DECODE(DEP..." - rest of line ignored.
+SQL> DECODE(DEPTNO, 10, 'ACCOUNTING', 20, 'RESERCH', 30, 'SALES', 'OPERRATIONS') "NAME"
+SP2-0734: unknown command beginning "DECODE(DEP..." - rest of line ignored.
+SP2-0044: For a list of known commands enter HELP
+and to leave enter EXIT.
+SQL> DESC EMP;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMPNO                                     NOT NULL NUMBER(4)
+ ENAME                                              VARCHAR2(10)
+ JOB                                                VARCHAR2(9)
+ MGR                                                NUMBER(4)
+ HIREDATE                                           DATE
+ SAL                                                NUMBER(7,2)
+ COMM                                               NUMBER(7,2)
+ DEPTNO                                             NUMBER(2)
+
+SQL> SELECT DEPTNO,DECODE(DEPTNO, 10, 'ACCOUNTING', 20, 'RESERCH', 30, 'SALES', 'OPERRATIONS') "NAME"
+  2  FROM DEPTNO;
+FROM DEPTNO
+     *
+ERROR at line 2:
+ORA-00942: table or view does not exist 
+
+
+SQL> SELECT DEPTNO,DECODE(DEPTNO, 10, 'ACCOUNTING', 20, 'RESERCH', 30, 'SALES', 'OPERRATIONS') "NAME"
+  2  FROM DEPT;
+
+    DEPTNO NAME                                                                 
+---------- ----------------------                                               
+        10 ACCOUNTING                                                           
+        20 RESERCH                                                              
+        30 SALES                                                                
+        40 OPERRATIONS                                                          
+
+SQL> SELECT DEPTNO, CASE DEPTNO
+  2  WHEN 10 THEN '10번부서'
+  3  WHEN 20 THEN '20번부서'
+  4  WHEN 30 THEN '30번 부서'
+  5  ELSE '나머지부서'
+  6  END "NAME"
+  7  FROM DEPT;
+
+    DEPTNO NAME                                                                 
+---------- ------------------------------                                       
+        10 10번부서                                                             
+        20 20번부서                                                             
+        30 30번 부서                                                            
+        40 나머지부서                                                           
+
+SQL> SELECT ENAME, SAL,
+  2  	CASE
+  3  	WHEN SAL < 1000 THEN SAL
+  4  
+SQL> SELECT ENAME, SAL,
+  2  	CASE
+  3  	WHEN SAL < 1000 THEN SAL+(SAL*0.08)
+  4  	WHEN SAL < 2000 THEN SAL+(SAL*0.05)
+  5  	WHEN SAL < 3000 THEN SAL+(SAL*0.03)
+  6  
+SQL> SELECT ENAME, SAL,
+  2  	CASE
+  3  	WHEN SAL < 1000 THEN SAL+(SAL*0.08)
+  4  	WHEN SAL BETWEEN 1000 AND 2000 THEN SAL+(SAL*0.05)
+  5  	WHEN SAL BETWEEN 2000 AND 3000 THEN SAL+(SAL*0.03)
+  6  
+SQL> SELECT ENAME, SAL,
+  2  	CASE
+  3  	WHEN SAL < 1000 THEN SAL+(SAL*0.08)
+  4  	WHEN SAL BETWEEN 1000 AND 2000 THEN SAL+(SAL*0.05)
+  5  	WHEN SAL BETWEEN 2001 AND 3000 THEN SAL+(SAL*0.03)
+  6  	ELSE SAL+(SAL*0.01)
+  7  END "UPSAL"
+  8  FROM EMP;
+
+ENAME                       SAL      UPSAL                                      
+-------------------- ---------- ----------                                      
+SMITH                       800        864                                      
+ALLEN                      1600       1680                                      
+WARD                       1250     1312.5                                      
+JONES                      2975    3064.25                                      
+MARTIN                     1250     1312.5                                      
+BLAKE                      2850     2935.5                                      
+CLARK                      2450     2523.5                                      
+KING                       5000       5050                                      
+TURNER                     1500       1575                                      
+JAMES                       950       1026                                      
+FORD                       3000       3090                                      
+
+ENAME                       SAL      UPSAL                                      
+-------------------- ---------- ----------                                      
+MILLER                     1300       1365                                      
+
+12 rows selected.
+
+SQL> SELECT ENAME, JOB, SAL,
+  2  	CASE
+  3  	WHEN JOB = 'MANAGER' THEN SAL+(SAL*0.1)
+  4  	WHEN JOB = 'SALESMAN' THEN SAL+(SAL*0.05)
+  5  	ELSE SAL+(SAL*0.02)
+  6  END "UPSAL"
+  7  FROM EMP;
+
+ENAME                JOB                       SAL      UPSAL                   
+-------------------- ------------------ ---------- ----------                   
+SMITH                CLERK                     800        816                   
+ALLEN                SALESMAN                 1600       1680                   
+WARD                 SALESMAN                 1250     1312.5                   
+JONES                MANAGER                  2975     3272.5                   
+MARTIN               SALESMAN                 1250     1312.5                   
+BLAKE                MANAGER                  2850       3135                   
+CLARK                MANAGER                  2450       2695                   
+KING                 PRESIDENT                5000       5100                   
+TURNER               SALESMAN                 1500       1575                   
+JAMES                CLERK                     950        969                   
+FORD                 ANALYST                  3000       3060                   
+
+ENAME                JOB                       SAL      UPSAL                   
+-------------------- ------------------ ---------- ----------                   
+MILLER               CLERK                    1300       1326                   
+
+12 rows selected.
+
+SQL> SELECT ENAME, JOB, SAL,
+  2  	CASE
+  3  	WHEN JOB = 'MANAGER' THEN SAL+(SAL*0.1)
+  4  	WHEN JOB = 'CLERK' THEN SAL+(SAL*0.05)
+  5  	ELSE SAL+(SAL*0.02)
+  6  END "UPSAL"
+  7  FROM EMP;
+
+ENAME                JOB                       SAL      UPSAL                   
+-------------------- ------------------ ---------- ----------                   
+SMITH                CLERK                     800        840                   
+ALLEN                SALESMAN                 1600       1632                   
+WARD                 SALESMAN                 1250       1275                   
+JONES                MANAGER                  2975     3272.5                   
+MARTIN               SALESMAN                 1250       1275                   
+BLAKE                MANAGER                  2850       3135                   
+CLARK                MANAGER                  2450       2695                   
+KING                 PRESIDENT                5000       5100                   
+TURNER               SALESMAN                 1500       1530                   
+JAMES                CLERK                     950      997.5                   
+FORD                 ANALYST                  3000       3060                   
+
+ENAME                JOB                       SAL      UPSAL                   
+-------------------- ------------------ ---------- ----------                   
+MILLER               CLERK                    1300       1365                   
+
+12 rows selected.
+
+SQL> SELECT ENAME, JOB, SAL,
+  2  	DECODE (JOB, 'MANAGER', SAL*1.1, 'CLERK', SAL*1.05, SAL*1.02) "UPSAL"
+  3  FROM EMP;
+
+ENAME                JOB                       SAL      UPSAL                   
+-------------------- ------------------ ---------- ----------                   
+SMITH                CLERK                     800        840                   
+ALLEN                SALESMAN                 1600       1632                   
+WARD                 SALESMAN                 1250       1275                   
+JONES                MANAGER                  2975     3272.5                   
+MARTIN               SALESMAN                 1250       1275                   
+BLAKE                MANAGER                  2850       3135                   
+CLARK                MANAGER                  2450       2695                   
+KING                 PRESIDENT                5000       5100                   
+TURNER               SALESMAN                 1500       1530                   
+JAMES                CLERK                     950      997.5                   
+FORD                 ANALYST                  3000       3060                   
+
+ENAME                JOB                       SAL      UPSAL                   
+-------------------- ------------------ ---------- ----------                   
+MILLER               CLERK                    1300       1365                   
+
+12 rows selected.
+
+SQL> SELECT ENAME, ENAME
+  2  FROM EMP;
+
+ENAME                ENAME                                                      
+-------------------- --------------------                                       
+SMITH                SMITH                                                      
+ALLEN                ALLEN                                                      
+WARD                 WARD                                                       
+JONES                JONES                                                      
+MARTIN               MARTIN                                                     
+BLAKE                BLAKE                                                      
+CLARK                CLARK                                                      
+KING                 KING                                                       
+TURNER               TURNER                                                     
+JAMES                JAMES                                                      
+FORD                 FORD                                                       
+
+ENAME                ENAME                                                      
+-------------------- --------------------                                       
+MILLER               MILLER                                                     
+
+12 rows selected.
+
+SQL> SELECT ENAME, SUBSTR(ENAME, 1, 2)
+  2  FROM EMP;
+
+ENAME                SUBSTR(ENAME,1,2                                           
+-------------------- ----------------                                           
+SMITH                SM                                                         
+ALLEN                AL                                                         
+WARD                 WA                                                         
+JONES                JO                                                         
+MARTIN               MA                                                         
+BLAKE                BL                                                         
+CLARK                CL                                                         
+KING                 KI                                                         
+TURNER               TU                                                         
+JAMES                JA                                                         
+FORD                 FO                                                         
+
+ENAME                SUBSTR(ENAME,1,2                                           
+-------------------- ----------------                                           
+MILLER               MI                                                         
+
+12 rows selected.
+
+SQL> SELECT ENAME, CONCAT(SUBSTR(ENAME, 1, 2), '_US')
+  2  FROM EMP;
+
+ENAME                CONCAT(SUBSTR(ENAME,1,                                     
+-------------------- ----------------------                                     
+SMITH                SM_US                                                      
+ALLEN                AL_US                                                      
+WARD                 WA_US                                                      
+JONES                JO_US                                                      
+MARTIN               MA_US                                                      
+BLAKE                BL_US                                                      
+CLARK                CL_US                                                      
+KING                 KI_US                                                      
+TURNER               TU_US                                                      
+JAMES                JA_US                                                      
+FORD                 FO_US                                                      
+
+ENAME                CONCAT(SUBSTR(ENAME,1,                                     
+-------------------- ----------------------                                     
+MILLER               MI_US                                                      
+
+12 rows selected.
+
+SQL> SELECT ENAME, INITCAP(CONCAT(SUBSTR(ENAME, 1, 2), '_US')) ||'PLUS'
+  2  FROM EMP;
+
+ENAME                INITCAP(CONCAT(SUBSTR(ENAME,1,                             
+-------------------- ------------------------------                             
+SMITH                Sm_UsPLUS                                                  
+ALLEN                Al_UsPLUS                                                  
+WARD                 Wa_UsPLUS                                                  
+JONES                Jo_UsPLUS                                                  
+MARTIN               Ma_UsPLUS                                                  
+BLAKE                Bl_UsPLUS                                                  
+CLARK                Cl_UsPLUS                                                  
+KING                 Ki_UsPLUS                                                  
+TURNER               Tu_UsPLUS                                                  
+JAMES                Ja_UsPLUS                                                  
+FORD                 Fo_UsPLUS                                                  
+
+ENAME                INITCAP(CONCAT(SUBSTR(ENAME,1,                             
+-------------------- ------------------------------                             
+MILLER               Mi_UsPLUS                                                  
+
+12 rows selected.
+
+SQL> SELECT ENAME, INITCAP(CONCAT(SUBSTR(ENAME, 1, 2), '_US')) ||'PLUS' "NAME"
+  2  FROM EMP;
+
+ENAME                NAME                                                       
+-------------------- ------------------------------                             
+SMITH                Sm_UsPLUS                                                  
+ALLEN                Al_UsPLUS                                                  
+WARD                 Wa_UsPLUS                                                  
+JONES                Jo_UsPLUS                                                  
+MARTIN               Ma_UsPLUS                                                  
+BLAKE                Bl_UsPLUS                                                  
+CLARK                Cl_UsPLUS                                                  
+KING                 Ki_UsPLUS                                                  
+TURNER               Tu_UsPLUS                                                  
+JAMES                Ja_UsPLUS                                                  
+FORD                 Fo_UsPLUS                                                  
+
+ENAME                NAME                                                       
+-------------------- ------------------------------                             
+MILLER               Mi_UsPLUS                                                  
+
+12 rows selected.
+
+SQL> SELECT ENAME, INITCAP(CONCAT(SUBSTR(ENAME, 1, 2), '_US')) ||'PLUS' "NAME"
+  2  FROM EMP
+  3  WHERE DEPTNO = 10;
+
+ENAME                NAME                                                       
+-------------------- ------------------------------                             
+CLARK                Cl_UsPLUS                                                  
+KING                 Ki_UsPLUS                                                  
+MILLER               Mi_UsPLUS                                                  
+
+SQL> SELECT SAL FROM EMP;
+
+       SAL                                                                      
+----------                                                                      
+       800                                                                      
+      1600                                                                      
+      1250                                                                      
+      2975                                                                      
+      1250                                                                      
+      2850                                                                      
+      2450                                                                      
+      5000                                                                      
+      1500                                                                      
+       950                                                                      
+      3000                                                                      
+
+       SAL                                                                      
+----------                                                                      
+      1300                                                                      
+
+12 rows selected.
+
+SQL> SELECT AVG(SAL), MAX(SAL), MIN(SAL), SUM(SAL)
+  2  FROM EMP;
+
+  AVG(SAL)   MAX(SAL)   MIN(SAL)   SUM(SAL)                                     
+---------- ---------- ---------- ----------                                     
+2077.08333       5000        800      24925                                     
+
+SQL> SELECT AVG(SAL), MAX(SAL), MIN(SAL), SUM(SAL)
+  2  FROM EMP
+  3  WHERE JOB LIKE 'CLERK';
+
+  AVG(SAL)   MAX(SAL)   MIN(SAL)   SUM(SAL)                                     
+---------- ---------- ---------- ----------                                     
+1016.66667       1300        800       3050                                     
+
+SQL> SELECT MAX(HIREDATE), MIN(HIREDATE)
+  2  FROM EMP;
+
+MAX(HIRE MIN(HIRE                                                               
+-------- --------                                                               
+82/01/23 80/12/17                                                               
+
+SQL> SELECT MAX(ENAME), MIN(ENAME)
+  2  FROM EMP;
+
+MAX(ENAME)           MIN(ENAME)                                                 
+-------------------- --------------------                                       
+WARD                 ALLEN                                                      
+
+SQL> SELECT COUNT(*)
+  2  FROM EMP;
+
+  COUNT(*)                                                                      
+----------                                                                      
+        12                                                                      
+
+SQL> SELECT COUNT(ENAME)
+  2  FROM EMP
+  3  ;
+
+COUNT(ENAME)                                                                    
+------------                                                                    
+          12                                                                    
+
+SQL> SELECT COUNT(DEPTNO = 10)
+  2  FROM EMP;
+SELECT COUNT(DEPTNO = 10)
+                    *
+ERROR at line 1:
+ORA-00907: missing right parenthesis 
+
+
+SQL> SELECT COUNT(DEPTNO 10)
+  2  FROM EMP
+  3  ;
+SELECT COUNT(DEPTNO 10)
+                    *
+ERROR at line 1:
+ORA-00907: missing right parenthesis 
+
+
+SQL> SELECT DEPTNO
+  2  FROM EMP
+  3  WHERE DEPTNO = 10;
+
+    DEPTNO                                                                      
+----------                                                                      
+        10                                                                      
+        10                                                                      
+        10                                                                      
+
+SQL> SELECT DETPNO, COUNT(DEPTNO = 10)
+  2  FROM EMP;
+SELECT DETPNO, COUNT(DEPTNO = 10)
+                            *
+ERROR at line 1:
+ORA-00907: missing right parenthesis 
+
+
+SQL> SELECT COUNT(DEPTNO)
+  2  FROM EMP;
+
+COUNT(DEPTNO)                                                                   
+-------------                                                                   
+           12                                                                   
+
+SQL> SELECT COUNT(DEPTNO)
+  2  FROM EMP
+  3  WHERE DEPTNO = 10;
+
+COUNT(DEPTNO)                                                                   
+-------------                                                                   
+            3                                                                   
+
+SQL> SELECT COUNT(SAL)
+  2  FROM EMP
+  3  WHERE SAL/12;
+WHERE SAL/12
+           *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+SQL> SELECT COUNT(SAL)
+  2  FROM EMP;
+
+COUNT(SAL)                                                                      
+----------                                                                      
+        12                                                                      
+
+SQL> SELECT AVG(SAL)
+  2  FROM EMP;
+
+  AVG(SAL)                                                                      
+----------                                                                      
+2077.08333                                                                      
+
+SQL> SELECT SAL FROM EMP;
+
+       SAL                                                                      
+----------                                                                      
+       800                                                                      
+      1600                                                                      
+      1250                                                                      
+      2975                                                                      
+      1250                                                                      
+      2850                                                                      
+      2450                                                                      
+      5000                                                                      
+      1500                                                                      
+       950                                                                      
+      3000                                                                      
+
+       SAL                                                                      
+----------                                                                      
+      1300                                                                      
+
+12 rows selected.
+
+SQL> 
+SQL> SELECT AVG(COMM)
+  2  FROM EMP;
+
+ AVG(COMM)                                                                      
+----------                                                                      
+       550                                                                      
+
+SQL> SELECT AVG(COMM)
+  2  FROM EMP
+  3  WHERE NVL(NULL, 0);
+WHERE NVL(NULL, 0)
+                 *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+SQL> SELECT AVG(COMM)
+  2  WHERE NVL(NULL, 0);
+WHERE NVL(NULL, 0)
+*
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT AVG(COMM)
+  2  FROM EMP
+  3  
+SQL> SELECT AVG(NVL(COMM, 0))
+  2  FROM EMP
+  3  ;
+
+AVG(NVL(COMM,0))                                                                
+----------------                                                                
+      183.333333                                                                
+
+SQL> SELECT STDDEV(SAL) FROM EMP;
+
+STDDEV(SAL)                                                                     
+-----------                                                                     
+  1219.9785                                                                     
+
+SQL> SELECT AVG(SAL), SUM(SAL), MAX(SAL), MIN(SAL)
+  2  FROM EMP
+  3  WHERE ROUND(AVG(SAL), TO_CHAR(SUM(SAL), '$999.999.99);
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> SELECT AVG(SAL), SUM(SAL), MAX(SAL), MIN(SAL)
+  2  FROM EMP
+  3  WHERE ROUND(AVG(SAL)), TO_CHAR(SUM(SAL)), '$999.999.99);
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> SELECT AVG(SAL), SUM(SAL), MAX(SAL), MIN(SAL)
+  2  FROM EMP
+  3  WHERE ROUND(AVG(SAL)), TO_CHAR(SUM(SAL)), '$999.999.99');
+WHERE ROUND(AVG(SAL)), TO_CHAR(SUM(SAL)), '$999.999.99')
+            *
+ERROR at line 3:
+ORA-00934: group function is not allowed here 
+
+
+SQL> SELECT AVG(SAL), SUM(SAL), MAX(SAL), MIN(SAL)
+  2  FROM EMP
+  3  WHERE ROUND(AVG(SAL), 2), TO_CHAR(SUM(SAL)), '$999.999.99');
+WHERE ROUND(AVG(SAL), 2), TO_CHAR(SUM(SAL)), '$999.999.99')
+            *
+ERROR at line 3:
+ORA-00934: group function is not allowed here 
+
+
+SQL> SELECT AVG(SAL), SUM(SAL), MAX(SAL), MIN(SAL)
+  2  FROM EMP
+  3  WHERE ROUND(AVG(SAL), 2), TO_CHAR(SUM(SAL)), '$999.999.99');
+WHERE ROUND(AVG(SAL), 2), TO_CHAR(SUM(SAL)), '$999.999.99')
+            *
+ERROR at line 3:
+ORA-00934: group function is not allowed here 
+
+
+SQL> SELECT AVG(SAL), SUM(SAL), MAX(SAL), MIN(SAL)
+  2  FROM EMP;
+
+  AVG(SAL)   SUM(SAL)   MAX(SAL)   MIN(SAL)                                     
+---------- ---------- ---------- ----------                                     
+2077.08333      24925       5000        800                                     
+
+SQL> SELECT AVG(SAL), SUM(SAL), MAX(SAL), MIN(SAL)
+  2  FROM EMP
+  3  WHERE ROUND(AVG(SAL), 2), TO_CHAR(SUM(SAL)), '$999.999.99');
+WHERE ROUND(AVG(SAL), 2), TO_CHAR(SUM(SAL)), '$999.999.99')
+            *
+ERROR at line 3:
+ORA-00934: group function is not allowed here 
+
+
+SQL> SELECT ROUND(AVG(SAL), 2)), TO_CHAR(SUM(SAL), '$999,999.99') MAX(SAL), MIN(SAL)
+  2  FROM EMP;
+SELECT ROUND(AVG(SAL), 2)), TO_CHAR(SUM(SAL), '$999,999.99') MAX(SAL), MIN(SAL)
+                         *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT ROUND(AVG(SAL), 2), TO_CHAR(SUM(SAL), '$999,999.99') MAX(SAL), MIN(SAL)
+  2  FROM EMP;
+SELECT ROUND(AVG(SAL), 2), TO_CHAR(SUM(SAL), '$999,999.99') MAX(SAL), MIN(SAL)
+                                                               *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT ROUND(AVG(SAL), 2), TO_CHAR(SUM(SAL), '$999,999.99'), MAX(SAL), MIN(SAL)
+  2  FROM EMP;
+
+ROUND(AVG(SAL),2) TO_CHAR(SUM(SAL),'$999,9   MAX(SAL)   MIN(SAL)                
+----------------- ------------------------ ---------- ----------                
+          2077.08   $24,925.00                   5000        800                
+
+SQL> SELECT AVG(SAL)
+  2  FROM EMP
+  3  WHERE DEPTNO IN(10, 20, 30);
+
+  AVG(SAL)                                                                      
+----------                                                                      
+2077.08333                                                                      
+
+SQL> SELECT AVG(SAL)
+  2  FROM EMP
+  3  GROUP BU DEPTNO;
+GROUP BU DEPTNO
+      *
+ERROR at line 3:
+ORA-00924: missing BY keyword 
+
+
+SQL> SELECT AVG(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO;
+
+  AVG(SAL)                                                                      
+----------                                                                      
+1566.66667                                                                      
+2258.33333                                                                      
+2916.66667                                                                      
+
+SQL> SELECT DEPTNO, AVG(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO;
+
+    DEPTNO   AVG(SAL)                                                           
+---------- ----------                                                           
+        30 1566.66667                                                           
+        20 2258.33333                                                           
+        10 2916.66667                                                           
+
+SQL> SELECT JOB, AVG(SAL)
+  2  FROM EMP
+  3  GROUP BY JOB;
+
+JOB                  AVG(SAL)                                                   
+------------------ ----------                                                   
+CLERK              1016.66667                                                   
+SALESMAN                 1400                                                   
+PRESIDENT                5000                                                   
+MANAGER            2758.33333                                                   
+ANALYST                  3000                                                   
+
+SQL> SELECT DEPTNO, JOB, AVG(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO, JOB;
+
+    DEPTNO JOB                  AVG(SAL)                                        
+---------- ------------------ ----------                                        
+        20 CLERK                     800                                        
+        30 SALESMAN                 1400                                        
+        20 MANAGER                  2975                                        
+        30 CLERK                     950                                        
+        10 PRESIDENT                5000                                        
+        30 MANAGER                  2850                                        
+        10 CLERK                    1300                                        
+        10 MANAGER                  2450                                        
+        20 ANALYST                  3000                                        
+
+9 rows selected.
+
+SQL> SELECT JOB, COUNT(JOB), AVG(SAL), MAX(SAL), MIN(SAL), SUM(SAL)
+  2  FROM EMP
+  3  GROUP BY JOB, SAL;
+
+JOB                COUNT(JOB)   AVG(SAL)   MAX(SAL)   MIN(SAL)   SUM(SAL)       
+------------------ ---------- ---------- ---------- ---------- ----------       
+CLERK                       1       1300       1300       1300       1300       
+SALESMAN                    1       1600       1600       1600       1600       
+SALESMAN                    2       1250       1250       1250       2500       
+CLERK                       1        950        950        950        950       
+CLERK                       1        800        800        800        800       
+MANAGER                     1       2450       2450       2450       2450       
+PRESIDENT                   1       5000       5000       5000       5000       
+ANALYST                     1       3000       3000       3000       3000       
+MANAGER                     1       2850       2850       2850       2850       
+MANAGER                     1       2975       2975       2975       2975       
+SALESMAN                    1       1500       1500       1500       1500       
+
+11 rows selected.
+
+SQL> SELECT JOB, COUNT(JOB), AVG(SAL), MAX(SAL), MIN(SAL), SUM(SAL)
+  2  FROM EMP
+  3  GROUP BY JOB;
+
+JOB                COUNT(JOB)   AVG(SAL)   MAX(SAL)   MIN(SAL)   SUM(SAL)       
+------------------ ---------- ---------- ---------- ---------- ----------       
+CLERK                       3 1016.66667       1300        800       3050       
+SALESMAN                    4       1400       1600       1250       5600       
+PRESIDENT                   1       5000       5000       5000       5000       
+MANAGER                     3 2758.33333       2975       2450       8275       
+ANALYST                     1       3000       3000       3000       3000       
+
+SQL> SELECT JOB, COUNT(*), AVG(SAL), MAX(SAL), MIN(SAL), SUM(SAL)
+  2  FROM EMP
+  3  GROUP BY JOB;
+
+JOB                  COUNT(*)   AVG(SAL)   MAX(SAL)   MIN(SAL)   SUM(SAL)       
+------------------ ---------- ---------- ---------- ---------- ----------       
+CLERK                       3 1016.66667       1300        800       3050       
+SALESMAN                    4       1400       1600       1250       5600       
+PRESIDENT                   1       5000       5000       5000       5000       
+MANAGER                     3 2758.33333       2975       2450       8275       
+ANALYST                     1       3000       3000       3000       3000       
+
+SQL> SPOOL OFF

@@ -1,0 +1,846 @@
+SQL> spool
+currently spooling to C:\Users\goott1\Downloads\20201124_1.txt
+SQL> SELECT E.ENAME, E.DEPTNO, S.GRADE
+  2  FROM EMP E INNER JOIN SALGRADE S
+  3  ON E.SAL S.LOSAL AND S.HISAL;
+ON E.SAL S.LOSAL AND S.HISAL
+         *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+SQL> SELECT E.ENAME, E.DEPTNO, S.GRADE
+  2  FROM EMP E INNER JOIN SALGRADE S
+  3  ON E.SAL BETWEEN S.LOSAL AND S.HISAL;
+
+ENAME                    DEPTNO      GRADE                                      
+-------------------- ---------- ----------                                      
+SMITH                        20          1                                      
+JAMES                        30          1                                      
+WARD                         30          2                                      
+MARTIN                       30          2                                      
+MILLER                       10          2                                      
+TURNER                       30          3                                      
+ALLEN                        30          3                                      
+CLARK                        10          4                                      
+BLAKE                        30          4                                      
+JONES                        20          4                                      
+FORD                         20          4                                      
+
+ENAME                    DEPTNO      GRADE                                      
+-------------------- ---------- ----------                                      
+KING                         10          5                                      
+
+12 rows selected.
+
+SQL> SELECET E.ENAME, D.DNAME, S.GRADE
+SP2-0734: unknown command beginning "SELECET E...." - rest of line ignored.
+SQL> SELECT E.ENAME, D.DNAME, S.GRADEE
+  2  FROM EMP E INNER JOIN DEPT D INNER JOIN SALGRADE S
+  3  ON E.SAL BETWEEN S.LOSAL AND S.HISAL;
+ON E.SAL BETWEEN S.LOSAL AND S.HISAL
+                                   *
+ERROR at line 3:
+ORA-00905: missing keyword 
+
+
+SQL> SELECT E.ENAME, E.DEPTNO, S.GRADE
+  2  FROM EMP E, DEPT D, SALGRADE S
+  3  ON E.SAL BETWEEN S.LOSAL AND S.HISAL;
+ON E.SAL BETWEEN S.LOSAL AND S.HISAL
+*
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> SELECT E.ENAME, E.DEPTNO, S.GRADE
+  2  FROM EMP E, DEPT D, SALGRADE S
+  3  ON E.SAL BETWEEN S.LOSAL AND S.HISAL;
+ON E.SAL BETWEEN S.LOSAL AND S.HISAL
+*
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> FROM EMP E, DEPT D, SALGRADE S
+SP2-0734: unknown command beginning "FROM EMP E..." - rest of line ignored.
+SQL> SELECT E.ENAME, D.DNAME, S.GRADE
+  2  FROM EMP E, DEPT D, SALGRADE S
+  3  ON E.SAL BETWEEN S.LOSAL AND S.HISAL;
+ON E.SAL BETWEEN S.LOSAL AND S.HISAL
+*
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> SELECT E.ENAME, D.DNAME, S.GRADE
+  2  FROM EMP E, DEPT D, SALGRADE S
+  3  WHERE E.DEPTNO = D.DEPTNO AND E.SAL BETWEEN S.LOSAL AND S.HISAL;
+
+ENAME                DNAME                             GRADE                    
+-------------------- ---------------------------- ----------                    
+SMITH                RESEARCH                              1                    
+JAMES                SALES                                 1                    
+WARD                 SALES                                 2                    
+MARTIN               SALES                                 2                    
+MILLER               ACCOUNTING                            2                    
+TURNER               SALES                                 3                    
+ALLEN                SALES                                 3                    
+CLARK                ACCOUNTING                            4                    
+BLAKE                SALES                                 4                    
+JONES                RESEARCH                              4                    
+FORD                 RESEARCH                              4                    
+
+ENAME                DNAME                             GRADE                    
+-------------------- ---------------------------- ----------                    
+KING                 ACCOUNTING                            5                    
+
+12 rows selected.
+
+SQL> SELECT * FROM EMP;
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7369 SMITH                CLERK                    7902 80/12/17          
+       800                    20                                                
+                                                                                
+      7499 ALLEN                SALESMAN                 7698 81/02/20          
+      1600        300         30                                                
+                                                                                
+      7521 WARD                 SALESMAN                 7698 81/02/22          
+      1250        500         30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7566 JONES                MANAGER                  7839 81/04/02          
+      2975                    20                                                
+                                                                                
+      7654 MARTIN               SALESMAN                 7698 81/09/28          
+      1250       1400         30                                                
+                                                                                
+      7698 BLAKE                MANAGER                  7839 81/05/01          
+      2850                    30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7782 CLARK                MANAGER                  7839 81/06/09          
+      2450                    10                                                
+                                                                                
+      7839 KING                 PRESIDENT                     81/11/17          
+      5000                    10                                                
+                                                                                
+      7844 TURNER               SALESMAN                 7698 81/09/08          
+      1500          0         30                                                
+                                                                                
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7900 JAMES                CLERK                    7698 81/12/03          
+       950                    30                                                
+                                                                                
+      7902 FORD                 ANALYST                  7566 81/12/03          
+      3000                    20                                                
+                                                                                
+      7934 MILLER               CLERK                    7782 82/01/23          
+      1300                    10                                                
+                                                                                
+
+12 rows selected.
+
+SQL> SELCET FROM EMP;
+SP2-0734: unknown command beginning "SELCET FRO..." - rest of line ignored.
+SQL> SELECT FROM EMO;
+SELECT FROM EMO
+       *
+ERROR at line 1:
+ORA-00936: missing expression 
+
+
+SQL> SELECT FROM EMP;
+SELECT FROM EMP
+       *
+ERROR at line 1:
+ORA-00936: missing expression 
+
+
+SQL> SELECT E.ENAME, C.ENAME
+  2  FROM EMP E, EMP C
+  3  WHERE E.MGR = C.EMPNO;
+
+ENAME                ENAME                                                      
+-------------------- --------------------                                       
+FORD                 JONES                                                      
+JAMES                BLAKE                                                      
+TURNER               BLAKE                                                      
+MARTIN               BLAKE                                                      
+WARD                 BLAKE                                                      
+ALLEN                BLAKE                                                      
+MILLER               CLARK                                                      
+CLARK                KING                                                       
+BLAKE                KING                                                       
+JONES                KING                                                       
+SMITH                FORD                                                       
+
+11 rows selected.
+
+SQL> SELECT DISTINCT(E.DEPTNO) "EMPDEPTNO", D.DEPTNO "D_DEPTNO", D.DAME
+  2  FROM EMP E, DEPT D
+  3  WHERE E.DEPTNO = D.DEPTNO;
+SELECT DISTINCT(E.DEPTNO) "EMPDEPTNO", D.DEPTNO "D_DEPTNO", D.DAME
+                                                            *
+ERROR at line 1:
+ORA-00904: "D"."DAME": invalid identifier 
+
+
+SQL> SELECT DISTINCT(E.DEPTNO) "EMPDEPTNO", D.DEPTNO "D_DEPTNO", D.DAME
+  2  FROM EMP E, DEPT D
+  3  WHERE E.DEPTNO(+) = D.DEPTNO;
+SELECT DISTINCT(E.DEPTNO) "EMPDEPTNO", D.DEPTNO "D_DEPTNO", D.DAME
+                                                            *
+ERROR at line 1:
+ORA-00904: "D"."DAME": invalid identifier 
+
+
+SQL> SELECT DISTINCT(E.DEPTNO) "EMPDEPTNO", D.DEPTNO "D_DEPTNO", D.DNAME
+  2  FROM EMP E, DEPT D
+  3  WHERE E.DEPTNO(+) = D.DEPTNO;
+
+ EMPDEPTNO   D_DEPTNO DNAME                                                     
+---------- ---------- ----------------------------                              
+                   40 OPERATIONS                                                
+        20         20 RESEARCH                                                  
+        30         30 SALES                                                     
+        10         10 ACCOUNTING                                                
+
+SQL> SELECT E.ENAME, C.ENAME
+  2  FROM EMP E, EMP C
+  3  WHERE E.MGR = C.EMPNO(+);
+
+ENAME                ENAME                                                      
+-------------------- --------------------                                       
+FORD                 JONES                                                      
+JAMES                BLAKE                                                      
+TURNER               BLAKE                                                      
+MARTIN               BLAKE                                                      
+WARD                 BLAKE                                                      
+ALLEN                BLAKE                                                      
+MILLER               CLARK                                                      
+CLARK                KING                                                       
+BLAKE                KING                                                       
+JONES                KING                                                       
+SMITH                FORD                                                       
+
+ENAME                ENAME                                                      
+-------------------- --------------------                                       
+KING                                                                            
+
+12 rows selected.
+
+SQL> SELECT DISTINCT(E.DEPTNO), D.DEPTNO
+  2  FROM EMP E INNER JOIN DEPT D
+  3  ON E.DEPTNO = D.DEPTNO;
+
+    DEPTNO     DEPTNO                                                           
+---------- ----------                                                           
+        10         10                                                           
+        30         30                                                           
+        20         20                                                           
+
+SQL> SELECT DISTINCT(E.DEPTNO), D.DEPTNO
+  2  FROM EMP E
+  3  	RIGHT OUTER JOIN DEPT D
+  4  ON E.DEPTNO = D.DEPTNO;
+
+    DEPTNO     DEPTNO                                                           
+---------- ----------                                                           
+        10         10                                                           
+                   40                                                           
+        30         30                                                           
+        20         20                                                           
+
+SQL> SELECT DISTINCT(E.DEPTNO), D.DEPTNO
+  2  FROM EMP E
+  3  	FULL OUTER JOIN DEPT D
+  4  ON E.DEPTNO = D.DEPTNO;
+
+    DEPTNO     DEPTNO                                                           
+---------- ----------                                                           
+        10         10                                                           
+                   40                                                           
+        30         30                                                           
+        20         20                                                           
+
+SQL> SELECT ENAME, DNAME
+  2  FROM EMP NATURAL JOIN DEPT;
+
+ENAME                DNAME                                                      
+-------------------- ----------------------------                               
+SMITH                RESEARCH                                                   
+ALLEN                SALES                                                      
+WARD                 SALES                                                      
+JONES                RESEARCH                                                   
+MARTIN               SALES                                                      
+BLAKE                SALES                                                      
+CLARK                ACCOUNTING                                                 
+KING                 ACCOUNTING                                                 
+TURNER               SALES                                                      
+JAMES                SALES                                                      
+FORD                 RESEARCH                                                   
+
+ENAME                DNAME                                                      
+-------------------- ----------------------------                               
+MILLER               ACCOUNTING                                                 
+
+12 rows selected.
+
+SQL> SELECT E.ENAME, D.DNAME
+  2  FROM EMP E NATURAL JOIN DEPT D;
+
+ENAME                DNAME                                                      
+-------------------- ----------------------------                               
+SMITH                RESEARCH                                                   
+ALLEN                SALES                                                      
+WARD                 SALES                                                      
+JONES                RESEARCH                                                   
+MARTIN               SALES                                                      
+BLAKE                SALES                                                      
+CLARK                ACCOUNTING                                                 
+KING                 ACCOUNTING                                                 
+TURNER               SALES                                                      
+JAMES                SALES                                                      
+FORD                 RESEARCH                                                   
+
+ENAME                DNAME                                                      
+-------------------- ----------------------------                               
+MILLER               ACCOUNTING                                                 
+
+12 rows selected.
+
+SQL> SELECT E.ENAME, D.DNAME
+  2  FROM EMP E JOIN DEPT D
+  3  USING (DEPTNO);
+
+ENAME                DNAME                                                      
+-------------------- ----------------------------                               
+SMITH                RESEARCH                                                   
+ALLEN                SALES                                                      
+WARD                 SALES                                                      
+JONES                RESEARCH                                                   
+MARTIN               SALES                                                      
+BLAKE                SALES                                                      
+CLARK                ACCOUNTING                                                 
+KING                 ACCOUNTING                                                 
+TURNER               SALES                                                      
+JAMES                SALES                                                      
+FORD                 RESEARCH                                                   
+
+ENAME                DNAME                                                      
+-------------------- ----------------------------                               
+MILLER               ACCOUNTING                                                 
+
+12 rows selected.
+
+SQL> SELECT ENAME
+  2  FROM EMP, DEPT;
+
+ENAME                                                                           
+--------------------                                                            
+SMITH                                                                           
+SMITH                                                                           
+SMITH                                                                           
+SMITH                                                                           
+ALLEN                                                                           
+ALLEN                                                                           
+ALLEN                                                                           
+ALLEN                                                                           
+WARD                                                                            
+WARD                                                                            
+WARD                                                                            
+
+ENAME                                                                           
+--------------------                                                            
+WARD                                                                            
+JONES                                                                           
+JONES                                                                           
+JONES                                                                           
+JONES                                                                           
+MARTIN                                                                          
+MARTIN                                                                          
+MARTIN                                                                          
+MARTIN                                                                          
+BLAKE                                                                           
+BLAKE                                                                           
+
+ENAME                                                                           
+--------------------                                                            
+BLAKE                                                                           
+BLAKE                                                                           
+CLARK                                                                           
+CLARK                                                                           
+CLARK                                                                           
+CLARK                                                                           
+KING                                                                            
+KING                                                                            
+KING                                                                            
+KING                                                                            
+TURNER                                                                          
+
+ENAME                                                                           
+--------------------                                                            
+TURNER                                                                          
+TURNER                                                                          
+TURNER                                                                          
+JAMES                                                                           
+JAMES                                                                           
+JAMES                                                                           
+JAMES                                                                           
+FORD                                                                            
+FORD                                                                            
+FORD                                                                            
+FORD                                                                            
+
+ENAME                                                                           
+--------------------                                                            
+MILLER                                                                          
+MILLER                                                                          
+MILLER                                                                          
+MILLER                                                                          
+
+48 rows selected.
+
+SQL> SELECT ENAME
+  2  FROM EMP CROSS JOIN DEPT;
+
+ENAME                                                                           
+--------------------                                                            
+SMITH                                                                           
+SMITH                                                                           
+SMITH                                                                           
+SMITH                                                                           
+ALLEN                                                                           
+ALLEN                                                                           
+ALLEN                                                                           
+ALLEN                                                                           
+WARD                                                                            
+WARD                                                                            
+WARD                                                                            
+
+ENAME                                                                           
+--------------------                                                            
+WARD                                                                            
+JONES                                                                           
+JONES                                                                           
+JONES                                                                           
+JONES                                                                           
+MARTIN                                                                          
+MARTIN                                                                          
+MARTIN                                                                          
+MARTIN                                                                          
+BLAKE                                                                           
+BLAKE                                                                           
+
+ENAME                                                                           
+--------------------                                                            
+BLAKE                                                                           
+BLAKE                                                                           
+CLARK                                                                           
+CLARK                                                                           
+CLARK                                                                           
+CLARK                                                                           
+KING                                                                            
+KING                                                                            
+KING                                                                            
+KING                                                                            
+TURNER                                                                          
+
+ENAME                                                                           
+--------------------                                                            
+TURNER                                                                          
+TURNER                                                                          
+TURNER                                                                          
+JAMES                                                                           
+JAMES                                                                           
+JAMES                                                                           
+JAMES                                                                           
+FORD                                                                            
+FORD                                                                            
+FORD                                                                            
+FORD                                                                            
+
+ENAME                                                                           
+--------------------                                                            
+MILLER                                                                          
+MILLER                                                                          
+MILLER                                                                          
+MILLER                                                                          
+
+48 rows selected.
+
+SQL> SELECT ENAME, DNAME
+  2  FROM EMP CORSS JOIN DEPT
+  3  WHERE DEPT.DEPTNO = 10;
+WHERE DEPT.DEPTNO = 10
+*
+ERROR at line 3:
+ORA-00905: missing keyword 
+
+
+SQL> SELECT ENAME, DNAME
+  2  FROM EMP CORSS JOIN DEPT
+  3  WHERE DEPT.DEPTNO = 10;
+WHERE DEPT.DEPTNO = 10
+*
+ERROR at line 3:
+ORA-00905: missing keyword 
+
+
+SQL> SELECT ENAME, DNAME
+  2  FROM EMP CORSS JOIN DEPT
+  3  WHERE DEPT.DEPTNO = 10;
+WHERE DEPT.DEPTNO = 10
+*
+ERROR at line 3:
+ORA-00905: missing keyword 
+
+
+SQL> SELECT ENAME, DNAME
+  2  FROM EMP CORSS JOIN DEPT
+  3  WHERE DEPT.DEPTNO = 10;
+WHERE DEPT.DEPTNO = 10
+*
+ERROR at line 3:
+ORA-00905: missing keyword 
+
+
+SQL> SELECT ENAME, DNAME
+  2  FROM EMP CROSS JOIN DEPT
+  3  WHERE DEPT.DEPTNO = 10;
+
+ENAME                DNAME                                                      
+-------------------- ----------------------------                               
+SMITH                ACCOUNTING                                                 
+ALLEN                ACCOUNTING                                                 
+WARD                 ACCOUNTING                                                 
+JONES                ACCOUNTING                                                 
+MARTIN               ACCOUNTING                                                 
+BLAKE                ACCOUNTING                                                 
+CLARK                ACCOUNTING                                                 
+KING                 ACCOUNTING                                                 
+TURNER               ACCOUNTING                                                 
+JAMES                ACCOUNTING                                                 
+FORD                 ACCOUNTING                                                 
+
+ENAME                DNAME                                                      
+-------------------- ----------------------------                               
+MILLER               ACCOUNTING                                                 
+
+12 rows selected.
+
+SQL> SELECT ENAME, DNAME
+  2  FROM EMP CROSS JOIN DEPT
+  3  WHRER DEPT.DEPTNO = 10;
+WHRER DEPT.DEPTNO = 10
+      *
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> SELECT ENAME, DNAME
+  2  FROM EMP E JOIN DEPT D
+  3  ON (E.DEPTNO = D.DEPTNO);
+
+ENAME                DNAME                                                      
+-------------------- ----------------------------                               
+SMITH                RESEARCH                                                   
+ALLEN                SALES                                                      
+WARD                 SALES                                                      
+JONES                RESEARCH                                                   
+MARTIN               SALES                                                      
+BLAKE                SALES                                                      
+CLARK                ACCOUNTING                                                 
+KING                 ACCOUNTING                                                 
+TURNER               SALES                                                      
+JAMES                SALES                                                      
+FORD                 RESEARCH                                                   
+
+ENAME                DNAME                                                      
+-------------------- ----------------------------                               
+MILLER               ACCOUNTING                                                 
+
+12 rows selected.
+
+SQL> SELECT E.ENAME, D.DNAME
+  2  FROM EMP E JOIN DEPT D
+  3  ON (E.DEPTNO = D.DEPTNO)
+  4  AND E.DEPTNO = 10;
+
+ENAME                DNAME                                                      
+-------------------- ----------------------------                               
+CLARK                ACCOUNTING                                                 
+KING                 ACCOUNTING                                                 
+MILLER               ACCOUNTING                                                 
+
+SQL> SELECT E.ENAME, D.DNAME
+  2  FROM EMP E JOIN DEPT D
+  3  ON (E.DEPTNO = D.DEPTNO)
+  4  WHERE E.DEPTNO = 10;
+
+ENAME                DNAME                                                      
+-------------------- ----------------------------                               
+CLARK                ACCOUNTING                                                 
+KING                 ACCOUNTING                                                 
+MILLER               ACCOUNTING                                                 
+
+SQL> SELECT E.EMPNO, E.ENAME, D.DEPTNO, D.DNAME, E.HIREDATE
+  2  FROM EMP E JOIN DEPT D
+  3  ON (E.DEPTNO = D.DEPTNO)
+  4  WHREE D.LOC = 'BOSTON';
+WHREE D.LOC = 'BOSTON'
+*
+ERROR at line 4:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> SELECT E.EMPNO, E.ENAME, D.DEPTNO, D.DNAME, E.HIREDATE
+  2  FROM EMP E JOIN DEPT D
+  3  ON (E.DEPTNO = D.DEPTNO)
+  4  AND D.LOC = 'BOSTON';
+
+no rows selected
+
+SQL> SELECT E.EMPNO, E.ENAME, D.DEPTNO, D.DNAME, E.HIREDATE
+  2  FROM EMP E JOIN DEPT D
+  3  ON (E.DEPTNO = D.DEPTNO)
+  4  AND D.LOC = 'BOSTON';
+
+no rows selected
+
+SQL> SELECT E.ENAME, D.DNAME
+  2  FROM EMP E JOIN DEPT D
+  3  ON (E.DEPTNO = D.DEPTNO)
+  4  AND E.DEPTNO = 30;
+
+ENAME                DNAME                                                      
+-------------------- ----------------------------                               
+ALLEN                SALES                                                      
+WARD                 SALES                                                      
+MARTIN               SALES                                                      
+BLAKE                SALES                                                      
+TURNER               SALES                                                      
+JAMES                SALES                                                      
+
+6 rows selected.
+
+SQL> FROM EMP E JOIN DEPT D
+SP2-0734: unknown command beginning "FROM EMP E..." - rest of line ignored.
+SQL> SELECT E.ENAME, D.DNAME
+  2  FROM EMP E LEFT OUTER JOIN DEPT D
+  3  ON (E.DEPTNO = D.DEPTNO)
+  4  AND E.DEPTNO = 30;
+
+ENAME                DNAME                                                      
+-------------------- ----------------------------                               
+JAMES                SALES                                                      
+TURNER               SALES                                                      
+BLAKE                SALES                                                      
+MARTIN               SALES                                                      
+WARD                 SALES                                                      
+ALLEN                SALES                                                      
+FORD                                                                            
+JONES                                                                           
+SMITH                                                                           
+MILLER                                                                          
+KING                                                                            
+
+ENAME                DNAME                                                      
+-------------------- ----------------------------                               
+CLARK                                                                           
+
+12 rows selected.
+
+SQL> SELECT E.EMPNO, E.ENAME, D.DEPTNO, D.DNAME, E.HIREDATE
+  2  FROM EMP E JOIN DEPT D
+  3  
+SQL> SELECT E.ENAME, D.DNAME
+  2  FROM EMP E LEFT OUTER JOIN DEPT D
+  3  ON (E.DEPTNO = D.DEPTNO)
+  4  WHERE E.DEPTNO = 30;
+
+ENAME                DNAME                                                      
+-------------------- ----------------------------                               
+JAMES                SALES                                                      
+TURNER               SALES                                                      
+BLAKE                SALES                                                      
+MARTIN               SALES                                                      
+WARD                 SALES                                                      
+ALLEN                SALES                                                      
+
+6 rows selected.
+
+SQL> SELECT COUNT(*), COUNT(SAL), MIN(SAL), MAX(SAL), SUM(SAL), AVG(SAL)
+  2  FROM EMP;
+
+  COUNT(*) COUNT(SAL)   MIN(SAL)   MAX(SAL)   SUM(SAL)   AVG(SAL)               
+---------- ---------- ---------- ---------- ---------- ----------               
+        12         12        800       5000      24925 2077.08333               
+
+SQL> SELECT DEPTNO, JOB, AVG(SAL)
+  2  FROM EMP
+  3  WHERE AVG(SAL) > 2000;
+WHERE AVG(SAL) > 2000
+      *
+ERROR at line 3:
+ORA-00934: group function is not allowed here 
+
+
+SQL> SELECT DEPTNO, JOB, AVG(SAL)
+  2  FROM EMP
+  3  WHERE SAL >= 1000B;
+WHERE SAL >= 1000B
+                 *
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> SELECT DEPTNO, JOB, AVG(SAL)
+  2  FROM EMP
+  3  WHERE SAL >= 1000;
+SELECT DEPTNO, JOB, AVG(SAL)
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> SELECT DEPTNO, JOB, AVG(SAL)
+  2  FROM EMP;
+SELECT DEPTNO, JOB, AVG(SAL)
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> SELECT DEPTNO, JOB, AVG(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4  
+SQL> 
+SQL> SELECT DEPTNO, JOB, AVG(SAL)
+  2  FROM EMP
+  3  WHERE SAL >= 1000 AND AVG(SAL) >= 2000
+  4  GROUP BY DEPTNO
+  5  ORDER BY AVG(SAL) ASC;
+WHERE SAL >= 1000 AND AVG(SAL) >= 2000
+                      *
+ERROR at line 3:
+ORA-00934: group function is not allowed here 
+
+
+SQL> SELECT DEPTNO, JOB, AVG(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4  HAVING AVG(SAL) > 2000
+  5  ORDER BY AVG(SAL) ASC;
+SELECT DEPTNO, JOB, AVG(SAL)
+               *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> SELECT DEPTNO, JOB, AVG(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO;
+SELECT DEPTNO, JOB, AVG(SAL)
+               *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> SELECT DEPTNO, JOB, AVG(SAL)
+  2  FROM EMP;
+SELECT DEPTNO, JOB, AVG(SAL)
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> SELECT DEPTNO, JOB, AVG(SAL)
+  2  FROM EMP
+  3  
+SQL> SELECT DEPTNO, JOB, AVG(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO;
+SELECT DEPTNO, JOB, AVG(SAL)
+               *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> SELECT DEPTNO, JOB, AVG(SAL)
+  2  FROM EMP;
+SELECT DEPTNO, JOB, AVG(SAL)
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> SELECT DEPTNO, JOB, AVG(SAL)
+  2  FROM EMP
+  3  WHERE SAL >= 1000
+  4  GROUP BY DEPTNO, JOB;
+
+    DEPTNO JOB                  AVG(SAL)                                        
+---------- ------------------ ----------                                        
+        30 SALESMAN                 1400                                        
+        20 MANAGER                  2975                                        
+        10 PRESIDENT                5000                                        
+        30 MANAGER                  2850                                        
+        10 CLERK                    1300                                        
+        10 MANAGER                  2450                                        
+        20 ANALYST                  3000                                        
+
+7 rows selected.
+
+SQL> SELECT DEPTNO, JOB, AVG(SAL)
+  2  FROM EMP
+  3  WHERE SAL >= 1000
+  4  GROUP BY DEPTNO, JOB
+  5  HAVING AVG(SAL) >= 2000
+  6  ORDER BY AVG(SAL) DESC;
+
+    DEPTNO JOB                  AVG(SAL)                                        
+---------- ------------------ ----------                                        
+        10 PRESIDENT                5000                                        
+        20 ANALYST                  3000                                        
+        20 MANAGER                  2975                                        
+        30 MANAGER                  2850                                        
+        10 MANAGER                  2450                                        
+
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE ENAME = 'JONES'
+  4  GROUP BY ENAME, SAL;
+SELECT EMPNO, ENAME, SAL
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE ENAME = 'JONES';
+
+     EMPNO ENAME                       SAL                                      
+---------- -------------------- ----------                                      
+      7566 JONES                      2975                                      
+
+SQL> SPOOL OFF

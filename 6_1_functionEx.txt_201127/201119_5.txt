@@ -1,0 +1,230 @@
+SQL> spool
+currently spooling to C:\Users\goott1\Downloads\201119_5.txt
+
+1. 사원 테이블에서 사번, 사원이름, 봉급, 입사일을 얻으시오
+SQL> SELECT EMPNO, ENAME, SAL, HIREDATE
+  2  FROM EMP;
+
+     EMPNO ENAME                       SAL HIREDATE                             
+---------- -------------------- ---------- --------                             
+      7369 SMITH                       800 80/12/17                             
+      7499 ALLEN                      1600 81/02/20                             
+      7521 WARD                       1250 81/02/22                             
+      7566 JONES                      2975 81/04/02                             
+      7654 MARTIN                     1250 81/09/28                             
+      7698 BLAKE                      2850 81/05/01                             
+      7782 CLARK                      2450 81/06/09                             
+      7839 KING                       5000 81/11/17                             
+      7844 TURNER                     1500 81/09/08                             
+      7900 JAMES                       950 81/12/03                             
+      7902 FORD                       3000 81/12/03                             
+
+     EMPNO ENAME                       SAL HIREDATE                             
+---------- -------------------- ---------- --------                             
+      7934 MILLER                     1300 82/01/23                             
+
+12 rows selected.
+
+2. 사원 테이블에서 사번, 사원이름, 연봉을 얻으시오
+SQL> SELECT EMPNO, ENAME, MGR
+  2  FROM EMP;
+
+     EMPNO ENAME                       MGR                                      
+---------- -------------------- ----------                                      
+      7369 SMITH                      7902                                      
+      7499 ALLEN                      7698                                      
+      7521 WARD                       7698                                      
+      7566 JONES                      7839                                      
+      7654 MARTIN                     7698                                      
+      7698 BLAKE                      7839                                      
+      7782 CLARK                      7839                                      
+      7839 KING                                                                 
+      7844 TURNER                     7698                                      
+      7900 JAMES                      7698                                      
+      7902 FORD                       7566                                      
+
+     EMPNO ENAME                       MGR                                      
+---------- -------------------- ----------                                      
+      7934 MILLER                     7782                                      
+
+12 rows selected.
+
+SQL> --연습문제 3
+SQL> SELECT EMPNO, ENAME, SAL, DEPTNO
+  2  FROM EMP
+  3  WHERE DEPTNO = 10;
+
+     EMPNO ENAME                       SAL     DEPTNO                           
+---------- -------------------- ---------- ----------                           
+      7782 CLARK                      2450         10                           
+      7839 KING                       5000         10                           
+      7934 MILLER                     1300         10                           
+
+SQL> --연습문제 4
+SQL> SELECT EMPNO, ENAME, SAL, COMM,DEPTNO
+  2  FROM EMP
+  3  WHERE HIREDATE =  '82/02/20';
+
+no rows selected
+
+SQL> --연습문제 4
+SQL> SELECT EMPNO, ENAME, SAL, COMM, DEPTNO
+  2  FROM EMP
+  3  WHERE HIREDATE = '81/02/20';
+
+     EMPNO ENAME                       SAL       COMM     DEPTNO                
+---------- -------------------- ---------- ---------- ----------                
+      7499 ALLEN                      1600        300         30                
+
+SQL> --연습문제 5
+SQL> SELECT EMPNO, ENAME, JOB
+  2  FROM EMP
+  3  WHERE ENAME = 'JONES' OR 'BLAKE
+  4  ';
+'
+*
+ERROR at line 4:
+ORA-00920: invalid relational operator 
+
+
+SQL> --연습문제 5
+SQL> SELECT EMPNO, ENAME, JOB
+  2  FROM EMP
+  3  WHERE ENAME = 'JONES' OR 'BLAKE';
+WHERE ENAME = 'JONES' OR 'BLAKE'
+                               *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+SQL> SELECT EMPNO, ENAME, JOB
+  2  FROM EMP
+  3  WHERE ENAME =
+  4  'JONES' OR 'BLAKE';
+'JONES' OR 'BLAKE'
+                 *
+ERROR at line 4:
+ORA-00920: invalid relational operator 
+
+
+SQL> SELECT EMPNO, ENAME, JOB
+  2  FROM EMP
+  3  WHERE ENAME LIKE '%JONES%' OR '%BLAKE%';
+WHERE ENAME LIKE '%JONES%' OR '%BLAKE%'
+                                      *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+SQL> --5번 다시
+SQL> 
+SQL> --연습문제 6번
+SQL> SELECT EMPNO, ENAME, JOB
+  2  FROM EMP
+  3  WHERE ;
+WHERE 
+     *
+ERROR at line 3:
+ORA-00936: missing expression 
+
+
+SQL> SELECT EMPNO, COMM, SAL
+  2  FROM EMP
+  3  WHERE JOB = 'SALESMAN';
+
+     EMPNO       COMM        SAL                                                
+---------- ---------- ----------                                                
+      7499        300       1600                                                
+      7521        500       1250                                                
+      7654       1400       1250                                                
+      7844          0       1500                                                
+
+SQL> --연습문제 7번
+SQL> SELECT * from DEPT;
+
+    DEPTNO DNAME                        LOC                                     
+---------- ---------------------------- --------------------------              
+        10 ACCOUNTING                   NEW YORK                                
+        20 RESEARCH                     DALLAS                                  
+        30 SALES                        CHICAGO                                 
+        40 OPERATIONS                   BOSTON                                  
+
+SQL> SELECT DEPTNO, DNAME, LOC
+  2  FROM DEPT
+  3  WHERE LOC = 'DALLAS';
+
+    DEPTNO DNAME                        LOC                                     
+---------- ---------------------------- --------------------------              
+        20 RESEARCH                     DALLAS                                  
+
+SQL> --연습문제 8번
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL BETWEEN 2000 AND 3000;
+
+     EMPNO ENAME                       SAL                                      
+---------- -------------------- ----------                                      
+      7566 JONES                      2975                                      
+      7698 BLAKE                      2850                                      
+      7782 CLARK                      2450                                      
+      7902 FORD                       3000                                      
+
+SQL> --연습문제 9번
+SQL> SELECT EMPNO, ENAME, COMM
+  2  FROM EMP
+  3  WHERE COMM BETWEEN 800 AND 1400;
+
+     EMPNO ENAME                      COMM                                      
+---------- -------------------- ----------                                      
+      7654 MARTIN                     1400                                      
+
+SQL> --연습문제 10번
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE JOB = 'CLERK' AND 'HIREDATE' LIKE '82%';
+
+no rows selected
+
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE JOB \ 'CLERK' AND HIREDATE LIKE '82%';
+WHERE JOB \ 'CLERK' AND HIREDATE LIKE '82%'
+          *
+ERROR at line 3:
+ORA-00911: invalid character 
+
+
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE JOB = 'CLERK' AND HIREDATE LIKE '82%';
+
+     EMPNO ENAME                JOB                       MGR HIREDATE          
+---------- -------------------- ------------------ ---------- --------          
+       SAL       COMM     DEPTNO                                                
+---------- ---------- ----------                                                
+      7934 MILLER               CLERK                    7782 82/01/23          
+      1300                    10                                                
+                                                                                
+
+SQL> --연습문제 5번
+SQL> SELECT EMPNO, ENAME, JOB
+  2  FROM EMP
+  3  WHERE ENAME =
+  4  'JONES' OR ENAME = 'BLAKE';
+
+     EMPNO ENAME                JOB                                             
+---------- -------------------- ------------------                              
+      7566 JONES                MANAGER                                         
+      7698 BLAKE                MANAGER                                         
+
+SQL> 
+SQL> SELECT EMPNO, ENAME, JOB
+  2  FROM EMP
+  3  WHERE ENAME IN ('JONES', 'BLAKE');
+
+     EMPNO ENAME                JOB                                             
+---------- -------------------- ------------------                              
+      7566 JONES                MANAGER                                         
+      7698 BLAKE                MANAGER                                         
+
+SQL> spool off

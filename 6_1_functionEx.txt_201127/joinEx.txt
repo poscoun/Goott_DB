@@ -1,0 +1,397 @@
+--20201123(오후)
+--[조인(함수)]
+SELECT ENAME, DNAME
+FROM EMP, DEPT;
+--CARTESIAN PROJECT : 가능한 모든 수의 조합
+
+SELECT * FROM EMP;
+SELECT * FROM DEPT;
+
+--조인
+-- : 조인-조건을 기준으로 두 테이블의 각 행들을 합친 후, 원하는 데이터의 레코드를 가져오는 방법
+-- [SQ 92 JOIN]
+-- : EQUI JOIN
+-- : SELF-JOIN
+-- : OUTER-JOIN
+
+--[ANSI 표준 JOIN형식]-- : INNER JOIN-EQUI INNER JOIN
+--                                  -NONE EQUI INNER JOIN
+--: OUTER JOIN
+--: CROSS JOIN
+--: NATURAL JOIN
+----------------------------------------------------------------------
+SELECT ENAME, DNAME
+FROM EMP, DEPT
+WHERE EMP.DEPTNO = DEPT.DEPTNO;
+--WHERE CONDITION : JOIN CONDITION = T/F를 요구하는 조건
+
+--조건을 더 명확하게 줄 수도 있음
+SELECT ENAME, DNAME
+FROM EMP, DEPT
+WHERE EMP.DEPTNO = DEPT.DEPTNO
+AND SAL>=3000;
+
+--조인 조건 : 보통 둘 이상의 행들의 공통된 값 Primary key 및 Foreign key 값을 사용하여 조인
+--         : 두 개의 테이블을 select 문장 안에서 조인하려면 적어도 하나의 컬럼이 그 두 테이블 사이에서 공유되어야 한다.
+--[SQL EQUI-JOIN]
+SELECT E.EMPNO, E.ENAME, D.DNAME
+FROM EMP E, DEPT D
+WHERE E.DEPTNO = D.DEPTNO;
+
+--SELECT에서 컬럼을 테이블과 함께 명확하게 물어보아야 결과가 도출됨에 유의
+--컬럼명 모두에 테이블명을 적어두면 ACCESS 효율이 좋아진다.
+--테이블 이름이 너무 길면 FROM 절에 테이블을 두고 별칭을 부여하는 것이 효율적
+
+--[ANSI EQUI-INNER JOIN]
+SELECT E.EMPNO, E.ENAME, D.DNAME
+FROM EMP E INNER JOIN DEPT D
+ON E.DEPTNO = D.DEPTNO;
+
+--ANSI EQUI-INNER JOIN은 콤마 대신 INNER JOIN이라는 문자로 사용할 수 있으며
+--INNER는 생략이 가능하다. JOIN CONDITION은 ON 절에 온다.
+
+--[ANSI NONE EQUI-INNER JOIN]
+--한 테이블의 어떤 컬럼도 JOIN할 테이블의 컬럼에 일치하지 않을 때
+--그리고, 조건에 "="이 아닌 다른 연산자(BETWEEN AND, IS NULL, IS NOT NULL, IN, NOT IN)가 사용된 경우
+--많이 사용되는 JOIN은 아님
+
+--[ANSI NONE EQUI-INNER JOIN]
+--전체 사원의 이름과 급여 등급을 조회
+SELECT E.ENAME, S.GRADE
+FROM EMP E INNER JOIN SALGRADE S
+ON E.SAL BETWEEN S.LOSAL AND S.HISAL;
+
+--문제 : 전체 사원명, 부서명, 급여등급을 조회해보세요
+--: 현재 3개의 테이블을 조인하는 것을 3-way 조인.
+--: A=B, B=C
+--: 3개 이상의 테이블을 조인하는 것을 N-way 조인.N-way 조인 구문 작성 시에 JOIN 키워드 다음에 선언된 테이블은 
+-- 항상 앞에 선언된 테이블 하고만 조인될 수 있음에 유의.
+-- 즉, 뒤에 있는 테이블 하고는 조인할 수 없다
+
+--조인-조건의 갯수:테이블-1개
+--EX)A=B, B=C, A=C ===> A=B, A=C
+SELECT E.ENAME, D.DNAME, S.GRADE
+FROM EMP E, DEPT D, SALGRADE S
+WHERE E.DEPTNO = D.DEPTNO AND E.SAL BETWEEN S.LOSAL AND S.HISAL;
+
+--[SQL 92 SELF JOIN]
+--EQUI JOIN과 같으나 하나의 테이블에서 조인이 일어나는 형태
+--같은 테이블에 대하여 두 개의 ALIAS를 사용하여 FROM절에 두 개의 테이블을 사용하는 것처럼 조인
+--서로 다른 ROW끼리 비교
+
+--각 사원의 매니저 이름을 조회
+SELECT * FROM EMP;
+
+SELECT E.ENAME,C.ENAME "M_NAME"
+FROM EMP E, EMP C
+WHERE E.MGR = C.EMPNO;
+
+--[SQL 92 OUTER JOIN]
+--: EQUI-JOIN은 조인을 생성하려는 두 테이블의 한 쪽 컬럼에 값이 없다면 데이터를 반환하지 못 합니다.
+--: 동일 조건에서 조인 조건을 만족하는 값이 없는 행들을 조회하기 위해 사용하는 조인
+--: OUTER JOIN의 연산자는 (+)
+--: 조인 시 조인 값이 없는 조인 측에 (+)를 위치시킴
+--: OUTER JOIN 연산자는 표현식의 한 편에만 올 수 있음
+
+--부서번호와 부서명을 조회
+SELECT DISTINCT(E.DEPTNO)"EMPDEPTNO", D.DEPTNO"DEPTNO", D.DNAME 
+FROM EMP E, DEPT D
+WHERE E.DEPTNO = D.DEPTNO;
+
+SELECT * FROM DEPT;
+
+--모든 부서번호와 부서명을 조회
+SELECT DISTINCT(E.DEPTNO)"EMPDEPTNO", D.DEPTNO"DEPTNO", D.DNAME 
+FROM EMP E, DEPT D
+WHERE E.DEPTNO(+) = D.DEPTNO;
+
+--실습 : 사원 테이블에서 사원 이름 모두와 매니저명을 조회하세요
+SELECT E.ENAME,C.ENAME
+FROM EMP E, EMP C
+WHERE E.MGR = C.EMPNO(+);
+
+--[ANSI OUTER JOIN]
+--:LEFT OUTER JOIN, RIGHT OUTER JOIN, FULL OUTER JOIN
+
+--LEFT OUTER JOIN:INNER JOIN 결과도 표시하고 JOIN 키워드 왼편에 있는 테이블에서 조인 조건을 만족시키지 못 해서
+--                표시 되지 않는 레코드를 더 표시
+SELECT DISTINCT(E.DEPTNO), D.DEPTNO
+FROM EMP E 
+    LEFT OUTER JOIN DEPT D
+ON E.DEPTNO = D.DEPTNO;
+
+--RIGHT OUTER JOIN:INNER JOIN 결과도 표시하고 JOIN 키워드 오른편에 있는 테이블에서 조인 조건을 만족시키지 못 해서
+--                표시 되지 않는 레코드를 더 표시
+SELECT DISTINCT(E.DEPTNO), D.DEPTNO
+FROM EMP E 
+    RIGHT OUTER JOIN DEPT D
+ON E.DEPTNO = D.DEPTNO;
+
+--FULL OUTER JOIN:양쪽 테이블 모두에 OUTER JOIN이 필요한 경우에 사용
+SELECT DISTINCT(E.DEPTNO), D.DEPTNO
+FROM EMP E 
+    FULL OUTER JOIN DEPT D
+ON E.DEPTNO = D.DEPTNO;
+
+--[ANSI NATURAL JOIN]
+--:EQUI JOIN과 거의 동일하다고 보면 됨
+--:두 테이블의 동일한 이름을 가지는 컬럼은 모두 조인이 됨
+--:동일한 컬럼을 내부적으로 찾게 되므로 그 동일한 컬럼들에 테이블 ALIAS를 주면 오류가 발생함
+--:동일한 컬럼이 두 개 이상일 경우 JOIN~USING 문장으로 조인되는 컬럼을 제어할 수 있음
+--:동일한 컬럼을 내부적으로 모두 조인하므로 ON절 생략 가능
+
+SELECT ENAME, DNAME
+FROM EMP NATURAL JOIN DEPT;
+
+SELECT E.ENAME, D.DNAME
+FROM EMP E NATURAL JOIN DEPT D;
+
+--동일한 컬럼이 두 개 이상이라면 : JOIN ~ USING
+--NATURAL JOIN의 단점 (내부적으로 무조건 조인)=>EQUI-INNER JOIN으로 해결
+SELECT ENAME, DNAME
+FROM EMP JOIN DEPT D
+USING (DEPTNO);
+
+--[ANSI CROSS JOIN]
+--:CARTESIAN PROJECT 값을 얻을 때 사용
+--:INNER JOIN 또는 OUTER JOIN으로 합쳐질 수 없는 행을 합쳐야 할 때 사용할 수 있음
+
+SELECT ENAME
+FROM EMP CROSS JOIN DEPT;
+
+--테이블의 행의 수를 극소수로 제한하는 조건절과 함께 사용하는 것을 권장
+SELECT ENAME,DNAME
+FROM EMP CROSS JOIN DEPT
+WHERE EMP.DEPTNO = 10;
+-----------------------------------------------------------------------------
+--+ 테이블 조인 시 추가적인 조건을 적용 가능
+--INNER JOIN에서는 추가적인 조건을 기술 할 때 ON절 뒤에 AND절 또는 WHERE절을 이용 할 수 있음
+
+--10번 부서에 근무하는 사원의 이름과 부서 이름을 조회
+--AND절
+SELECT E.ENAME, D.DNAME
+FROM EMP E JOIN DEPT D
+ON (E.DEPTNO = D.DEPTNO)
+AND E.DEPTNO = 10;
+
+--WHERE절
+SELECT E.ENAME, D.DNAME
+FROM EMP E JOIN DEPT D
+ON (E.DEPTNO = D.DEPTNO)
+WHERE E.DEPTNO = 10;
+
+--실습:부서위치가 'BOSTON'인 사원의 사번, 이름, 부서번호, 입사일을 조회
+SELECT E.EMPNO, E.ENAME, D.DEPTNO, D.DNAME, E.HIREDATE
+FROM EMP E JOIN DEPT D
+ON(E.DEPTNO = D.DEPTNO)
+AND D.LOC = 'BOSTON';
+
+SELECT E.EMPNO, E.ENAME, D.DEPTNO, D.DNAME, E.HIREDATE
+FROM EMP E JOIN DEPT D
+ON(E.DEPTNO = D.DEPTNO)
+WHERE D.LOC = 'BOSTON';
+
+--OUTER JOIN / WHERE절
+SELECT E.ENAME, D.DNAME
+FROM EMP E LEFT OUTER JOIN DEPT D
+ON(E.DEPTNO = D.DEPTNO)
+WHERE E.DEPTNO = 30;
+
+--OUTER JOIN + AND절
+SELECT E.ENAME, D.DNAME
+FROM EMP E LEFT OUTER JOIN DEPT D
+ON (E.DEPTNO = D.DEPTNO)
+AND D.DEPTNO =30;
+
+--OUTER JOIN에서는 추가적인 조건을 기술 시에 AND절 또는 WHERE절 사용할 때 표시되는 결과에
+--차이가 날 수 있음에 유의!
+-----------------------------------------------------------------------------
+연습문제1
+SELECT DEPTNO, COUNT(*), SUM(SAL)
+FROM EMP
+GROUP BY DEPTNO
+HAVING COUNT(EMPNO)>4;
+
+--연습문제2
+SELECT COUNT(DECODE(DEPTNO, 10,1)) CNT10,
+       COUNT(DECODE(DEPTNO, 30,1)) CNT30
+FROM EMP;
+
+--연습문제3
+SELECT DEPTNO, ENAME, ROUND(SAL/20/8, 2) "시급"
+FROM EMP
+ORDER BY DEPTNO ASC, "시급"DESC;
+
+--연습문제4
+SELECT DEPTNO, 
+       CASE
+      WHEN AVG(SAL) >= 2000 THEN '초과'
+      ELSE '미만'
+    END "평균급여"
+    FROM EMP
+     GROUP BY DEPTNO
+     ORDER BY DEPTNO ASC;
+
+--연습문제5
+SELECT DECODE(COMM,'',500,0,500,COMM)COMM
+FROM EMP
+WHERE HIREDATE>'1981/05/31';
+
+--연습문제6
+SELECT TO_CHAR(SYSDATE,'yyyy-mm-dd hh24:mi:ss')"현재시간"
+,TO_CHAR(SYSDATE+1/24,'yyyy-mm-dd hh24:mi:ss')"한시간후"
+FROM DUAL;
+
+--연습문제7
+SELECT EMPNO, ENAME, TO_CHAR(HIREDATE, 'YYYY-MM-DD') "HIREDATE", ROUND(MONTHS_BETWEEN(SYSDATE, HIREDATE)/12, 0) "근무년수"
+    FROM EMP
+    WHERE ROUND(MONTHS_BETWEEN(SYSDATE, HIREDATE)/12, 0) >30;
+----------------------------------------------------------------------------------------------------
+--FUNCTION
+--SINGLE ROW FUNCTION
+--:문자, 숫자, 날짜, 변환, 일반
+
+--MULTIPLE ROW FUNCTION(여러 값을 만나 값 하나를 돌려주는 함수)
+SELECT COUNT(*), COUNT(SAL), MIN(SAL), SUM(SAL), AVG(SAL)
+FROM EMP;
+
+--GROUP FUNCTION
+--GROUP BY 절
+--:작은 그룹 단위로 묶은 후 MULTIPLE 함수를 사용
+SELECT DEPTNO, AVG(SAL)
+FROM EMP
+GROUP BY DEPTNO;
+
+--작은 그룹에서 데이터를 제한(원하는 정보를 추출):HAVING절
+SELECT DEPTNO, AVG(SAL)
+FROM EMP
+GROUP BY DEPTNO
+HAVING AVG(SAL)>=2500;
+---------------------------------------------------------------------------------
+--SELECT문
+--4 SELECT 컬럼명, 컬럼명,*,f(x),||, '~~', ALIAS,DISTINCT(),SAL*12
+--1 FROM 테이블명,테이블명,....n
+--2 WHERE CONDITION ==> 연산자(비교/논리/BETWEEN 小 AND 大,IN,LIKE,IS NULL) => NOT 부정 가능
+--3 GROUP BY 컬럼, 컬럼 ...
+--5 HAVING CONDITION ==> WHERE CONDITION에서 사용하는 연산자와 같은 연산자
+--6 ORDER BY 컬럼명(컬럼명/ALIAS/POSITION)<ASC/DESC>,컬럼명{첫번째 컬럼명으로 1차 정렬, 두번째 컬럼으로 2차 정렬}
+
+--참고 : WHERE CONDITION:조건을 TRUE로 만족하는 ROW 제한
+--      HAVING CONDITION:조건을 TRUE로 만족하는 GROUP 제한
+
+--문제: 급여가 1000이상인 사원을 대상으로 조사
+--부서번호별 직책별 평균급여를 구하려고 합니다.
+--단, 평균 급여는 2000 이상
+--평균 급여가 많은 순으로 출력
+SELECT DEPTNO, JOB, AVG(SAL) "평균급여"
+FROM EMP 
+WHERE SAL>=1000
+GROUP BY DEPTNO, JOB
+HAVING AVG(SAL)>=2000
+ORDER BY 평균급여 DESC;
+
+----------------------------------------------------------------------------------------------
+--20201124<  조인 실습 문제 > [ANSI표준/SQL92]
+--1.   사원들의 이름, 부서 번호, 부서 이름을 출력하시오
+--[SQL92]
+SELECT E.ENAME, E.DEPTNO, D.DNAME
+FROM EMP E,DEPT D
+WHERE E.DEPTNO = D.DEPTNO;
+--[ANSI]
+SELECT E.ENAME, E.DEPTNO, D.DNAME
+FROM EMP E JOIN DEPT D
+ON E.DEPTNO = D.DEPTNO;
+
+--2.   30번 부서의 사원들의 이름, 직업, 부서위치를 출력하시오
+SELECT E.ENAME, E.JOB, D.LOC
+FROM EMP E, DEPT D
+WHERE D.DEPTNO = 30;
+
+SELECT E.ENAME, E.JOB, D.LOC
+FROM EMP E JOIN DEPT D
+ON(E.DEPTNO=D.DEPTNO)
+AND E.DEPTNO = 30;
+
+--3.  수당을 받는 사원의 이름 , 부서이름 및 부서위치를  하시오
+--단 수당이 0인사원도 포함)
+SELECT E.ENAME, D.DNAME, D.LOC 
+FROM EMP E, DEPT D
+WHERE E.DEPTNO=D.DEPTNO
+AND COMM>=0;
+
+SELECT E.ENAME, D.DNAME, D.LOC
+   FROM EMP E JOIN DEPT D
+  ON E.DEPTNO = D.DEPTNO
+    AND COMM >= 0;
+
+--4. DALLAS 에서 근무하는 사원의 이름 , 직업, 부서번호 , 부서이름을 출력하시오
+SELECT E.ENAME, E.JOB, E.DEPTNO, D.DNAME
+FROM EMP E JOIN DEPT D
+ON(E.DEPTNO = D.DEPTNO)
+AND D.LOC = 'DALLAS';
+
+--5.   이름에  A  가  들어가는 사원들의 이름과 부서이름을 출력하시오
+SELECT E.ENAME, D.DNAME
+FROM EMP E, DEPT D
+WHERE E.DEPTNO = D.DEPTNO 
+AND E.ENAME LIKE '%A%';
+
+SELECT E.ENAME, D.DNAME
+FROM EMP E JOIN DEPT D
+ON(E.DEPTNO = D.DEPTNO)
+AND E.ENAME LIKE'%A%';
+
+--6.  사원이름과    그 사원의 관리자 이름을 출력하시오
+--( 단 컬럼HEADING을   employeee,  manager  출력 )
+SELECT E.ENAME"EMPLOYEE", C.ENAME"MANAGER"
+FROM EMP E, EMP C
+WHERE E.MGR=C.EMPNO;
+
+SELECT E.ENAME"EMPLOYEE", C.ENAME"MANAGER"
+FROM EMP E INNER JOIN EMP C
+ON (E.MGR=C.EMPNO);
+
+--7.    사원이름과 직업, 급여, 급여등급 을 출력하시오
+SELECT E.ENAME, E.JOB, S.GRADE
+FROM EMP E, SALGRADE S
+WHERE E.SAL BETWEEN S.LOSAL AND S.HISAL;
+
+SELECT E.ENAME, E.JOB, S.GRADE
+FROM EMP E INNER JOIN SALGRADE S
+ON E.SAL BETWEEN S.LOSAL AND S.HISAL;
+
+
+--8.   사원이름과 부서명과 월급을 출력하는데 월급이 3000 이상인 사원을 출력하시오
+SELECT E.ENAME, D.DNAME, E.SAL
+FROM EMP E, DEPT D
+WHERE E.DEPTNO=D.DEPTNO 
+AND E.SAL >=3000;
+
+SELECT E.ENAME, D.DNAME, E.SAL
+FROM EMP E INNER JOIN DEPT D
+ON (E.DEPTNO=D.DEPTNO)
+AND E.SAL>=3000;
+
+
+--9. 사원의 이름, 부서번호 와 같은 부서에 근무하는 동료 사원들을 출력하시오
+ --ex)       FORD  20 SMITH
+--           JONES  20 SMITH
+--           JAMES  30 ALLEN
+--                 …
+SELECT E.ENAME, C.DEPTNO, C.ENAME 
+FROM EMP E, EMP C
+WHERE E.DEPTNO = C.DEPTNO
+AND E.ENAME != C.ENAME;
+
+--10. BLAKE 이란 사원보다 늦게 입사한 사원의 이름과 입사일을 출력하시오
+SELECT E.ENAME, E.HIREDATE
+FROM EMP E, EMP C
+WHERE C.ENAME ='BLAKE'
+AND E.HIREDATE>C.HIREDATE;
+
+SELECT ENAME, HIREDATE
+    FROM EMP
+    WHERE HIREDATE > (SELECT HIREDATE
+       FROM EMP
+       WHERE ENAME = 'BLAKE');
+

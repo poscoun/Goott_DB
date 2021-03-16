@@ -1,0 +1,653 @@
+-- ⅱ) 조건 함수
+-- DECODE 함수
+-- : 조건에 따라 데이터를 다른 값이나 컬럼값으로 추출할 수 있도록 하는 함수
+-- : DECODE(VALUE, IF1, THEN1, IF2, THEN2, .....) 형태
+-- : => VALUE 값이 IF1이면 THEN1 값을 반환하고, IF2이면 THEN2 값을 반환, .....
+-- : => DECODE 함수 안에 DECODE 함수를 중첩으로 사용할 수 있음
+
+-- 부서번호가 10이면 ACCOUNTING, 20이면 RESERCH, 30이면 SALES, 나머지면 OPERATIONS 를 출력하고 싶음
+SQL> SELECT DEPTNO,DECODE(DEPTNO, 10, 'ACCOUNTING', 20, 'RESERCH', 30, 'SALES', 'OPERRATIONS') "NAME"
+  2  FROM DEPT;
+
+-- CASE 함수
+-- : DECODE 함수와 비슷한 역할을 하는 함수
+-- : DECODE에서 제공하지 못하는 단점(비교 연산)을 해결할 수 있는 함수
+-- => 비교/조건 연산자를 모두 사용할 수 있기 때문
+
+SQL> SELECT DEPTNO, CASE DEPTNO
+  2  WHEN 10 THEN '10번부서'
+  3  WHEN 20 THEN '20번부서'
+  4  WHEN 30 THEN '30번 부서'
+  5  ELSE '나머지부서'
+  6  END "NAME"
+  7  FROM DEPT;
+
+-- CASE 와 비교/논리 연산자
+-- 급여별로 인상율을 다르게 적용(계산)
+-- 1000 이하이면 8%, 2000 이하이면 5%, 3000이하이면 3%, 그 이상이면 1% 인상
+
+SQL> SELECT ENAME, SAL,
+  2     CASE
+  3     WHEN SAL < 1000 THEN SAL+(SAL*0.08)
+  4     WHEN SAL BETWEEN 1000 AND 2000 THEN SAL+(SAL*0.05)
+  5     WHEN SAL BETWEEN 2001 AND 3000 THEN SAL+(SAL*0.03)
+  6     ELSE SAL+(SAL*0.01)
+  7  END "UPSAL"
+  8  FROM EMP;
+
+-- 실습 : 직책이 매니저인 사원은 급여를 10% 인상, 직책이 일반사원인 사원은 급여를 5%인상
+--	나머지는 2% 인상해서 사원이름, 직책, 급여, 인상된급여(UPSAL)를 출력하세요
+
+1.SQL> SELECT ENAME, JOB, SAL,
+  2     DECODE (JOB, 'MANAGER', SAL*1.1, 'CLERK', SAL*1.05, SAL*1.02) "UPSAL"
+  3  FROM EMP;
+
+2.SQL> SELECT ENAME, JOB, SAL,
+  2     CASE
+  3     WHEN JOB = 'MANAGER' THEN SAL+(SAL*0.1)
+  4     WHEN JOB = 'CLERK' THEN SAL+(SAL*0.05)
+  5     ELSE SAL+(SAL*0.02)
+  6  END "UPSAL"
+  7  FROM EMP;
+
+-- 다중 행 함수 [그룹 함수]
+-- : 단일 행 함수와는 달리 행 집합에 대해서 실행되어 그룹당 하나의 결과를 산출
+-- : 이러한 행 집합은 전체 테이블이나 그룹으로 분할된 테이블로 구성될 수 있음
+
+SQL> SELECT AVG(SAL), MAX(SAL), MIN(SAL), SUM(SAL)
+  2  FROM EMP;
+
+-- 가장 최근에 입사한 사원, 가장 오래 근무한 사원의 입사일
+SQL> SELECT MAX(HIREDATE), MIN(HIREDATE)
+  2  FROM EMP;
+
+-- 사전 순으로 정렬된 모든 사원 리스트에서 맨 마지막으로 나오는 사원의 이름,  맨 처음 나오는 사원의 이름
+SQL> SELECT MAX(ENAME), MIN(ENAME)
+  2  FROM EMP;
+
+-- AVG, SUM. VARIANCE, STDDEV 함수는 숫자 데이터 유형만 사용할 수 있음
+-- MAX, MIN은 함수는 LOB형, LONG형 데이터 유형에 사용할 수 없습니다.
+
+-- COUNT : 테이블의 행 수를 반환
+
+-- 전체 사원의 수를 구하세요
+SQL> SELECT COUNT(ENAME)
+  2  FROM EMP;
+
+-- 실습 : 10번 부서 사원의 수를 구해보세요
+SQL> SELECT COUNT(ENAME)
+  2  FROM EMP
+  3  WHERE DEPTNO = 10;
+
+-- 실습 : 전체 사원의 수당의 평균을 구해보세요
+SQL> SELECT AVG(NVL(COMM, 0))
+  2  FROM EMP;
+
+-- 다중 행 함수를 통해서 COUNT 할 때 처음부터 NULL이 아닌 값을 가진 행의 수를 반환하도록 설계되어 있음
+-- => NULL 을 무시
+-- => 이런 경우 모수가 달라지는 경우가 생김
+-- => 그러므로 NULL처리 함수를 통해 모수를 맞춰주는 것을 신경써야 함
+
+-- 실습 : 전체 직원의 평균급여, 급여총합계, 최고급여, 최저급여를 조회
+-- (단, 평균 급여는 소수점 둘째자리까지, 급여 총합계는 천단위로 표기)
+SQL> SELECT ROUND(AVG(SAL), 2), TO_CHAR(SUM(SAL), '$999,999.99'), MAX(SAL), MIN(SAL)
+  2  FROM EMP;
+
+-- 모든 그룹함수가 테이블을 하나의 커다란 정보 그룹으로 취급하는 중,
+-- 그러나 이 정보 테이블을 더 작은 그룹으로 나눠야 하는 경우도 있습니다.
+-- : GROUP BU 절을 사용할 경우, 그룹 함수가 아닌 SELECT 리스트의 모든 열은 GROUP BY절에 포함되어야 한다.
+
+-- 각 부서별로 평균 급여 조회
+SQL> SELECT DEPTNO, AVG(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO;
+
+-- 실습 : 각 업무별로 평균 급여를 조회해보세요
+SQL> SELECT JOB, AVG(SAL)
+  2  FROM EMP
+  3  GROUP BY JOB;
+
+-- GROUP BY절에 두 개의 컬럼을 사용 가능
+SQL> SELECT DEPTNO, JOB, AVG(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO, JOB; -- 모두 일치하는 ROW끼리 그룹 생성
+
+-- 실습 : 업무별로 그룹화 하여 업무, 인원수, 평균급여액, 최고급여액, 최소급여액, 합계 조회
+SQL> SELECT JOB, COUNT(*), AVG(SAL), MAX(SAL), MIN(SAL), SUM(SAL)
+  2  FROM EMP
+  3  GROUP BY JOB;
+
+
+-- HAVING 절 : 작은 그룹들의 결과 제한
+-- : WHERE절을 사용하여 선택할 행을 제한하는 것과 동일한 방식으로 HAVING 절을 사용하여 그룹을 제한
+SQL> SELECT DEPTNO, AVG(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4  HAVING AVG(SAL) >= 2500;
+
+-- WHERE CONDITION : 조건을 TRUE로 만족하는 ROW 제한
+-- HAVING CONDITION : 조건을 TRUE로 만족하는 GROUP 제한
+
+-- JOB별 평균급여 ( 단, 평균급여가 1500이상)
+SQL> SELECT DEPTNO, AVG(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4  HAVING AVG(SAL) >= 2500;
+
+-- 실습 :
+-- 1. 각 부서별로 몇 명의 인원이 있는지 출력
+SQL> SELECT DEPTNO, COUNT(DEPTNO)
+  2  FROM EMP
+  3  GROUP BY DEPTNO;
+
+-- 2. 인원이 2명 이상인 부서번호와 인원을 출력해보세요
+SQL> SELECT DEPTNO, COUNT(*)
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4  HAVING COUNT(*) >= 2;
+
+-- 그룹함수 중첩 가능 ( 조건을 잘 따져봐야함 )
+SQL> SELECT MAX(AVG(SAL))
+  2  FROM EMP
+  3  GROUP BY DEPTNO;
+
+개발툴 joinEx 새로 만듬
+
+-- [ 조인 (함수) ]
+SQL> SELECT ENAME, DNAME
+  2  FROM EMP, DEPT;
+-- CARTESIAN PROJECT : 가능한 모든 수의 조합
+
+-- 조인
+-- : 조인-조건을 기준으로 두 테이블의 각 행들을 합친 후, 원하는 데이터의 레코드를 가져오는 방법
+-- [SQL 92 JOIN]
+-- : EQUI-JOIN
+-- : NON - EQUI JOIN
+-- : SELF - JOIN
+-- : OUTER - JOIN
+
+-- [ANSI 표준 JOIN형식]
+-- : INNER JOIN - EQUI INNER JOIN
+--                  - NON EQUI INNER JOIN
+-- : OUTER JOIN
+-- : CROSS JOIN
+-- : NATURAL JOIN
+
+SQL> SELECT ENAME, DNAME
+  2  FROM EMP, DEPT
+  4  WHERE EMP.DEPTNO = DEPT.DEPTNO;
+-- WHERE CONDITION : JOIN CONDITION = T/F 를 요구하는 조건
+
+-- 조건을 더 명확하게 줄 수도 있음
+SQL> SELECT ENAME, DNAME
+  2  FROM EMP, DEPT
+  4  WHERE EMP.DEPTNO = DEPT.DEPTNO
+  5  AND SAL >= 3000;
+
+-- 조인 조건 : 둘 이상의 행들의 공통된 값 Primary key 및 Foreign key 값을 사용하여 조인
+--             :두개의 테이블을 select 문장 안에서 조인하려면 적어도 하나의 컴럼이 그 두 테이블 사이에서 공유되어야 한다.
+
+
+-- [SQL EQUI-JOIN]
+SELECT E.EMPNO, E,ENAME, D.DNAME
+FROM EMP E, DEPT D
+WHERE E.DEPTNO = D.DEPTNO;
+
+-- SELECT에서 컬럼을 테이블과 함께 명확하게 물어보아야 결과가 도출됨에 유의
+-- 컬럼명 모두에 테이블명을 적어두면 ACCESS 효율이 좋아진다
+-- 테이블 이름이 너무 길면 FROM  절에 테이블을 두고 별칭을 부여하는 것이 효율적
+
+-- [ANSI EQUI-INNER JOIN]
+SELECT E.EMPNO, E.ENAME, D.DNAME
+FROM EMP E INNER JOIN DEPT D
+ON E.DEPTNO = D.DEPTNO;
+
+-- ANSI EQUI-INNER JOIN은 콤마 대신 INNER JOIN이라는 문자로 사용할 수 있으며
+-- INNER는 생략이 가능하다. JOIN CONDITION은 ON절에 온다.
+
+SQL> DESC SALGRADE   - 급여등급 조회
+SQL> SELECT * FROM SALGRADE;   - 급여등급 조회
+
+-- [ANSI NONE EQUI-INNER JOIN]
+
+-- 한 테이블의 어떤 컬럼도 JOIN할 테이블의 컬럼에 일치하지 않을 때
+-- 그리고, 조건에 "="이 아닌 다른 연산자 (BETWEEN AND, IS NULL, IS NOT NULL, IN, NOT IN)가 사용된 경우
+-- 많이 사용되는 JOIN은 아님
+
+-- 전체 사원의 이름과 급여 등급을 조회
+SQL> SELECT E.ENAME, S.GRADE
+  2  FROM EMP E INNER JOIN SALGRADE S
+  3  ON E.SAL BETWEEN S.LOSAL AND S.HISAL;  
+
+
+-- : 현재 3개의 테이블을 조인하는 것을 3-WAY 조인.
+-- : 3개 이상의 테이블을 조인하는 것을 N-WAY 조인. N-WAY 조인 구문 작성시에 JOIN 키워드 다음에 선언된 테이블은
+-- 항상 앞에 선언된 테이블 하고만 조인될 수 있음에 유의.
+
+-- 조인-조건의 갯수 : 테이블 - 1개
+-- EX) A = B, B = C, A=C ===> A = B, A = C 
+
+-- 문제 : 전체 사원의 이름, 부서명, 급여등급을 조회해보세요
+SQL> SELECT E.ENAME, D.DNAME, S.GRADE
+  2  FROM EMP E, DEPT D, SALGRADE S
+  3  WHERE E.DEPTNO = D.DEPTNO AND E.SAL BETWEEN S.LOSAL AND S.HISAL;
+
+-- [SQL 92 SELF JOIN]
+-- EQUI JOIN과 같으나 하나의 테이블에서 조인이 일어나는 형태
+-- 같은 테이블에 대하여 두 개의 ALIAS를 사용하여 FROM절에 두 개의 테이블을 사용하는 것 처럼 조인
+-- 서로 다른 ROW끼리 비교
+
+-- 각 사원의 매니저 이름을 조회
+SQL> SELECT E.ENAME, C.ENAME
+  2  FROM EMP E, EMP C
+  3  WHERE E.MGR = C.EMPNO;
+
+-- [SQL 92 OUTER JOIN]
+-- : EQUI-JOIN은 조인을 생성하려는 두 테이블의 한쪽 컬럼에 값이 없다면 데이터를 반환하지 못합니다.
+-- : 동일 조건에서 조인 조건을 만족하는 값이 없는 행들을 조회하기 위해 사용하는 조인
+-- : OUTER JOIN의 연산자는  (*)
+-- : 조인시 조인값이 없는 조인측에 (+)를 위치시킴
+-- : OUTER JOIN 연산자는 표현식의 한편에만 올 수 있음
+
+
+-- 부서번호와 부서명을 조회
+SQL> SELECT DISTINCT(E.DEPTNO) "EMPDEPTNO", D.DEPTNO "D_DEPTNO", D.DNAME
+  2  FROM EMP E, DEPT D
+  3  WHERE E.DEPTNO(+) = D.DEPTNO;
+
+-- 실습 : 사원테이블에서 사원이름 모두와 매니저명을 조회하세요
+SQL> SELECT E.ENAME, C.ENAME
+  2  FROM EMP E, EMP C
+  3  WHERE E.MGR = C.EMPNO(+);
+
+-- [ANSI OUTER JOIN]
+-- : LEFT OUTER JOIN, RIGHT OUTER JOIN, FULL OUTER JOIN
+
+-- LEFT OUTER JOIN : INNER JOIN 결과도 표시하고 JOIN 키워드 왼편에 있는 테이블에서 조인 조건을 만족시키지 못해서
+--                         표시 되지 않는 레코드를 더 표시
+SQL> SELECT DISTINCT(E.DEPTNO), D.DEPTNO
+  2  FROM EMP E INNER JOIN DEPT D
+  3  ON E.DEPTNO = D.DEPTNO;
+
+-- RIGHT OUTER JOIN : INNER JOIN 결과도 표시하고 JOIN 키워드 오른편에 있는 테이블에서 조인 조건을 만족시키지 못해서
+--                         표시 되지 않는 레코드를 더 표시
+SQL> SELECT DISTINCT(E.DEPTNO), D.DEPTNO
+  2  FROM EMP E
+  3     RIGHT OUTER JOIN DEPT D
+  4  ON E.DEPTNO = D.DEPTNO;
+
+-- FULL OUTER JOIN : 양쪽 테이블 모두에 OUTER JOIN이 필요한 경우에 사용
+SQL> SELECT DISTINCT(E.DEPTNO), D.DEPTNO
+  2  FROM EMP E
+  3     FULL OUTER JOIN DEPT D
+  4  ON E.DEPTNO = D.DEPTNO;
+
+-- [ANSI NATURAL JOIN]
+-- : EQUI JOIN과 거의 동일하다고 보면 됨
+-- : 두 테이블의 동일한 이름을 가지는 컬럼은 모두 조인이 됨
+-- : 동일한 컬럼이 두 개 이상일 경우 JOIN ~ USING 문장으로 조인되는 컬럼을 제어할 수 있음.
+-- : 동일한 컬럼을 내부적으로 모두 조인하므로 ON절 생략 가능
+
+SQL> SELECT ENAME, DNAME
+  2  FROM EMP NATURAL JOIN DEPT;
+
+SQL> SELECT E.ENAME, D.DNAME
+  2  FROM EMP E NATURAL JOIN DEPT D;
+
+-- 동일한 컬럼이 두 개 이상이라면 : JOIN ~ USING
+-- NATURAL JOIN의 단점 (내부적으로 무조건 조인) => EQUI-INNER JOIN으로 해결
+SQL> SELECT E.ENAME, D.DNAME
+  2  FROM EMP E JOIN DEPT D
+  3  USING (DEPTNO);
+
+-- [ANSI CROSS JOIN]
+-- : CARTESIAN PROJECT 값을 얻을 때 사용
+-- : INNER JOIN 또는 OUTER JOIN으로 합쳐질 수 없는 행을 합쳐야 할 때 사용할 수 있음
+SQL> SELECT ENAME
+  2  FROM EMP CROSS JOIN DEPT;
+
+-- 테이블의 행의 수를 극소수로 제한하는 조건절과 함께 사용되는 것을 권장
+SQL> SELECT ENAME, DNAME
+  2  FROM EMP CROSS JOIN DEPT
+  3  WHERE DEPT.DEPTNO = 10;
+
+-------------------------------------------------------------------------------------------------
+-- + 테이블 조인 시 추가적인 조건을 적용 가능
+-- INNER JOIN에서는 추가적인 조건을 기술 할 때 ON절 뒤에 AND절 또는 WHERE절을 이용 할 수 있음
+-- 10번 부서에 근무하는 사원의 이름과 부서 이름을 조회
+SQL> SELECT E.ENAME, D.DNAME
+  2  FROM EMP E JOIN DEPT D
+  3  ON (E.DEPTNO = D.DEPTNO)
+  4  AND E.DEPTNO = 10;
+
+SQL> SELECT E.ENAME, D.DNAME
+  2  FROM EMP E JOIN DEPT D
+  3  ON (E.DEPTNO = D.DEPTNO)
+  4  WHERE E.DEPTNO = 10;
+
+-- 실습 : 부서위치가 'BOSTON'인 사원의 사번, 이름, 부서번호, 부서명, 입사일을 조회하세요
+SQL> SELECT E.EMPNO, E.ENAME, D.DEPTNO, D.DNAME, E.HIREDATE
+  2  FROM EMP E JOIN DEPT D
+  3  ON (E.DEPTNO = D.DEPTNO)
+  4  AND D.LOC = 'BOSTON';
+
+-- OUTER JOIN / WHERE절
+SQL> SELECT E.ENAME, D.DNAME
+  2  FROM EMP E LEFT OUTER JOIN DEPT D
+  3  ON (E.DEPTNO = D.DEPTNO)   --- ON절에서 끝
+  4  WHERE E.DEPTNO = 30;
+
+-- OUTER JOIN + AND절
+SQL> SELECT E.ENAME, D.DNAME
+  2  FROM EMP E LEFT OUTER JOIN DEPT D
+  3  ON (E.DEPTNO = D.DEPTNO)
+  4  AND E.DEPTNO = 30;            --- 남은것도 나타냄
+
+-- OUTER JOIN에서는 추가적인 조건을 기술 시에 AND절 또는 WHERE절 사용할 때 표시되는 결과에 
+-- 차이가 날 수 있음에 유의!
+
+
+------------------------------------------------------------------------------------------------------
+-- FUNCTION
+-- SINGLE ROW FUNCTION
+-- : 문자, 숫자, 날짜, 변환, 일반
+
+
+-- MULTIPLE ROW FUNCTION(여러 값을 만나 값 하나를 돌려주는 함수)
+SELECT COUNT(*), COUNT(SAL), MIN(SAL), MAX(SAL), SUM(SAL), AVG(SAL)
+FROM EMP;   
+
+-- GROUP FUNCTION
+-- GROUP BY 절
+-- : 작은 그룹 단위로 묶은 후 MULTIPLE 함수를 사용
+SELECT DEPTNO, AVG(SAL)
+FROM EMP
+GROUP BY DEPTNO;
+
+-- : 작은 그룹에서 데이터를 제한(원하는 정보를 추출) : HAVING절
+SELECT DEPTNO, AVG(SAL)
+FROM EMP
+GROUP BY DEPTNO;
+HAVING AVG(SAL) >= 2500;
+
+-----------------------------------------------------------------------------------------------------
+-- SELECT문
+SELECT 컬럼명, 컬럼명, *(전체), f(x), ||(연결), '~~', ALIAS, DISCTICT()(중복제거), SAL*12
+FROM 테이블명, 테이블명, ...... n
+WHERE CONDITION ==> 연산자(비교/논리/BETWEEN 小 AND 大, IN, LIKE, IS NULL) => NOT 부정 가능
+GROUP BY 컬럼, 컬럼 ... 
+HAVING CONDITION ==> WHRER CONDITION에서 사용하는 연산자와 같은 연산자
+ORDER BY 컬럼명(컬럼명/ALIAS/POSITION) < ASC/DESC >, 컬럼명{첫번째 컬럼명으로 1차 정렬, 두번째 컬럼명으로 2차 정렬}
+
+-- 참고 : WHRER CONDITION : 조건을 TRUE로 만족하는 ROW 제한
+--	HAVING CONDITION : 조건을 TRUE로 만족하는 GROUP 제한
+
+-- 문제 : 급여가 1000이상인 사원을 대상으로 조사
+-- 부서번호별 직책별 평균급여를 구하려고 합니다.
+-- 단, 평균급여는 2000 이상
+--      평균급여가 많은 순으로 출력
+SQL> SELECT DEPTNO, JOB, AVG(SAL)
+  2  FROM EMP
+  3  WHERE SAL >= 1000
+  4  GROUP BY DEPTNO, JOB
+  5  HAVING AVG(SAL) >= 2000
+  6  ORDER BY AVG(SAL) DESC;
+
+-----------------------------------------------------------------------------------------------------
+-- [서브쿼리]
+-- : SELECT문의 일종의 고급 기능
+-- : 다른 SQL문의 WHERE절에서 서브쿼리를 작성하여 알 수 없는 조건부 값
+-- :   (프로그래머가 테이블에서 얻어 오는 값을 예상할 수 없을 때) 을 기반으로 
+-- :  최종적으로 원하고자 하는 값을 구하고자 할 때 사용
+
+-- : SELECT문을 조건절에 넣어 줄 수 있음 - 조건절에 들어가는 SELECT문을 SUBQUERY 라고 부름.
+-- : 최종적으로 인출하려는 값을 표기하는 부분 : MAIN QUERY
+
+-- 문제 : JONES 사원보다 더 많은 급여를 받는 사원의 사번, 이름, 급여
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL > (SELECT SAL
+  4              FROM EMP
+  5              WHERE ENAME = 'JONES');
+
+-- 서브쿼리 인출값 하나면 SINGLE ROW SUBQUERY
+	   인출값 여러 개면 MULTIPLE ROW SUBQUERY
+	   인출값 여러 개면 MULTIPLE COLUMN SUBQUERY
+
+-- > 서브쿼리 사용시 주의 사항
+-- 1) 서브쿼리는 반드시 괄호 안에다가 쓰기
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL > (SELECT SAL
+  4              FROM EMP
+  5              WHERE ENAME = 'JONES');
+
+-- 2) SINGLE ROW SUBQUERY 앞에는 SINGLE ROW OPERATOR(비교 연산자)가 와야 합니다.
+-- : =, >=, <=, >, < 
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL >= (SELECT SAL
+  4              FROM EMP
+  5              WHERE ENAME = 'JONES');
+
+-- 3) MULTIPLE ROW SUBQUERY 앞에는 MULTIPLE ROW OPERATOR ( IN, ANY, ALL ) 가 와야 한다.
+-- IN 연산자 : 여러 값 중 하나와 같다
+-- 10번 부서 사원들의 급여와 같은 급여를 받는 사원의 이름과 급여를 조회
+SQL> SELECT ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL IN (SELECT SAL
+  4                FROM EMP
+  5                WHERE DEPTNO = 10);
+
+-- 문제 : 부서번호가 10, 20 , 30번 직원들의 부서번호별 평균 급여 중 하나와 같은 급여를 받는 
+-- 사원의 사번, 이름, 급여 정보를 조회하세요
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL IN (SELECT TRUNC(AVG(SAL))
+  4     FROM EMP
+  5     WHERE DEPTNO IN (10, 20, 30)
+  6     GROUP BY DEPTNO);
+
+-- 문제 : 부서번호별로 가장 많은 급여를 받는 사원의 정보를 출력하세요
+SQL> SELECT ENAME, DEPTNO, SAL
+  2  FROM EMP
+  3  WHERE SAL IN (SELECT MAX(SAL)
+  4     FROM EMP
+  5     GROUP BY DEPTNO);
+
+-- 문제 : 다른 직원의 상관으로 근무하고 있는 직원의 사번, 이름 급여를 조회하세요
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE EMPNO IN (SELECT MGR
+  4     FROM EMP);
+
+-- 문제 : 반대로 다른 직원의 상관이 아닌(부하직원이 없는) 직원들의 사번, 이름, 매니저번호를 조회하세요
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE EMPNO NOT IN (SELECT MGR
+  4     FROM EMP
+  5     WHERE MGR IS NOT NULL);
+
+-- ANY 연산자 : 여러 값 중 하나
+--	       : 비교연산자가 앞에 나와야 합니다.
+--	       : 값 하나를 리스트의 값 또는 쿼리에서 반환되는 값과 각각 비교
+-- SALESMAN 직책의 급여보다 많이 받는 사원의 사원명과 급여 정보를 조회
+SQL> SELECT ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL > ANY (SELECT SAL
+  4     FROM EMP
+  5     WHERE JOB = 'SALESMAN');
+
+-- 문제 : 부서번호가 10, 20, 30번인 직원들의 부서번호별 평균 급여 중 하나보다 작거나 같은
+--         급여를 받는 직원의 급여, 이름, 사번을 조회하세요.
+SQL> SELECT ENAME, EMPNO, SAL
+  2  FROM EMP
+  3  WHERE SAL <= ANY (SELECT AVG(SAL)
+  4     FROM EMP
+  5     WHERE DEPTNO IN (10, 20, 30)
+  6     GROUP BY DEPTNO);
+
+-- ALL 연산자 : 모든 값
+--	      : 비교연산자가 앞에 위치
+-- 모든 SALESMAN의 급여보다 많이 받는 사원의 사원명과 급여 정보를 조회
+SQL> SELECT ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL > ALL (SELECT SAL
+  4     FROM EMP
+  5     WHERE JOB = 'SALESMAN');
+
+-- 문제 : 부서번호가 10, 20, 30번인 직원들의 부서번호별 평균 급여 모두보다 작은 급여를 받는
+--         직원의 사번, 급여, 이름을 조회하세요
+SQL> SELECT ENAME, EMPNO, SAL
+  2  FROM EMP
+  3  WHERE SAL < ALL (SELECT AVG(SAL)
+  4     FROM EMP
+  5     WHERE DEPTNO IN (10, 20, 30)
+  6     GROUP BY DEPTNO);
+
+-- 4. 단일 행 서브 쿼리 집합함수 사용 가능
+-- EMP 테이블에서 부서별 평균 급여가 가장 큰 부서의 부서번호와 그 평균급여를 구하시오
+SQL> SELECT DEPTNO, AVG(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4  HAVING AVG(SAL) = (SELECT MAX(AVG(SAL))
+  5     FROM EMP
+  6     GROUP BY DEPTNO);
+
+-- 문제 EMP 테이블에서 직책별 평균 급여가 가장 작은 직책과 그 평균급여를 구하시오
+SQL> SELECT JOB, AVG(SAL)
+  2  FROM EMP
+  3  GROUP BY JOB
+  4  HAVING AVG(SAL) = (SELECT MIN(AVG(SAL))
+  5     FROM EMP
+  6     GROUP BY JOB); 
+
+-- 5. 서브쿼리가 메인쿼리로 반환되는 행이 없으면
+--    (서브쿼리 조건을 만족하는 행이 없거나 또는 행이 있지만 해당 컬럼이 NULL 상태인 경우)
+--     메인쿼리의 결과는 항상 '선택된 행이 없음' 이라는 메시지가 표시된다.
+
+SQL> SELECT ENAME, JOB
+  2  FROM EMP
+  3  WHERE MGR = (SELECT MGR
+  4     FROM EMP
+  5     WHERE MGR IS NULL);
+
+-- 만족하는 행이 있지만 NULL상태인 경우는 추후 문제가 발생할 수 있으므로 문제점을 해결해야 함
+-- 해결하는 하나의 방법으로 테이블에 데이터를 입력 시 컬럼을 NULL 상태로 두지 않고
+-- 문자 데이터 유형인 경우는 '-' 값을, 숫자 데이터 유형인 경우 0 값 같은 대체값을 미리 입력해 두면 최종 결과과 표시될 수 있음.
+
+-- 다른 방법으로는 NULL 처리 함수를 이용하여 가능함
+-- 이 방법은 데이터의 양이나 인덱스의 키 값 구성방법에 따라 데이터베이스에 부하가 될 수도 있음에 유의
+
+-- 6. EXITST 연산자 : 테이블에 특정 행이 있는지 여부에 따라 쿼리 결과가 달라지는 쿼리에 사용하는 연산자
+-- : 서브쿼리 데이터가 존재하는가를 체크해 존재 여부 (Trre/False)를 결과로 반환
+-- : 서브쿼리에서 결과 행을 찾으면, inner query 수행을 중단하고 True를 반환
+
+-- 부서원이 없는 부서정보를 조회
+SQL> SELECT *
+  2  FROM DEPT
+  3  WHERE NOT EXISTS (SELECT *
+  4     FROM EMP
+  5     WHERE EMP.DEPTNO = DEPT.DEPTNO);
+
+-- 사원 테이블을 통해 사원들이 속한 부서번호의 정보를 조회
+-- 결과 : 추출하고자 하는 정보의 대상 테이블은 DEPT이지만 EMP 테이블과 조인하여 부서번호를 체크해야 함
+--         두 테이블의 관계는 1:N 관계임. 그러므로 불필요하게 EMP 테이블을 모두 읽고 일는 상태
+--         최종적으로는 중복제거를 해서 올바른 결과를 얻어내고 있음
+SQL> SELECT DISTINCT(D.DEPTNO), D.DNAME
+  2  FROM DEPT D, EMP E
+  3  WHERE D.DEPTNO = E.DEPTNO;
+
+-- EXISTS 연산자를 사용한 서브쿼리 질의문
+-- 결과 : 추출하고자 하는 대상만을 FROM 절에 놓고 EMP 테이블은 체크만 하기 위해 EXISTS 절에 위치 시킨 상태
+--         그러므로 전체 수행속도는 대폭 감소
+SQL> SELECT D.DEPTNO, D.DNAME
+  2  FROM DEPT D
+  3  WHERE EXISTS (SELECT 1
+  4     FROM EMP E
+  5     WHERE E.DEPTNO = D.DEPTNO);
+
+-- 7. 서브쿼리문에는 ORDER BY절을 지원하지 않는다. (에러 발생함)
+
+----------------------------------------------------------------------------------------------------------------------------
+-- 복합 쿼리
+-- : 집합 연산자가 포함된 쿼리
+-- : 집합 연산자 - 둘 이상의 구성 요소 쿼리 결과를 하나의 결과로 조합
+-- : 종류 - UNION, UNION ALL, INTERSECT, MINUS (SET OPERATOR)
+-- : 집합 연산자는 모두 우선 순위가 같다. 명시적으로 괄호()로 순서를 지정하지 않는 한 왼쪽(위)에서 오른쪽(아래)로 연산자를 평가
+--   다른 집합 연산자와 함께 MINUS가 사용된 쿼리문이라면 집합의 배치에 주의.
+
+
+-- > 집합연산자 지침
+-- : SELECT 리스트의 표현식은 갯수가 일치해야 한다.
+-- : 두번째 쿼리에 있는 각 열의 데이터 유형은 첫번째 쿼리에 있는 (상응하는) 열의 데이터 유형과 일치해야 한다.
+-- : 실행 순서를 변경하려면 괄호를 사용해야 한다.
+-- : ORDER BY 절은 명령문의 맨 끝에 사용해야 한다.
+-- : UNION ALL 연산자를 제외한 나머지 SET연산자는 처리 중에 정렬(SORT)이 발행하므로 처리할 데이터(레코드)
+--   양에 따라 메모리 소모가 많을 수 있음에 유의
+
+-- UNION : 합집합
+--          : 두 테이블의 결합을 나타내며, 결합시키는 두 테이블의 중복되지 않은 값들을 반환
+-- 부서번호를 조회 (합집합)
+SQL> SELECT DEPTNO FROM EMP
+  2  UNION
+  3  SELECT DEPTNO FROM DEPT;
+
+SQL> SELECT EMPNO FROM EMP
+  2  UNION
+  3  SELECT DEPTNO FROM DEPT;
+
+-- UNION ALL : 중복을 포함하는 합집합
+--                : UNION과 같으나 두 테이블의 중복되는 값까지 반환
+SQL> SELECT DEPTNO FROM EMP
+  2  UNION ALL
+  3  SELECT DEPTNO FROM DEPT;
+
+-- INTERSECT : 교집합
+--               : 두 행의 집합 중 공통된 행 반환
+SQL> SELECT DEPTNO FROM EMP
+  2  INTERSECT
+  3  SELECT DEPTNO FROM DEPT;
+
+SQL> SELECT EMPNO FROM DEPT
+  2  INTERSECT
+  3  SELECT DEPTNO FROM DEPT;
+SELECT EMPNO FROM DEPT
+
+-- 차집합 : MINUS
+--          : 첫번째 SELECT문에 의해 반환되는 행 중에서 두번째 SELECT문에 의해 반환되는 행에
+            : 존재하지 않는 행들을 반환
+-- 문제   : 사원이 없는 부서를 조회해보세요
+SELECT * FROM EMP;
+SELECT  DEPTNO FROM EMP;
+
+SELECT DEPTNO FROM DEPT
+MINUS
+SELECT  EMPNO FROM EMP;
+
+
+-- 유의할 점
+-- : 두 SELECT문의 컬럼 갯수, 데이터 유형이 일치하지 않을 경우 에러 발생
+SQL> SELECT DEPTNO, HIREDATE FROM EMP
+  2  UNION
+  3  SELECT DEPTNO, LOC FROM DEPT;
+SELECT DEPTNO, HIREDATE FROM EMP
+
+-- 1) 변환 함수 사용하여 에러 해결
+SQL> SELECT DEPTNO, TO_CHAR(HIREDATE) FROM EMP
+  2  UNION
+  3  SELECT DEPTNO, LOC FROM DEPT;
+
+SQL> SELECT DEPTNO, TO_CHAR(NULL), HIREDATE FROM EMP
+  2  UNION
+  3  SELECT DEPTNO, LOC, TO_DATE(NULL) FROM DEPT;
+
+-- 2) NULL 키워드 사용
+SQL> SELECT DEPTNO, NULL, HIREDATE FROM EMP
+  2  UNION
+  3  SELECT DEPTNO, LOC, NULL FROM DEPT;
+
+-- 3) 적절한 상수를 이용하여 에러 해결
+SELECT EMPNO, SAL, COMM, ENAME FROM EMP
+UNION
+SELECT DEPTNO, 0, 0, '-' FROM DEPT;   

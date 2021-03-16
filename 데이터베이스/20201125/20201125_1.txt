@@ -1,0 +1,744 @@
+SQL> SELECT E.ENAME, E.DEPTNO, C.ENAME
+  2  FROM EMP E, EMP C
+  3  WHERE E.DEPTNO = C.DEPTNO
+  4  AND E.ENAME != C.ENAME(+);
+
+ENAME                    DEPTNO ENAME
+-------------------- ---------- --------------------
+FORD                         20 SMITH
+JONES                        20 SMITH
+JAMES                        30 ALLEN
+TURNER                       30 ALLEN
+BLAKE                        30 ALLEN
+MARTIN                       30 ALLEN
+WARD                         30 ALLEN
+JAMES                        30 WARD
+TURNER                       30 WARD
+BLAKE                        30 WARD
+MARTIN                       30 WARD
+
+ENAME                    DEPTNO ENAME
+-------------------- ---------- --------------------
+ALLEN                        30 WARD
+FORD                         20 JONES
+SMITH                        20 JONES
+JAMES                        30 MARTIN
+TURNER                       30 MARTIN
+BLAKE                        30 MARTIN
+WARD                         30 MARTIN
+ALLEN                        30 MARTIN
+JAMES                        30 BLAKE
+TURNER                       30 BLAKE
+MARTIN                       30 BLAKE
+
+ENAME                    DEPTNO ENAME
+-------------------- ---------- --------------------
+WARD                         30 BLAKE
+ALLEN                        30 BLAKE
+MILLER                       10 CLARK
+KING                         10 CLARK
+MILLER                       10 KING
+CLARK                        10 KING
+JAMES                        30 TURNER
+BLAKE                        30 TURNER
+MARTIN                       30 TURNER
+WARD                         30 TURNER
+ALLEN                        30 TURNER
+
+ENAME                    DEPTNO ENAME
+-------------------- ---------- --------------------
+TURNER                       30 JAMES
+BLAKE                        30 JAMES
+MARTIN                       30 JAMES
+WARD                         30 JAMES
+ALLEN                        30 JAMES
+JONES                        20 FORD
+SMITH                        20 FORD
+KING                         10 MILLER
+CLARK                        10 MILLER
+
+42 rows selected.
+
+SQL> SELECT E.ENAME, C.DEPTNO, C.ENAME
+  2  FROM EMP E JOIN EMP C
+  3  ON E.DEPTNO = C.DEPTNO
+  4  AND E.ENAME != C.ENAME(+);
+
+ENAME                    DEPTNO ENAME
+-------------------- ---------- --------------------
+FORD                         20 SMITH
+JONES                        20 SMITH
+JAMES                        30 ALLEN
+TURNER                       30 ALLEN
+BLAKE                        30 ALLEN
+MARTIN                       30 ALLEN
+WARD                         30 ALLEN
+JAMES                        30 WARD
+TURNER                       30 WARD
+BLAKE                        30 WARD
+MARTIN                       30 WARD
+
+ENAME                    DEPTNO ENAME
+-------------------- ---------- --------------------
+ALLEN                        30 WARD
+FORD                         20 JONES
+SMITH                        20 JONES
+JAMES                        30 MARTIN
+TURNER                       30 MARTIN
+BLAKE                        30 MARTIN
+WARD                         30 MARTIN
+ALLEN                        30 MARTIN
+JAMES                        30 BLAKE
+TURNER                       30 BLAKE
+MARTIN                       30 BLAKE
+
+ENAME                    DEPTNO ENAME
+-------------------- ---------- --------------------
+WARD                         30 BLAKE
+ALLEN                        30 BLAKE
+MILLER                       10 CLARK
+KING                         10 CLARK
+MILLER                       10 KING
+CLARK                        10 KING
+JAMES                        30 TURNER
+BLAKE                        30 TURNER
+MARTIN                       30 TURNER
+WARD                         30 TURNER
+ALLEN                        30 TURNER
+
+ENAME                    DEPTNO ENAME
+-------------------- ---------- --------------------
+TURNER                       30 JAMES
+BLAKE                        30 JAMES
+MARTIN                       30 JAMES
+WARD                         30 JAMES
+ALLEN                        30 JAMES
+JONES                        20 FORD
+SMITH                        20 FORD
+KING                         10 MILLER
+CLARK                        10 MILLER
+
+42 rows selected.
+
+SQL> SQL> SELECT ENAME, HIREDATE
+SP2-0734: unknown command beginning "SQL> SELEC..." - rest of line ignored.
+SQL> SELECT ENAME, HIREDATE
+  2  FROM EMPWHERE HIREDATE > (SELECT HIREDATE
+  3
+SQL> SELECT ENAME, HIREDATE
+  2  FROM EMP
+  3  WHERE HIREDATE > (SELECT HIREDATE
+  4     FROM EMP
+  5     WHERE ENAME = 'BLAKE');
+
+ENAME                HIREDATE
+-------------------- --------
+MARTIN               81/09/28
+CLARK                81/06/09
+KING                 81/11/17
+TURNER               81/09/08
+JAMES                81/12/03
+FORD                 81/12/03
+MILLER               82/01/23
+
+7 rows selected.
+
+SQL> SELECT E.ENAME, E.HIREDATE
+  2  FROM EMP E, EMP C
+  3  WHERE C.ENAME = 'BLAKE' AND E.HIREDATE > C.HIREDATE;
+
+ENAME                HIREDATE
+-------------------- --------
+MARTIN               81/09/28
+CLARK                81/06/09
+KING                 81/11/17
+TURNER               81/09/08
+JAMES                81/12/03
+FORD                 81/12/03
+MILLER               82/01/23
+
+7 rows selected.
+
+SQL> SELECET ENAME, DEPTNO, SAL
+SP2-0734: unknown command beginning "SELECET EN..." - rest of line ignored.
+SQL> SELECT ENAME, DEPTNO, MAX(SAL)
+  2  FROM EMP;
+SELECT ENAME, DEPTNO, MAX(SAL)
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function
+
+
+SQL> SELECT ENAME, DEPTNO, MAX(SAL)
+  2  FROM EMP
+  3
+SQL> SELECT ENAME, DEPTNO, MAX(SAL)
+  2  FROM EMP
+  3  WHERE DEPTNO IN (WHERE DEPTNO
+  4     FROM EMP
+  5     WHERE MAX(SAL);
+WHERE DEPTNO IN (WHERE DEPTNO
+                 *
+ERROR at line 3:
+ORA-00936: missing expression
+
+
+SQL> SELECT ENAME, DEPTNO, MAX(SAL)
+  2  FROM EMP
+  3  WHERE MAX(SAL) IN (WHERE MAX(SAL)
+  4     FROM EMP
+  5     WHERE DEPTNO;
+WHERE MAX(SAL) IN (WHERE MAX(SAL)
+      *
+ERROR at line 3:
+ORA-00934: group function is not allowed here
+
+
+SQL> SELECT ENAME, DEPTNO, SAL
+  2     FROM EMP
+  3  WHERE SAL IN (WHERE MAX(SAL)
+  4     FROM EMP
+  5     WHERE DEPTNO;
+WHERE SAL IN (WHERE MAX(SAL)
+              *
+ERROR at line 3:
+ORA-00936: missing expression
+
+
+SQL> SELECT ENAME, DEPTNO, SAL
+  2     FROM EMP
+  3  WHERE SAL IN (SELECT MAX(SAL)
+  4     FROM EMP
+  5     GROUP BY DEPTNO;
+        GROUP BY DEPTNO
+                      *
+ERROR at line 5:
+ORA-00907: missing right parenthesis
+
+
+SQL> SELECT ENAME, SAL
+  2  FROM EMP
+  3
+SQL>
+SQL> SELECT ENAME, DEPTNO, SAL
+  2  FROM EMP
+  3  WHERE SAL IN (SELECT MAX(SAL)
+  4     FROM EMP
+  5     GROUP BY DEPTNO);
+
+ENAME                    DEPTNO        SAL
+-------------------- ---------- ----------
+BLAKE                        30       2850
+KING                         10       5000
+FORD                         20       3000
+
+SQL>
+SQL> SELECT DEPTNO, ENAME
+  2  FROM EMP
+  3
+SQL> SELECT DEPTNO, ENAME
+  2  FROM EMP
+  3  WHERE JOB IN (SELECT JOB
+  4     FROM EMP
+  5     GROUP BY JOB);
+
+    DEPTNO ENAME
+---------- --------------------
+        20 SMITH
+        30 ALLEN
+        30 WARD
+        20 JONES
+        30 MARTIN
+        30 BLAKE
+        10 CLARK
+        10 KING
+        30 TURNER
+        30 JAMES
+        20 FORD
+
+    DEPTNO ENAME
+---------- --------------------
+        10 MILLER
+
+12 rows selected.
+
+SQL> SELECT DEPTNO, ENAME
+  2  FROM EMP
+  3  WHERE JOB > (SELECT JOB
+  4     FROM EMP
+  5     GOUP BY JOB);
+        GOUP BY JOB)
+             *
+ERROR at line 5:
+ORA-00907: missing right parenthesis
+
+
+SQL> SELECT DEPTNO, ENAME
+  2  FROM EMP
+  3  WHERE JOB > (SELECT JOB
+  4     FROM EMP
+  5     GROUP BY JOB);
+WHERE JOB > (SELECT JOB
+             *
+ERROR at line 3:
+ORA-01427: single-row subquery returns more than one row
+
+
+SQL> SELECT DEPTNO, ENAME
+  2  FROM EMP
+  3  WHERE JOB IN (SELECT JOB
+  4     FROM EMP
+  5     WHERE JOB > JOB);
+
+no rows selected
+
+SQL> SELECT DEPTNO, ENAME
+  2  FROM EMP
+  3  WHERE MRG > (SELECT MGR
+  4     FROM EMP
+  5     WHERE JOB);
+        WHERE JOB)
+                 *
+ERROR at line 5:
+ORA-00920: invalid relational operator
+
+
+SQL> SELECT DEPTNO, ENAME
+  2  FROM EMP
+  3   (SELECT MGR
+  4
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE EMPNO IN (SELECT MGR
+  4     FROM EMP);
+
+     EMPNO ENAME                       SAL
+---------- -------------------- ----------
+      7902 FORD                       3000
+      7698 BLAKE                      2850
+      7839 KING                       5000
+      7566 JONES                      2975
+      7782 CLARK                      2450
+
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE EMPNO IN (SELCET MGR
+  4     FROM EMP
+  5     WHERE MGR = 'NULL');
+WHERE EMPNO IN (SELCET MGR
+                       *
+ERROR at line 3:
+ORA-00907: missing right parenthesis
+
+
+SQL> SELECT EMPNO, ENAME, SAL, MGR
+  2  FROM EMP
+  3  WHERE EMPNO IN (SELCET MGR
+  4     FROM EMP
+  5     WHERE MGR = 'NULL');
+WHERE EMPNO IN (SELCET MGR
+                       *
+ERROR at line 3:
+ORA-00907: missing right parenthesis
+
+
+SQL> SELECT EMPNO, ENAME, SAL, MGR
+  2  FROM EMP
+  3  WHERE EMPNO IN (SELECT MGR
+  4     FROM EMP
+  5     WHERE MGR = 'NULL');
+        WHERE MGR = 'NULL')
+                    *
+ERROR at line 5:
+ORA-01722: invalid number
+
+
+SQL> SELECT EMPNO, ENAME, SAL, MGR
+  2  FROM EMP
+  3  WHERE EMPNO IN (SELECT MGR
+  4     FROM EMP
+  5     WHERE MGR = 0);
+
+no rows selected
+
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE EMPNO NOT IN (SELECT MGR
+  4     FROM EMP
+  5     WHERE MGR IS NOT NULL);
+
+     EMPNO ENAME                       SAL
+---------- -------------------- ----------
+      7844 TURNER                     1500
+      7499 ALLEN                      1600
+      7521 WARD                       1250
+      7934 MILLER                     1300
+      7654 MARTIN                     1250
+      7369 SMITH                       800
+      7900 JAMES                       950
+
+7 rows selected.
+
+SQL> SELECT EMPNO, ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL > ANY (SELECT SAL
+  4     FROM EMP
+  5     WHERE JOB = 'SALSMAN');
+
+no rows selected
+
+SQL> SELECT ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL > ANY (SELECT SAL
+  4     FROM EMP
+  5     WHERE JOB = 'SALSMAN');
+
+no rows selected
+
+SQL> SELECT ENAME, EMPNO, SAL
+  2  FROM EMP
+  3  WHERE SAL > ANY (SELECT AVG(SAL)
+  4     FROM EMP
+  5     GROUP BY DEPTNO);
+
+ENAME                     EMPNO        SAL
+-------------------- ---------- ----------
+ALLEN                      7499       1600
+JONES                      7566       2975
+BLAKE                      7698       2850
+CLARK                      7782       2450
+KING                       7839       5000
+FORD                       7902       3000
+
+6 rows selected.
+
+SQL> SELECT ENAME, EMPNO, SAL
+  2  FROM EMP
+  3  WHERE SAL <= ANY (SELECT AVG(SAL)
+  4     FROM EMP
+  5     WHERE DEPTNO IN (10, 20, 30)
+  6     GROUP BY DEPTNO);
+
+ENAME                     EMPNO        SAL
+-------------------- ---------- ----------
+SMITH                      7369        800
+JAMES                      7900        950
+WARD                       7521       1250
+MARTIN                     7654       1250
+MILLER                     7934       1300
+TURNER                     7844       1500
+ALLEN                      7499       1600
+CLARK                      7782       2450
+BLAKE                      7698       2850
+
+9 rows selected.
+
+SQL> SELECT ENAME, SAL
+  2  FROM EMP
+  3  WHERE SAL > ALL (SELECT SAL
+  4     FROM EMP
+  5     WHERE JOB = 'SALESMAN');
+
+ENAME                       SAL
+-------------------- ----------
+CLARK                      2450
+BLAKE                      2850
+JONES                      2975
+FORD                       3000
+KING                       5000
+
+SQL> SELECT ENAME, EMPNO, SAL
+  2  FROM EMP
+  3  WHERE SAL < ALL (SELECT AVG(SAL)
+  4     FROM EMP
+  5     WHERE DEPTNO IN (10, 20, 30)
+  6     GROUP BY DEPTNO);
+
+ENAME                     EMPNO        SAL
+-------------------- ---------- ----------
+TURNER                     7844       1500
+MILLER                     7934       1300
+MARTIN                     7654       1250
+WARD                       7521       1250
+JAMES                      7900        950
+SMITH                      7369        800
+
+6 rows selected.
+
+SQL> SELECT DEPTNO, AVG(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4  HAVING AVG(SAL) = (SELECT MAX(AVG(SAL))
+  5     FROM EMP
+  6     GROUP BY DEPTNO;
+HAVING AVG(SAL) = (SELECT MAX(AVG(SAL))
+                   *
+ERROR at line 4:
+ORA-00921: unexpected end of SQL command
+
+
+SQL> SELECT DEPTNO, AVG(SAL)
+  2  FROM EMP
+  3  GROUP BY DEPTNO
+  4  HAVING AVG(SAL) = (SELECT MAX(AVG(SAL))
+  5     FROM EMP
+  6     GROUP BY DEPTNO);
+
+    DEPTNO   AVG(SAL)
+---------- ----------
+        10 2916.66667
+
+SQL> SELECT JOB, AVG(SAL)
+  2  FROM EMP
+  3  WHERE AVG(SAL) IN (SELECT MIN(AVG(SAL))
+  4     FROM EMP
+  5  ;
+WHERE AVG(SAL) IN (SELECT MIN(AVG(SAL))
+      *
+ERROR at line 3:
+ORA-00934: group function is not allowed here
+
+
+SQL> SELECT JOB, AVG(SAL)
+  2  FROM EMP
+  3  WHERE JOB IN (SELECT MIN(AVG(SAL))
+  4     FROM EMP;
+        FROM EMP
+               *
+ERROR at line 4:
+ORA-00907: missing right parenthesis
+
+
+SQL> SELECT JOB, AVG(SAL)
+  2  FROM EMP
+  3  WHERE AVG(SAL) IN (SELECT MIN(AVG(SAL))
+  4     FROM EMP
+  5     GROUP BY JOB);
+WHERE AVG(SAL) IN (SELECT MIN(AVG(SAL))
+      *
+ERROR at line 3:
+ORA-00934: group function is not allowed here
+
+
+SQL> WHERE JOB IN (SELECT MIN(AVG(SAL))
+SP2-0734: unknown command beginning "WHERE JOB ..." - rest of line ignored.
+SQL> SELECT JOB, AVG(SAL)
+  2  FROM EMP
+  3  WHERE JOB IN (SELECT AVG(SAL))
+  4     FROM EMP
+  5
+SQL> SELECT JOB, AVG(SAL)
+  2  FROM EMP
+  3  GROUP BY JOB
+  4  HAVING AVG(SAL) = (SELECT MIN(AVG(SAL))
+  5     FROM EMP
+  6     GROUP BY JOB);
+
+JOB                  AVG(SAL)
+------------------ ----------
+CLERK              1016.66667
+
+SQL> SELECT ENAME, JOB
+  2  FROM EMP
+  3  WHERE DEPTNO = (SELECT DEPTNO
+  4     FROM EMP
+  5  );
+WHERE DEPTNO = (SELECT DEPTNO
+                *
+ERROR at line 3:
+ORA-01427: single-row subquery returns more than one row
+
+
+SQL> SELECT ENAME, JOB
+  2  FROR EMP
+  3  WHERE MGR = (SELECT MGR
+  4     FROM EMP
+  5     WHERE MGR IS NULL);
+FROR EMP
+     *
+ERROR at line 2:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> SELECT ENAME, JOB
+  2  FROM EMP
+  3     WHERE MGR IS NULL);
+        WHERE MGR IS NULL)
+                         *
+ERROR at line 3:
+ORA-00933: SQL command not properly ended
+
+
+SQL> SELECT ENAME, JOB
+  2  FROM EMP
+  3  WHERE MGR = (SELECT MGR
+  4     FROM EMP
+  5     WHERE MGR IS NULL);
+
+no rows selected
+
+SQL> SELECT E.DEPTNO, D.DEPTNO
+  2  FROM EMP E, DEPT D
+  3  WHERE E.DEPTNO = D.DEPTNO;
+
+    DEPTNO     DEPTNO
+---------- ----------
+        20         20
+        30         30
+        30         30
+        20         20
+        30         30
+        30         30
+        10         10
+        10         10
+        30         30
+        30         30
+        20         20
+
+    DEPTNO     DEPTNO
+---------- ----------
+        10         10
+
+12 rows selected.
+
+SQL> SELECT E.DEPTNO, D.DEPTNO
+  2  FROM EMP E, DEPT D
+  3  WHERE E.DEPTNO != D.DEPTNO;
+
+    DEPTNO     DEPTNO
+---------- ----------
+        20         10
+        20         30
+        20         40
+        30         10
+        30         20
+        30         40
+        30         10
+        30         20
+        30         40
+        20         10
+        20         30
+
+    DEPTNO     DEPTNO
+---------- ----------
+        20         40
+        30         10
+        30         20
+        30         40
+        30         10
+        30         20
+        30         40
+        10         20
+        10         30
+        10         40
+        10         20
+
+    DEPTNO     DEPTNO
+---------- ----------
+        10         30
+        10         40
+        30         10
+        30         20
+        30         40
+        30         10
+        30         20
+        30         40
+        20         10
+        20         30
+        20         40
+
+    DEPTNO     DEPTNO
+---------- ----------
+        10         20
+        10         30
+        10         40
+
+36 rows selected.
+
+SQL> SELECT DISTINCT(E.DEPTNO), D.DEPTNO
+  2  FROM EMP E, DEPT D
+  3  WHERE E.DEPTNO != D.DEPTNO;
+
+    DEPTNO     DEPTNO
+---------- ----------
+        30         10
+        30         20
+        30         40
+        20         10
+        20         30
+        20         40
+        10         20
+        10         30
+        10         40
+
+9 rows selected.
+
+SQL> SELECT *
+  2  FROM DEPT
+  3  WHERE EXISTS (SELECT *
+  4     FROM EMP
+  5     WHERE EMP.DEPTNO = DEPT.DEPTNO);
+
+    DEPTNO DNAME                        LOC
+---------- ---------------------------- --------------------------
+        20 RESEARCH                     DALLAS
+        30 SALES                        CHICAGO
+        10 ACCOUNTING                   NEW YORK
+
+SQL> SELECT *
+  2  FROM DEPT
+  3  WHERE NOT EXISTS (SELECT *
+  4     FROM EMP
+  5     WHERE EMP.DEPTNO = DEPT.DEPTNO);
+
+    DEPTNO DNAME                        LOC
+---------- ---------------------------- --------------------------
+        40 OPERATIONS                   BOSTON
+
+SQL> SELECT D.DEPTNO, D.DNAME
+  2  FROM DEPT D, EMP E
+  3  WHERE D.DEPTNO = E.DEPTNO;
+
+    DEPTNO DNAME
+---------- ----------------------------
+        20 RESEARCH
+        30 SALES
+        30 SALES
+        20 RESEARCH
+        30 SALES
+        30 SALES
+        10 ACCOUNTING
+        10 ACCOUNTING
+        30 SALES
+        30 SALES
+        20 RESEARCH
+
+    DEPTNO DNAME
+---------- ----------------------------
+        10 ACCOUNTING
+
+12 rows selected.
+
+SQL> SELECT D.DEPTNO, D.DNAME
+  2  FROM DEPTNO D
+  3  WHERE EXISTS (SELECT 1
+  4     FROM EMP E
+  5     WHERE E.DEPTNO = D.DEPTNO);
+FROM DEPTNO D
+     *
+ERROR at line 2:
+ORA-00942: table or view does not exist
+
+
+SQL> SELECT D.DEPTNO, D.DNAME
+  2  FROM DEPT D
+  3  WHERE EXISTS (SELECT 1
+  4     FROM EMP E
+  5     WHERE E.DEPTNO = D.DEPTNO);
+
+    DEPTNO DNAME
+---------- ----------------------------
+        20 RESEARCH
+        30 SALES
+        10 ACCOUNTING
+SQL> spool off
